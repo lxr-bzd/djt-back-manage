@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jr.djt.dao.ITableMapper">
+	
+	
+	<!-- =============查詢所有table表================= -->
+	<select id="getusetable" resultType="dutable">
+		select * from djt_use_table
+	</select>
+	
+	<!-- ==============根據id修改表的使用狀態=========== -->
+	<update id="usetableById">
+		update djt_use_table a,djt_use_table b set a.d_use_default=1,b.d_use_default=2 where a.d_table_id=#{tableId} and b.d_use_default=1
+	</update>
+</mapper>

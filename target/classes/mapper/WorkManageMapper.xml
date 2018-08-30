@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="com.jr.djt.dao.WorkManageMapper">
+	
+	<!-- 返回：工作者所有信息，包括游戏数据信息 -->
+	<resultMap type="worker" id="worker_all_news">
+		<id property="u_id" column="djt_u_id"/>
+		<result property="u_name" column="djt_u_name"/>
+		<result property="u_password" column="djt_u_password"/>
+		<result property="u_islock" column="djt_islock"/>
+		<result property="login_time" column="djt_login_time"/>
+		<result property="u_use_table" column="djt_use_table"/>
+		<collection property="cr" ofType="crow">
+			<id property="id" column="id"/>
+			<result property="uid" column="uid"/>
+			<result property="crow" column="crow"/>
+			<result property="sheng" column="sheng"/>
+			<result property="pei" column="pei"/>
+			<result property="dui" column="dui"/>
+			<result property="gong" column="gong"/>
+			<result property="gong_col" column="gong_col"/>
+			<result property="count" column="count"/>
+		</collection>
+	</resultMap>
+	<!-- 返回：工作者信息，不包括游戏数据信息 -->
+	<resultMap type="worker" id="workers_news">
+		<id property="u_id" column="djt_u_id"/>
+		<result property="u_name" column="djt_u_name"/>
+		<result property="u_password" column="djt_u_password"/>
+		<result property="u_islock" column="djt_islock"/>
+		<result property="login_time" column="djt_login_time"/>
+		<result property="u_use_table" column="djt_use_table"/>
+	</resultMap>
+	<!-- 工作者所有信息，包括游戏数据信息 -->
+	<sql id="all_news">
+		u.djt_u_id, u.djt_u_name, u.djt_u_password, 
+		u.djt_islock, u.djt_login_time, u.djt_use_table, g.id, g.uid, 
+		g.crow, g.sheng, g.pei, g.dui, g.gong, g.gong_col, g.count
+	</sql>
+	<!-- 工作者信息，不包括游戏数据信息 -->
+	<sql id="worker_news">
+		u.djt_u_id, u.djt_u_name, u.djt_u_password, 
+		u.djt_islock, u.djt_login_time,u.djt_use_table
+	</sql>
+	<!-- 查询所有工作者所有信息，不包括工作中的数据信息 
+	
+	List<WorkerBean> selectAllWorker(@Param("name")String name);
+	-->
+	<select id="selectAllWorker" resultMap="workers_news">
+		select 
+		<include refid="worker_news"/>
+		from djt_user u 
+		order by u.djt_u_id desc
+	</select>
+	
+	<!-- 通过id查找用户详细信息,包括数据信息 -->
+	<select id="selectWorkerById" parameterType="Integer" resultMap="worker_all_news">
+		select 
+		<include refid="all_news"/>
+		from djt_user u left join djt_g_game g 
+		on u.djt_u_id = g.uid where u.djt_u_id = #{uid}
+	</select>
+	<!-- 通过id锁定 -->
+	<update id="lockWorkerById">
+		update djt_user 
+		<set>
+			<choose>
+				<when test="lock_status==1">
+					djt_islock=2
+				</when>
+				<otherwise>
+					djt_islock=1
+				</otherwise>
+			</choose>
+		</set>
+		where djt_u_id=#{uid}
+	</update>
+	<!-- 插入新用戶 -->
+	<insert id="insertUser">
+		insert into djt_user(djt_u_name, djt_u_password, 
+		djt_islock, djt_login_time,djt_sys_islock,djt_use_table) 
+		values(#{u_name},#{u_password},#{u_islock},#{login_time},
+		1,(select d_use_default FROM djt_use_table where d_use_default=1))
+	</insert>
+	
+	<!-- 修改系統鎖定狀態 -->
+	<update id="locksys">
+		update djt_user set djt_sys_islock=#{syslock}
+	</update>
+	<!-- 测试返回boolean值 -->
+	<select id="getboolByUname" resultType="Boolean">
+		select count(djt_u_name) from djt_user where djt_u_name=#{param1}
+	</select>
+	<!-- void updateuserpassword(@Param("user_num")Integer user_num, @Param("new_password")String new_password); -->
+	<update id="updateuserpassword">
+		update djt_user set djt_u_password=#{new_password} where djt_u_id=#{user_num}
+	</update>
+	<!-- void deleteworkerByIds(String list); -->
+	<delete id="deleteworkerByIds">
+		delete from djt_user where djt_u_id in(${list})
+	</delete>
+	
+	<!-- List<WorkerBean> getWorkerByName(@Param("name")String name); -->
+	<select id="getWorkerByName" resultMap="workers_news">
+		select 
+		<include refid="worker_news"/>
+		from djt_user u where u.djt_u_name like CONCAT(CONCAT('%', #{name}), '%') 
+		order by u.djt_u_id desc
+	</select>
+	
+	<!-- void deleteOneById(Integer unum); -->
+	<delete id="deleteOneById">
+		delete from djt_user where djt_u_id=#{unum}
+	</delete>
+</mapper>

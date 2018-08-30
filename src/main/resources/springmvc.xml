@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                        http://www.springframework.org/schema/beans/spring-beans.xsd  
+                        http://www.springframework.org/schema/mvc  
+                        http://www.springframework.org/schema/mvc/spring-mvc.xsd  
+                        http://www.springframework.org/schema/context  
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/task  
+						http://www.springframework.org/schema/task/spring-task-3.1.xsd  
+						http://www.springframework.org/schema/aop
+        				http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- springmvc的配置文件，网站跳转逻辑控制，配置 -->
+	<context:component-scan base-package="com.jr.djt" use-default-filters="false">
+		<!-- 只扫描控制器 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	<!-- 定时器注解驱动 -->
+	<task:annotation-driven/>
+	<!-- 配置攔截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.jr.djt.interceptor.AdminInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<!-- 配置试图解析器，方便页面的返回 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	<!-- 两个标准配置 -->
+	<!-- 将springmvc不能处理的请求交给tomcat -->
+	<mvc:default-servlet-handler/>
+	<!-- 支持springmvc更高级的一些东西，如：jsr303校验，快捷的ajax请求等，最重要的是来映射动态请求 -->
+	<mvc:annotation-driven/>
+	
+</beans>

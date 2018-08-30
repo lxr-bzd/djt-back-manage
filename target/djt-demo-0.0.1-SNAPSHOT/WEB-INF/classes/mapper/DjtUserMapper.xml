@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jr.djt.dao.DjtUserMapper">
+	<resultMap type="s_userData" id="UserData">
+		<id property="u_id" column="d_su_id"/>
+		<result property="u_name" column="d_su_name"/>
+		<result property="u_password" column="d_su_password"/>
+	</resultMap>
+	
+	<sql id="user_data">
+		d_su_id,d_su_name,d_su_password
+	</sql>
+	<select id="selectUser" parameterType="s_userData" resultMap="UserData">
+		select
+		<include refid="user_data"/>
+		from djt_s_user_data where d_su_name=#{u_name} and d_su_password=#{u_password}
+	</select>
+</mapper>
