@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jr.djt.beans.DataBaseBean;
@@ -110,6 +112,18 @@ public class UpDataController extends UpdateDBController {
 		return MessageBean.success().add("msg", save_num);
 	}
 	
+	
+	@RequestMapping(value="saveData2",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean saveData2(HttpServletRequest request,Integer tableNum, String json) throws Exception{
+		
+		JSONArray list = JSONArray.parseArray(json);
+		udbs.update(tableNum, list);
+		
+		return MessageBean.success().add("msg", "");
+		
+	}
+	
 	/**
 	 * 分頁展示數據
 	 * @return
@@ -123,6 +137,19 @@ public class UpDataController extends UpdateDBController {
 		System.out.println("第"+allDB.get(0).getD_id()+"組數據");
 		PageInfo page = new PageInfo(allDB);
 		return MessageBean.success().add("pageInfo", page);
+	}
+	
+	/**
+	 * 分頁展示數據
+	 * @return
+	 */
+	@RequestMapping("selectData2")
+	@ResponseBody
+	public MessageBean getAllDB2(Integer tableNum){
+		
+		List<DataBaseBean> allDB = udbs.getAllDB(tableNum);
+		
+		return MessageBean.success().add("tb", allDB);
 	}
 	/**
 	 * 查生表所有張數

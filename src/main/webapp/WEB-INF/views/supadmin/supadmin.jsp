@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -236,20 +236,18 @@
 		<div class="layui-side layui-bg-black">
 			<div class="layui-side-scroll">
 				<ul class="layui-nav layui-nav-tree" lay-filter="test">
-					<li class="layui-nav-item layui-nav-itemed user_admin"><a
-						class="" href="javascript:;">用戶管理</a></li>
-						<li class="layui-nav-item layui-nav-itemed crud_admin"><a
-						class="" href="javascript:;">管理員管理</a></li>
+					<li class="layui-nav-item layui-nav-itemed user_admin"><a class="" href="javascript:;">用戶管理</a></li>
+					<c:if test="${isSu}">
+					<li class="layui-nav-item layui-nav-itemed crud_admin"><a class="" href="javascript:;">管理員管理</a></li>
+					</c:if>
 					<li class="layui-nav-item backs_admin"><a href="javascript:;">後台管理</a>
+					
 						<dl class="layui-nav-child">
 							<dd class="backs_item">
-								<a href="javascript:;" id="back_admin_gets">查看生表數據</a>
+								<a id="back_admin_gets" href="../base_table.html"  target="backs_admin_iframe">修改生表數據</a>
 							</dd>
 							<dd class="backs_item">
-								<a href="javascript:;" id="back_admin_update">修改生表數據</a>
-							</dd>
-							<dd class="backs_item">
-								<a href="javascript:;" id="back_admin_usetable">生表數據使用狀況</a>
+								<a id="back_admin_usetable" href="../table_use.html"  target="backs_admin_iframe">生表數據使用狀況</a>
 							</dd>
 						</dl></li>
 				</ul>
@@ -259,6 +257,7 @@
 		<div class="layui-body">
 			<!-- 内容主体区域 -->
 			<div style="padding: 15px;" class="con_box">
+			<!-- 用户管理 -->
 				<div class="con_item" id="user_admin">
 					<div class="query_worker_box">
 						<label id="query_box_name">用戶名： <input type="text" name="username">
@@ -295,9 +294,7 @@
 				
 				<!-- crud_admin開始 -->
 				<div class="con_item" id="crud_admin">
-					<!-- <div class="col-md-4 col-md-offset-0">
-						<button class="btn btn-primary" id="add_adminModel">+新增管理員</button>
-					</div> -->
+					
 					<table class="layui-table">
 						<thead>
 							<tr>
@@ -320,427 +317,21 @@
 					</div>
 				</div>
 				
-				<div class="con_item" id="backs_admin">
-					<div class="backs_list">
-						<div id="backs-table">
-							<!--后台表-->
-							<section class="backstage_wrap">
-							<div class="backstage_box">
-								<h2>計算表生數據預覽表</h2>
-								<!-- 選擇表 -->
-								<select id="s_table_num"><option value="1">表1</option>
-									<option value="2">表2</option></select>
-								<!--数据表-->
-								<div class="backtable_wrap clearfix">
-									<!--第一組-->
-									<table border="1" class="fl" id="table_one">
-										<thead>
-											<tr class="group_num">
-												<th colspan="16" id="table_one_title">第<span></span>組
-												</th>
-											</tr>
-											<tr class="group_class">
-												<th colspan="2" rowspan="2" class="">序號</th>
-												<th colspan="2">第 一 戶</th>
-												<th colspan="2">第 二 戶</th>
-												<th colspan="2">第 三 戶</th>
-												<th colspan="2">第 四 戶</th>
-												<th colspan="2">第 五 戶</th>
-												<th colspan="2">第 六 戶</th>
-												<th rowspan="2">統計</th>
-												<th rowspan="2">實計</th>
-											</tr>
-											<tr class="group_class">
-												<!--分类-->
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-											</tr>
-										</thead>
-										<tbody>
-
-										</tbody>
-
-									</table>
-
-									<!--第二組-->
-									<table border="1" class="table_mid fl" id="table_two">
-										<thead>
-											<tr class="group_num">
-												<th colspan="16" id="table_two_title">第<span></span>組
-												</th>
-											</tr>
-											<tr class="group_class">
-												<th colspan="2" rowspan="2" class="">序號</th>
-												<th colspan="2">第 一 戶</th>
-												<th colspan="2">第 二 戶</th>
-												<th colspan="2">第 三 戶</th>
-												<th colspan="2">第 四 戶</th>
-												<th colspan="2">第 五 戶</th>
-												<th colspan="2">第 六 戶</th>
-												<th rowspan="2">統計</th>
-												<th rowspan="2">實計</th>
-											</tr>
-											<tr class="group_class">
-												<!--分类-->
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-											</tr>
-										</thead>
-										<tbody>
-
-										</tbody>
-
-									</table>
-									<!--第三組-->
-									<table border="1" class="fl" id="table_three">
-										<thead>
-											<tr class="group_num">
-												<th colspan="16" id="table_three_title">第<span></span>組
-												</th>
-											</tr>
-											<tr class="group_class">
-												<th colspan="2" rowspan="2" class="">序號</th>
-												<th colspan="2">第 一 戶</th>
-												<th colspan="2">第 二 戶</th>
-												<th colspan="2">第 三 戶</th>
-												<th colspan="2">第 四 戶</th>
-												<th colspan="2">第 五 戶</th>
-												<th colspan="2">第 六 戶</th>
-												<th rowspan="2">統計</th>
-												<th rowspan="2">實計</th>
-											</tr>
-											<tr class="group_class">
-												<!--分类-->
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-												<td>老少</td>
-												<td>男女</td>
-											</tr>
-										</thead>
-										<tbody></tbody>
-
-									</table>
-								</div>
-							</div>
-							<!--生表预览分組按钮-->
-							<div class="group_btn_wrap">
-								<div class="group_btn_box" id="nav_box">
-									<!-- 放入導航按鈕處 -->
-								</div>
-							</div>
-							</section>
-						</div>
-					</div>
-					<div class="backs_list">
-						<div id="backs_update_table">
-							<section class="backstage_wrap">
-							<div class="backstage_box">
-								<h2 class="clearfix">
-									生数据表
-								</h2>
-								<!-- ===================修改表組號================ -->
-								
-								<!--修改查询框-->
-								<div class="query_box">
-									<label id="up_query_box_z">組號： <select></select></label> <label
-										id="up_query_box_x">序號：<select></select></label> <label
-										id="up_query_box_h">戶號：<select></select></label>
-									<button class="query_btn" id="up_query_box_btn">查詢</button>
-									<select id="up_query_box_m" style="margin:0 20px">
-										<option value="1">表1</option>
-										<option value="2">表2</option>
-									</select>
-									<a href="javascript:;" id="save_data" class="query_btn">保存</a>
-								</div>
-								<!--数据表-->
-								<div class="backtable_wrap clearfix">
-									<!--第一組-->
-									<table border="1" class="fl w_33" id="up_table_one">
-										<thead>
-											<tr class="group_num tb_bg t_blue">
-												<th colspan="16" id="up_table_one_title">第<span></span>組
-												</th>
-											</tr>
-											<tr class="admin_class tb_bg t_blue">
-												<th colspan="1">序號</th>
-												<th colspan="1">第 一 戶</th>
-												<th colspan="1">第 二 戶</th>
-												<th colspan="1">第 三 戶</th>
-												<th colspan="1">第 四 戶</th>
-												<th colspan="1">第 五 戶</th>
-												<th colspan="1">第 六 戶</th>
-											</tr>
-										</thead>
-
-										<tbody>
-										</tbody>
-									</table>
-
-									<!--第二組-->
-									<table border="1" class="table_mid fl w_33" id="up_table_two">
-										<thead>
-											<tr class="group_num tb_bg t_blue">
-												<th colspan="16" id="up_table_two_title">第<span></span>組
-												</th>
-											</tr>
-											<tr class="admin_class tb_bg t_blue">
-												<th colspan="1">序號</th>
-												<th colspan="1">第 一 戶</th>
-												<th colspan="1">第 二 戶</th>
-												<th colspan="1">第 三 戶</th>
-												<th colspan="1">第 四 戶</th>
-												<th colspan="1">第 五 戶</th>
-												<th colspan="1">第 六 戶</th>
-											</tr>
-										</thead>
-
-										<tbody>
-											<!--生-->
-											<!--数据行--001-->
-										</tbody>
-									</table>
-									<!--第三組-->
-									<table border="1" class="fl w_33" id="up_table_three">
-										<thead>
-											<tr class="group_num tb_bg t_blue">
-												<th colspan="16" id="up_table_three_title">第<span></span>組
-												</th>
-											</tr>
-											<tr class="admin_class tb_bg t_blue">
-												<th colspan="1">序號</th>
-												<th colspan="1">第 一 戶</th>
-												<th colspan="1">第 二 戶</th>
-												<th colspan="1">第 三 戶</th>
-												<th colspan="1">第 四 戶</th>
-												<th colspan="1">第 五 戶</th>
-												<th colspan="1">第 六 戶</th>
-											</tr>
-										</thead>
-
-										<tbody>
-											<!--生-->
-											<!--数据行--001-->
-										</tbody>
-									</table>
-
-									<div class="keep_btn fr">
-										<a href="javascript:;" id="save_data_foot">保存</a>
-									</div>
-
-								</div>
-							</div>
-
-						
-
-							</section>
-						</div>
-					</div>
-					<div class="backs_list">
-					<!-- 數據表的使用狀況 -->
-						<div id="usetable_admin">
-							<table class="layui-table">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<!-- <th>用戶名</th> --> 
-										<!-- <th>創建時間</th> -->
-										<th>使用狀況</th>
-										<th>操作</th>
-									</tr>
-								</thead>
-								<tbody>
-
-								</tbody>
-
-							</table>
-							<!-- 數據表分頁信息 -->
-							<div class="row">
-								<div class="col-md-6" id="pageInfo_area"></div>
-								<div class="col-md-6" id="pageNav_area"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--查看详情页-->
+				<!-- 查看生成表 -->
 				<div class="con_item" id="user_detail">
-					<h3 class="detail_head">
-						<span>返回</span>
-					</h3>
-					<div id="user_data_details">
-						<!-- 用戶數據詳情 -->
-						<section class="backstage_wrap">
-						<div class="backstage_box">
-							<h2>計算表 A</h2>
-							<select>
-								<option value="1">計算表A</option>
-								<option value="2">計算表B</option>
-							</select>
-							<p class="user_info" id="check_user_news">
-								ID :<span>001</span> 用户名 :<span>小花</span> 正在使用的工作表 : 第<span>0</span>張
-							</p>
-							<!--数据表-->
-							<div class="backtable_wrap clearfix">
-								<!--第一組-->
-								<table border="1" class="fl" id="check_table_one">
-									<thead>
-										<tr class="group_num">
-											<th colspan="16" id="check_table_one_title">第<span></span>組
-											</th>
-										</tr>
-										<tr class="group_class">
-											<th colspan="2" rowspan="2" class="">序號</th>
-											<th colspan="2">第 一 戶</th>
-											<th colspan="2">第 二 戶</th>
-											<th colspan="2">第 三 戶</th>
-											<th colspan="2">第 四 戶</th>
-											<th colspan="2">第 五 戶</th>
-											<th colspan="2">第 六 戶</th>
-											<th rowspan="2">統計</th>
-											<th rowspan="2">實計</th>
-										</tr>
-										<tr class="group_class">
-											<!--分类-->
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-										</tr>
-									</thead>
-									<tbody>
-
-									</tbody>
-
-								</table>
-
-								<!--第二組-->
-								<table border="1" class="table_mid fl" id="check_table_two">
-									<thead>
-										<tr class="group_num">
-											<th colspan="16" id="check_table_two_title">第<span></span>組
-											</th>
-										</tr>
-										<tr class="group_class">
-											<th colspan="2" rowspan="2" class="">序號</th>
-											<th colspan="2">第 一 戶</th>
-											<th colspan="2">第 二 戶</th>
-											<th colspan="2">第 三 戶</th>
-											<th colspan="2">第 四 戶</th>
-											<th colspan="2">第 五 戶</th>
-											<th colspan="2">第 六 戶</th>
-											<th rowspan="2">統計</th>
-											<th rowspan="2">實計</th>
-										</tr>
-										<tr class="group_class">
-											<!--分类-->
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-										</tr>
-									</thead>
-									<tbody>
-
-									</tbody>
-
-								</table>
-								<!--第三組-->
-								<table border="1" class="fl" id="check_table_three">
-									<thead>
-										<tr class="group_num">
-											<th colspan="16" id="check_table_three_title">第<span></span>組
-											</th>
-										</tr>
-										<tr class="group_class">
-											<th colspan="2" rowspan="2" class="">序號</th>
-											<th colspan="2">第 一 戶</th>
-											<th colspan="2">第 二 戶</th>
-											<th colspan="2">第 三 戶</th>
-											<th colspan="2">第 四 戶</th>
-											<th colspan="2">第 五 戶</th>
-											<th colspan="2">第 六 戶</th>
-											<th rowspan="2">統計</th>
-											<th rowspan="2">實計</th>
-										</tr>
-										<tr class="group_class">
-											<!--分类-->
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-											<td>老少</td>
-											<td>男女</td>
-										</tr>
-									</thead>
-									<tbody></tbody>
-
-								</table>
-							</div>
-						</div>
-						<!--查看详情分組按钮-->
-						<div class="group_btn_wrap">
-							<div class="group_btn_box" id="check_nav_box">
-								<!-- 放入導航按鈕處 -->
-							</div>
-						</div>
-						</section>
-					</div>
+					<iframe name="user_detail_iframe" ></iframe>
 				</div>
-
+				
+				<!-- 查看生成表 -->
+				<div class="con_item" id="backs_admin">
+					<iframe name="backs_admin_iframe" ></iframe>
+				</div>
+				
+					
+					
 			</div>
 		</div>
-	</div>
-	<input type="text" value="${pageContext.request.contextPath }"
-		id="e_heard" style="dispaly: none">
+	<input type="text" value="${pageContext.request.contextPath }" id="e_heard" style="dispaly: none">
 	<script>
 		/* $("#backs-table").load("backstage-table.html .backstage_wrap");
 		$("#admin-table").load("admin-table.html .backstage_wrap"); */
@@ -754,14 +345,18 @@
 			get_users_page(1);
 			$("#user_admin").show().siblings(".con_item").hide();
 		});
+		//管理員管理
 		$(".crud_admin").click(function() {
 			$("#crud_admin").show().siblings(".con_item").hide();
 		});
-		$(".backs_item").click(function() {
+		
+		//后台管理点击事件
+		 $(".backs_item").click(function(e) {
 			$("#backs_admin").show().siblings(".con_item").hide();
 			var index = $(this).index();
 			$(".backs_list").hide().eq(index).show();
 		});
+		
 
 		$(".detail_head span").click(function() {
 			$("#user_admin").show().siblings(".con_item").hide();

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,10 @@ import com.jr.djt.service.ITableService;
 public class TableController extends BaseController {
 	@Autowired
 	private ITableService its;
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+	
 	/**
 	 * 查詢所有table表
 	 * @return
@@ -39,9 +44,32 @@ public class TableController extends BaseController {
 	 */
 	@RequestMapping("usetableById")
 	@ResponseBody
-	public MessageBean usetableById(Integer tableId, HttpServletRequest req){
-		System.out.println("傳入的id:"+tableId);
-		its.usetableById(tableId);
+	public MessageBean usetableById( HttpServletRequest req){
+		
+		its.usetableById(Integer.parseInt(req.getParameter("tableId")));
+		Object obj = req.getAttribute("time");
+		if(obj!=null){
+			return MessageBean.timeWarn().add("msg", "您的時間已經不滿"+(long)obj+"小時,為了不耽誤您的使用,請儘快加時間");
+		}
+		return MessageBean.success();
+	}
+	
+	
+	@RequestMapping("setModel")
+	@ResponseBody
+	public MessageBean usetableById(String tbid,String model, HttpServletRequest req){
+		
+		if(model!=null&&tbid!=null)
+			switch (model) {
+			case "1":
+			case "2":
+			case "3":
+				jdbcTemplate.update("update djt_use_table set model=? where d_table_id=?", model,tbid);
+				break;
+			
+			default:
+				break;
+			}
 		Object obj = req.getAttribute("time");
 		if(obj!=null){
 			return MessageBean.timeWarn().add("msg", "您的時間已經不滿"+(long)obj+"小時,為了不耽誤您的使用,請儘快加時間");

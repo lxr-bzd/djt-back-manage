@@ -1,6 +1,7 @@
 package com.jr.djt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.jr.djt.beans.WorkerBean;
 
@@ -61,4 +62,12 @@ public interface WorkManageService {
 	 * @param unum
 	 */
 	void deleteOneById(Integer unum);
+	
+	
+	Map<String, Object> history(String uid);
+	
+	List<Map<String, Object>> workData(String hid);
+	
+	
+	List<Map<String, Object>> workCount(String hid);
 }

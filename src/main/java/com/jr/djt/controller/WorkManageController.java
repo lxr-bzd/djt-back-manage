@@ -3,7 +3,9 @@ package com.jr.djt.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -289,5 +291,38 @@ public class WorkManageController extends BaseController {
 		System.out.println("修改的用户id:"+user_num+",新密码:"+new_password);
 		wms.updateuserpassword(user_num,new_password);
 		return MessageBean.success();
+	}
+	
+	/**
+	 * 修改用户密码
+	 * @param user_num
+	 * @param new_password
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/history",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean history(String uid) throws Exception{
+		
+		return MessageBean.success().add("data", wms.history(uid));
+	}
+	
+	
+	/**
+	 * 修改用户密码
+	 * @param user_num
+	 * @param new_password
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="workData",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean workData(String hid) throws Exception{
+		
+		if(hid==null||hid.equals(""))
+			throw new RuntimeException("hid不能为空");
+		return MessageBean.success()
+				.add("data", wms.workData(hid))
+				.add("count", wms.workCount(hid));
 	}
 }

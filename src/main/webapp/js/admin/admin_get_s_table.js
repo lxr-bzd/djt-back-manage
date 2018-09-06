@@ -1,12 +1,12 @@
 $(function(){
 	cr_get_s_tb();
 	cr_nav_get_s_btn()
-	$("#back_admin_gets").click(function(){
+	/*$("#back_admin_gets").click(function(){
 		to_page(1,null);
 		//插入表的張數
 		var table = $("#s_table_num");
 		insert_s_num(table);
-	});
+	});*/
 	/*$("#s_table_num").change(function(){
 		var tableNum = $(this).val();
 		alert(tableNum);

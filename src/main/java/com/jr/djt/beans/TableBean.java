@@ -6,6 +6,7 @@ import org.apache.ibatis.type.Alias;
 public class TableBean {
 	private Integer dTableId;//id
 	private Integer dUseDefault;//是否使用：1使用 2不使用
+	private String model;
 	public Integer getdTableId() {
 		return dTableId;
 	}
@@ -18,4 +19,13 @@ public class TableBean {
 	public void setdUseDefault(Integer dUseDefault) {
 		this.dUseDefault = dUseDefault;
 	}
+	public String getModel() {
+		return model;
+	}
+	public void setModel(String model) {
+		this.model = model;
+	}
+	
+	
+	
 }

@@ -35,5 +35,8 @@ public interface UpdateDBMapper {
 	 * @return
 	 */
 	List<TableBean> getableDB();
+	
+	
+	void update(@Param("tableNum")Integer tb,@Param("list")List list);
 
 }

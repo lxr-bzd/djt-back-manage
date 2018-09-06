@@ -38,6 +38,13 @@ public class MessageBean {
 		result.setMessage("处理失败");
 		return result;
 	}
+	//定义个最快捷的失败方法
+	public static MessageBean fail(String msg){
+			MessageBean result = new MessageBean();
+			result.setCode(300);
+			result.setMessage(msg);
+			return result;
+		}
 	
 	//一个快捷的方法添加用户要的并返回给浏览器的数据
 	public MessageBean add(String key, Object val){

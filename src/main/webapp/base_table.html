@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="Keywords" content="" />
+		<meta name="Description" content="" />
+		<link rel="stylesheet" href="css/web.css" />
+	</head>
+	<body style="padding-top:20px;" >
+	<div style="text-align: center;width: 100%;margin: 10px 10px;">
+		<select id="select_table" onchange="initData(this.value);">
+			<option value="1">模板表1</option>
+			<option value="2">模板表2</option>
+			<option value="3">模板表3</option>
+			<option value="4">模板表4</option>
+			<option value="5">模板表5</option>
+			<option value="6">模板表6</option>
+			<option value="7">模板表7</option>
+			<option value="8">模板表8</option>
+			<option value="9">模板表9</option>
+			<option value="10">模板表10</option>
+			
+		</select>
+		<input type="button" value="保存修改" onclick="saveData()">
+	</div>
+		<div class="h-center">
+		
+		<table class="generate">
+				<tr>
+					<td colspan="2">序號</td>
+					<td colspan="2">第一戶</td>
+					<td colspan="2">第二戶</td>
+					<td colspan="2">第三戶</td>
+					<td colspan="2">第四戶</td>
+					<td colspan="2">第五戶</td>
+					<td colspan="2">第六戶</td>
+					<td colspan="2">第七戶</td>
+					<td colspan="2">第八戶</td>
+					<td colspan="2">第九戶</td>
+					<td colspan="2">第十戶</td>
+				</tr>
+				<tbody id="tb_group">
+				<!-- <tr>
+					<td rowspan="1">0</td>
+					<td>生</td>
+					<td colspan="2">
+						<input type="text" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+					</td>
+					<td colspan="2">
+						<input type="text" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+					</td>
+					<td colspan="2">
+						<input type="text" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+					</td>
+					<td colspan="2">
+						<input type="text" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+					</td>
+					<td colspan="2">
+						<input type="text" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+					</td>
+					<td colspan="2">
+						<input type="text" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+					</td>
+					<td colspan="2">
+						<input type="text" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+					</td>
+					<td colspan="2">
+						<input type="text" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+					</td>
+					<td colspan="2">
+						<input type="text" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+					</td>
+					<td colspan="2">
+						<input type="text" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+					</td>
+				</tr> -->
+			
+				
+				
+				</tbody>
+				
+			</table>
+		</div>
+		
+	<script type="text/javascript" src="js/jquery-1.12.4.min.js" ></script>
+	<script type="text/javascript" src="js/template-web.js"></script>
+	
+	<script type="text/javascript">
+	
+	$(function(){
+		
+		initData($("#select_table").val());
+		
+	});
+	
+	
+	
+	function initData(num){
+		
+		if(isNaN(num)||num<1||num>10){
+			alert("错误");
+			return;
+		}
+		
+		$("#tb_group").attr("data-tbNum",num);
+		$("#tb_group").empty();
+		
+		$.ajax({
+			url : "new/selectData2.do",
+			//data : "pageNum=" + pageNum+"&tableNum="+tableNum,
+			data : {"tableNum":num},
+			type : "POST",
+			success : function(result) {
+				if (result.code == 100) {
+					
+					var data = result.map.tb;
+					if(data.length!=182){alert("数据异常");return;}
+					//在指定位置上將數據添加進去
+					var html = template("tmpl_tb",{list:data,substring:function(str,i,ii){
+						return str.substring(i,ii);
+					}});
+					
+					$("#tb_group").html(html);
+				} else {
+					alert("所查頁面有誤！");
+				}
+			}
+		});
+		
+	}
+	
+	
+	function saveData(){
+		var num = new Number($("#tb_group").attr("data-tbNum"));
+		var data = getData();
+		$.ajax({
+			url : "new/saveData2.do",
+			//data : "pageNum=" + pageNum+"&tableNum="+tableNum,
+			data : {"tableNum":num,json:JSON.stringify(data)},
+			type : "POST",
+			success : function(result) {
+				if (result.code == 100) {
+					alert("保存成功");
+				} else {
+					alert("所查頁面有誤！");
+				}
+			}
+		});
+		
+	}
+	
+	
+	function getData(){
+		var data = [];
+		$("#tb_group>tr").each(function(i,e){
+			var rdata = "";
+			$(e).find("input.int_item").each(function(ii,ee){
+				
+				var val = ee.value.replace(/[^1234.]/g,'');
+				if(!val){
+					alert((i+1)+"行，"+(ii+1)+"列输入错误");
+					return false;
+				}
+				rdata+=val;
+				
+			});
+			if(rdata.length!=10)return false;
+			data.push({sheng:rdata,row:$(e).attr("data-row")});
+		});
+		
+		return data;
+		
+	}
+	
+	
+	
+	</script>
+	
+	
+	
+	<script>
+		function onInput(inp){
+			var i = $('.int_item').index($(inp));
+			inp.value=inp.value.replace(/[^1234.]/g,'')
+				if ($(inp).val().length==1) {
+					i++;
+					$('.int_item').eq(i).focus();
+				} else if ($(inp).val().length>1) {
+					inp.value=inp.value.replace(/[\d]/g,'')
+				}
+				if (window.event.keyCode==8) {
+					inp.value="";
+					if (i<=0) {
+						i=0;
+					} else{
+						i--;
+					}
+					$('.int_item').eq(i).focus();
+				}
+				
+		}
+	</script>
+	
+	
+	</body>
+	
+	<script type="text/html" id="tmpl_tb">
+
+ {{each list as val i}}
+	<tr data-row="{{val.d_id}}">
+	<td rowspan="1">{{if val.d_id<1}}0{{else}}{{val.d_id}}{{/if}}</td>
+	<td>生</td>
+	<td colspan="2">
+		<input type="text" value="{{#substring(val.d_data,0,1)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+	</td>
+	<td colspan="2">
+		<input type="text" value="{{#substring(val.d_data,1,2)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+	</td>
+	<td colspan="2">
+		<input type="text" value="{{#substring(val.d_data,2,3)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+	</td>
+	<td colspan="2">
+		<input type="text" value="{{#substring(val.d_data,3,4)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+	</td>
+	<td colspan="2">
+		<input type="text" value="{{#substring(val.d_data,4,5)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+	</td>
+	<td colspan="2">
+		<input type="text" value="{{#substring(val.d_data,5,6)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+	</td>
+	<td colspan="2">
+		<input type="text" value="{{#substring(val.d_data,6,7)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+	</td>
+	<td colspan="2">
+		<input type="text" value="{{#substring(val.d_data,7,8)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+	</td>
+	<td colspan="2">
+		<input type="text" value="{{#substring(val.d_data,8,9)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+	</td>
+	<td colspan="2">
+		<input type="text" value="{{#substring(val.d_data,9,10)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+	</td>
+</tr>
+ {{/each}}
+	</script>
+</html>

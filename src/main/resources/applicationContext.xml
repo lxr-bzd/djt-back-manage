@@ -36,6 +36,10 @@
     	<property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}"></property>
     	<property name="breakAfterAcquireFailure" value="${jdbc.breakAfterAcquireFailure}"></property>
     </bean>
+    
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="pooledDataSource"></property>
+    </bean>
     <!-- 配置和mybatis的整合 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     	<!-- 指定mybatis全局配置文件的位置 -->

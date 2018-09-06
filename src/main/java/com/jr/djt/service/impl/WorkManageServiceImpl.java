@@ -1,8 +1,11 @@
 package com.jr.djt.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.jr.djt.beans.WorkerBean;
@@ -10,16 +13,19 @@ import com.jr.djt.dao.WorkManageMapper;
 import com.jr.djt.service.WorkManageService;
 @Service
 public class WorkManageServiceImpl implements WorkManageService {
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+	
+	
 	@Autowired
 	private WorkManageMapper wmm;
 	@Override
 	public List<WorkerBean> getAllWorker() {
-		// TODO Auto-generated method stub
 		return wmm.selectAllWorker();
 	}
 	@Override
 	public void lockWorker(Integer uid,Integer lock_status) {
-		// TODO Auto-generated method stub
 		wmm.lockWorkerById(uid,lock_status);
 	}
 	@Override
@@ -29,39 +35,55 @@ public class WorkManageServiceImpl implements WorkManageService {
 	}
 	@Override
 	public void insertUser(WorkerBean worker) {
-		// TODO Auto-generated method stub
 		System.out.println("進入添加");
 		wmm.insertUser(worker);
 	}
 	@Override
 	public void locksys(Integer syslock) {
-		// TODO Auto-generated method stub
 		wmm.locksys(syslock);
 	}
 	@Override
 	public Boolean getboolByUname(String uname) {
-		// TODO Auto-generated method stub
 		return wmm.getboolByUname(uname);
 	}
 	@Override
 	public void updateuserpassword(Integer user_num, String new_password) {
-		// TODO Auto-generated method stub
 		wmm.updateuserpassword(user_num,new_password);
 	}
 	@Override
 	public void deleteworkerByIds(String list) {
-		// TODO Auto-generated method stub
 		wmm.deleteworkerByIds(list);
 	}
 	@Override
 	public List<WorkerBean> getWorkerByName(String name) {
-		// TODO Auto-generated method stub
 		return wmm.getWorkerByName(name);
 	}
 	@Override
 	public void deleteOneById(Integer unum) {
-		// TODO Auto-generated method stub
 		wmm.deleteOneById(unum);
+	}
+	@Override
+	public Map<String, Object> history(String uid) {
+		Map<String, Object> ret = new HashMap<>();
+		Map<String, Object> user = jdbcTemplate.queryForMap("select * from djt_user WHERE djt_u_id = ?",uid);
+		if(user==null)throw new RuntimeException("uid="+uid+" 用户不存在");
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from game_history WHERE uid=? ORDER BY createtime DESC",uid);
+		
+		ret.put("user", user);
+		ret.put("history", list);
+		return ret;	
+		}
+	@Override
+	public List<Map<String, Object>> workData(String hid) {
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from game_runing WHERE hid=? ORDER BY row"
+				,hid);
+		return list;
+	}
+	@Override
+	public List<Map<String, Object>> workCount(String hid) {
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from game_runing_count WHERE hid=? ORDER BY `index`"
+				,hid);
+		return list;
 	}
 	
 }

@@ -58,11 +58,11 @@ public class AdminInterceptor implements HandlerInterceptor {
 		}
 		//用戶有效未超時
 		//進入的uri地址是否包含超管路徑
-		if(uri.contains(IStr_Enum.ISUP_NAMESPACE) && admin.getU_id() != 1){
+		/*if(uri.contains(IStr_Enum.ISUP_NAMESPACE) && admin.getU_id() != 1){
 			response.sendRedirect("../backstage-login.jsp");
 			request.getSession().invalidate();
 			return false;
-		}
+		}*/
 		//判斷用戶鎖定與否
 		AdminTimeBean ad_user = sls.getAdminTimeById(admin.getU_id());
 		if(ad_user == null || ad_user.getT_isclock() == 1){

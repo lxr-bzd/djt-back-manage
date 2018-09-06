@@ -1,6 +1,7 @@
 package com.jr.djt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.jr.djt.beans.DataBaseBean;
 import com.jr.djt.beans.TableBean;
@@ -32,5 +33,10 @@ public interface UpdateDBService {
 	 * 
 	 * @return
 	 */
-	List<TableBean> getableDB();	
+	List<TableBean> getableDB();
+	
+	
+	void update(Integer num,List list);
+	
+	
 }

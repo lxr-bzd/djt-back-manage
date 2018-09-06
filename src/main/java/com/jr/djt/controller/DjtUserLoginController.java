@@ -60,11 +60,11 @@ public class DjtUserLoginController extends BaseController {
 			session.setAttribute("userService", u);
 			session.setMaxInactiveInterval(60 * 60 * 24);
 			String page;
-			if (u.getU_id() == INum_Enum.IAD_NUM_ONE) {
+			/*if (u.getU_id() == INum_Enum.IAD_NUM_ONE) {*/
 				page = IStr_Enum.ISUP_NAMESPACE + "/" + IStr_Enum.ISUP_LOGIN_PAGE + IStr_Enum.IS_SUFFIX;
-			} else {
+			/*} else {
 				page = IStr_Enum.IAD_LOGIN_PAGE + IStr_Enum.IS_SUFFIX;
-			}
+			}*/
 			return MessageBean.success().add("to_page", page);
 		}else{
 			return MessageBean.fail().add("msg", "您的可用時間已使用完，請儘快充入時間，以免耽誤您的使用!");

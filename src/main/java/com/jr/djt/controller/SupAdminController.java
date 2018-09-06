@@ -2,6 +2,7 @@ package com.jr.djt.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
@@ -32,7 +33,15 @@ public class SupAdminController extends BaseController {
 	@Autowired
 	private ISupAdminService isas;
 	@RequestMapping(IStr_Enum.ISUP_LOGIN_PAGE)
-	public String toSupPage(){
+	public String toSupPage(HttpServletRequest request){
+		Object uObject = request.getSession().getAttribute("userService");
+		
+		if(uObject==null||!(uObject instanceof UserDataBean))
+			throw new RuntimeException("用户异常，重新登陆");
+		UserDataBean u = (UserDataBean)uObject;
+		request.setAttribute("isSu",u.getU_id() == INum_Enum.IAD_NUM_ONE );
+		
+		
 		return IStr_Enum.ISUP_PAGE;
 	}
 	/**

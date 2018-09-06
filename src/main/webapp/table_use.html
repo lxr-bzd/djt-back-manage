@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>後臺管理</title>
+<link href="statis/bootstrap-3.3.7-dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="layui/css/layui.css">
+<link rel="stylesheet" type="text/css"
+	href="css/main.css" />
+<script
+	src="js/jquery-1.11.2.min.js"></script>
+<script src="layui/layui.js"></script>
+<script
+	src="statis/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="js/admin/admin_get_s_table.js"></script>
+<script type="text/javascript"
+	src="js/user/admin_get_user.js"></script>
+<script type="text/javascript"
+	src="js/admin/admin_updata_s_table.js"></script>
+<script type="text/javascript" src="js/admin/admin_usetable.js"></script>
+<script type="text/javascript"
+	src="js/supadmin/supadmin.js"></script>
+	<script type="text/javascript" src="layui/layui.all.js"></script>
+</head>
+
+<body class="layui-layout-body">
+					<!-- 數據表的使用狀況 -->
+				<div  id="usetable_admin">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>使用狀況</th>
+									
+										<th>操作</th>
+											<th>表模式</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+
+							</table>
+							<!-- 數據表分頁信息 -->
+							<div class="row">
+								<div class="col-md-6" id="pageInfo_area"></div>
+								<div class="col-md-6" id="pageNav_area"></div>
+							</div>
+						</div>
+	<script>
+	$(function(){
+			cr_use_table();
+	});
+	//創建使用的table
+	function cr_use_table(){
+		var table = $("#usetable_admin tbody");
+		$.ajax({
+			url:"usetable/getusetable.do",
+			type:"get",
+			success:function(result){
+				if(result.code==100){
+					table.empty();
+					$.each(result.map.list,function(){
+						var tr = $("<tr></tr>");
+						var td_id = $("<td></td>").append(this.dTableId);
+						var td_use_status = $("<td></td>").append(this.dUseDefault==1?'使用中':'準備中');
+						var td_button = $("<td></td>").append($("<button>"+(this.dUseDefault==1?'使用中':'使用')+"</button>").addClass(this.dUseDefault==1?'locking_btn active':'prepare'));
+						var mod = '<td><select id="model_select" onchange="changeModel('+this.dTableId+',this)">'+'<option value="1" '+(this.model==1?'selected = "selected"':'')+' >计算表  A</option><option value="2" '+(this.model==2?'selected = "selected"':'')+' >计算表  B</option><option value="3" '+(this.model==3?'selected = "selected"':'')+' >计算表  C</option></select></td>';
+						
+						table.append(tr.append(td_id).append(td_use_status).append(td_button).append(mod));
+						});
+					$(".prepare").click(function(){
+						var table_id = $(this).parents("tr").find("td").eq(0).text();
+						change_use_table(table_id);
+					});
+				}
+			}
+		});
+	}
+
+	//修改使用的表
+	function change_use_table(table_id){
+		$.ajax({
+			url:"usetable/usetableById.do",
+			data:"tableId="+table_id,
+			type:"get",
+			success:function(result){
+				
+				if(result.code==100 || result.code==200){
+					cr_use_table();
+					if(result.code==200){  
+						alert(result.map.msg);
+					}
+				}
+			}
+		});
+	}
+	
+	
+	function changeModel(tbid,select){
+		var model = $(select).val();
+		$.ajax({
+			url:"usetable/setModel.do",
+			data:{tbid:tbid,model:model},
+			type:"post",
+			success:function(result){
+				if(result.code==100 || result.code==200){
+					cr_use_table();
+					if(result.code==200){
+						alert(result.map.msg);
+					}
+				}
+			}
+		});
+		
+	}
+	
+	</script>
+</body>
+
+</html>

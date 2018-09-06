@@ -8,8 +8,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>後臺管理</title>
-<link
-	href="${pageContext.request.contextPath }/statis/bootstrap-3.3.7-dist/css/bootstrap.min.css"
+<link href="${pageContext.request.contextPath }/statis/bootstrap-3.3.7-dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/layui/css/layui.css">
@@ -102,18 +101,14 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-
-
+	</div> 
+	
 	<!-- 添加用戶彈框 -->
-	<div class="modal fade" id="add_emp" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
+	<div class="modal fade" id="add_emp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h4 class="modal-title" id="myModalLabel">添加用戶</h4>
@@ -123,25 +118,21 @@
 						<div class="form-group">
 							<label for="empName_add_input" class="col-sm-2 control-label">用戶名:</label>
 							<div class="col-sm-10">
-								<input type="text" name="u_name" class="form-control"
-									id="uname_add_input" placeholder="用戶名"><span class="error" style="display:none"></span>
+								<input type="text" name="u_name" class="form-control" id="uname_add_input" placeholder="用戶名"><span class="error" style="display:none"></span>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">用戶密碼:</label>
 							<div class="col-sm-10">
-								<input type="text" name="u_password" class="form-control"
-									id="password_add_input" placeholder="最多6位"><span class="error" style="display:none"></span>
+								<input type="text" name="u_password" class="form-control" id="password_add_input" placeholder="最多6位"><span class="error" style="display:none"></span>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="sex_add_input" class="col-sm-2 control-label">是否鎖定:</label>
 							<div class="col-sm-10">
-								<label class="radio-inline"> <input type="radio"
-									name="u_islock" value="1" checked="checked"/>
+								<label class="radio-inline"> <input type="radio" name="u_islock" value="1" checked="checked"/>
 									否
-								</label> <label class="radio-inline"> <input type="radio"
-									name="u_islock" value="2"/> 是
+								</label> <label class="radio-inline"> <input type="radio" name="u_islock" value="2"/> 是
 								</label>
 							</div>
 						</div>
@@ -162,10 +153,8 @@
 				<li class="layui-nav-item">歡迎，<span class="user_name">${userService.u_name }</span>
 					!
 				</li>
-				<li class="layui-nav-item"><a
-					href="${pageContext.request.contextPath }/exit.do">安全退出</a></li>
-					<li class="layui-nav-item"><a
-					href="javascript:;" id="update_myadmin_password">修改密碼</a></li>
+				<li class="layui-nav-item"><a href="${pageContext.request.contextPath }/exit.do">安全退出</a></li>
+					<li class="layui-nav-item"><a href="javascript:;" id="update_myadmin_password">修改密碼</a></li>
 			</ul>
 		</div>
 
@@ -189,7 +178,7 @@
 				</ul>
 			</div>
 		</div>
-
+		
 		<div class="layui-body">
 			<!-- 内容主体区域 -->
 			<div style="padding: 15px;" class="con_box">
@@ -226,24 +215,23 @@
 						<div class="col-md-6" id="pageNav_area"></div>
 					</div>
 				</div>
+				
 				<div class="con_item" id="backs_admin">
 					<div class="backs_list">
 						<div id="backs-table">
 							<!--后台表-->
 							<section class="backstage_wrap">
-							<div class="backstage_box">
+								<div class="backstage_box">
 								<h2>計算表生數據預覽表</h2>
 								<!-- 選擇表 -->
-								<select id="s_table_num"><option value="1">表1</option>
-									<option value="2">表2</option></select>
+								<select id="s_table_num"><option value="1">表1</option><option value="2">表2</option></select>
 								<!--数据表-->
 								<div class="backtable_wrap clearfix">
 									<!--第一組-->
 									<table border="1" class="fl" id="table_one">
 										<thead>
 											<tr class="group_num">
-												<th colspan="16" id="table_one_title">第<span></span>組
-												</th>
+												<th colspan="16" id="table_one_title">第<span></span>組</th>
 											</tr>
 											<tr class="group_class">
 												<th colspan="2" rowspan="2" class="">序號</th>
@@ -273,17 +261,13 @@
 											</tr>
 										</thead>
 										<tbody>
-
 										</tbody>
-
 									</table>
-
 									<!--第二組-->
 									<table border="1" class="table_mid fl" id="table_two">
 										<thead>
 											<tr class="group_num">
-												<th colspan="16" id="table_two_title">第<span></span>組
-												</th>
+												<th colspan="16" id="table_two_title">第<span></span>組</th>
 											</tr>
 											<tr class="group_class">
 												<th colspan="2" rowspan="2" class="">序號</th>
@@ -321,8 +305,7 @@
 									<table border="1" class="fl" id="table_three">
 										<thead>
 											<tr class="group_num">
-												<th colspan="16" id="table_three_title">第<span></span>組
-												</th>
+												<th colspan="16" id="table_three_title">第<span></span>組</th>
 											</tr>
 											<tr class="group_class">
 												<th colspan="2" rowspan="2" class="">序號</th>
@@ -469,6 +452,7 @@
 							</section>
 						</div>
 					</div>
+					
 					<div class="backs_list">
 					<!-- 數據表的使用狀況 -->
 						<div id="usetable_admin">

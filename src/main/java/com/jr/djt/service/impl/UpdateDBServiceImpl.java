@@ -1,6 +1,7 @@
 package com.jr.djt.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,11 @@ public class UpdateDBServiceImpl implements UpdateDBService {
 	public List<TableBean> getableDB() {
 		// TODO Auto-generated method stub
 		return udbm.getableDB();
-	}	
+	}
+	@Override
+	public void update(Integer num, List list) {
+		
+		udbm.update(num, list);
+	}
+	
 }
