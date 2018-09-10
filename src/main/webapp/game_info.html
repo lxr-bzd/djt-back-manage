@@ -6,20 +6,44 @@
 		<meta name="Keywords" content="" />
 		<meta name="Description" content="" />
 		<link rel="stylesheet" href="css/web.css" />
+		<style>
+			.gobuttom{
+				position: fixed;
+			    display: inline-block;
+			    padding: 6px 10px;
+			    background-color: blue;
+			    color: #fff;
+			    border-radius: 7px;
+			    top: 10px;
+			    right: 10px;
+			}
+			.gotop{
+				position: fixed;
+			    display: inline-block;
+			    padding: 6px 10px;
+			    background-color: blue;
+			    color: #fff;
+			    border-radius: 7px;
+			    bottom: 10px;
+			    right: 10px;
+			}
+		</style>
 	</head>
 	<body>
+	<a class="gobuttom" href="#cbottom">回到底部</a>
+	<a class="gotop" href="#ctop">回到頂部</a>
 		<div class="h-center">
 			<table>
 				<tr>
-					<td colspan="5">计算表</td>
+					<td colspan="5" id="ctop">計算表</td>
 				</tr>
 				<tr>
-					<td class="fh"><a href="#">返回</a></td>
+					<td class="fh"><a href="javascript:top.window.$('.user_admin').click();">返回</a></td>
 					<td class="empty"></td>
 					<td><select id="model_select" onchange="renderTb(model)">
-					<option value="1">计算表  A</option>
-					<option value="2">计算表  B</option>
-					<option value="3">计算表  C</option></select>
+					<option value="1">計算表  A</option>
+					<option value="2">計算表  B</option>
+					<option value="3">計算表  C</option></select>
 					</td>
 					<td class="empty"></td>
 					<td class="last">
@@ -30,10 +54,10 @@
 				</tr>
 				<tr>
 					<td class="txl" colspan="4" id="detail_group">
-						ID :--   用户名 :--   正在使用的工作表 : 第<span id="tbNum">--</span>張
+						ID :--   用護名 :--   正在使用的工作表 : 第<span id="tbNum">--</span>張
 					</td>
 					<td>
-						时间日期
+						時間日期
 					</td>
 				</tr>
 			</table>
@@ -571,18 +595,18 @@
 					<td class="rd">-</td>
 					<td colspan="2"></td>
 					<td class="rd">-</td>
-					<td rowspan="8">结算</td>
+					<td rowspan="8">結算</td>
 				</tr>
 				<tr>
-					<td colspan="2">小结结果</td>
+					<td colspan="2">小結結果</td>
 					<td class="rd" colspan="40">--</td>
 				</tr>
 				<tr>
-					<td colspan="2">提供统计</td>
+					<td colspan="2">提供統計</td>
 					<td class="rd" colspan="40">--</td>
 				</tr>
 				<tr>
-					<td colspan="2">提供结果</td>
+					<td colspan="2">提供結果</td>
 					<td class="rd" colspan="40">--</td>
 				</tr>
 				</tbody>
@@ -592,12 +616,12 @@
 				</tr>
 				<tbody class="exTable">
 				<tr>
-					<td colspan="2">列队统计</td>
+					<td colspan="2">列隊統計</td>
 					<td class="rd" colspan="41" id="queue_group">--</td>
 				</tr>
 				
 				<tr> 
-					<td colspan="2" rowspan="2">列队结果</td>
+					<td colspan="2" rowspan="2">列隊結果</td>
 					<td colspan="2">6</td>
 					<td colspan="2">7</td>
 					<td colspan="2">8</td>
@@ -650,6 +674,7 @@
 				</tbody>
 			</table>
 		</div>
+		<div id="cbottom"></div>
 	</body>
 	<script type="text/javascript" src="js/jquery-1.12.4.min.js" ></script>
 	<script type="text/javascript" src="js/template-web.js"></script>
@@ -669,8 +694,8 @@
 			var runGame;
 			for (var i = 0; i < history.length; i++) {
 				var st = "已完成";
-				if(history[i].state==1)st="进行中"; 
-				html+='<option value='+history[i].id+'>开始于：'+new Date(history[i].createtime).format("yyyy-MM-dd")+'('+st+')</option>';
+				if(history[i].state==1)st="進行中"; 
+				html+='<option value='+history[i].id+'>開始於：'+new Date(history[i].createtime).format("yyyy-MM-dd")+'('+st+')</option>';
 				if(history[i].state==1)runGame = history[i];
 				hdata[history[i].id] = history[i];
 			}
@@ -678,9 +703,9 @@
 			$("#history_group").html(html);
 			$("#history_group").data("hdata",hdata);
 			
-			$("#detail_group").html("ID :"+user.djt_u_id+"   用户名 :"+user.djt_u_name+"  正在使用的工作表 : 第<span id='tbNum'>--</span>張")
+			$("#detail_group").html("ID :"+user.djt_u_id+"   用戶名 :"+user.djt_u_name+"  正在使用的工作表 : 第<span id='tbNum'>--</span>張")
 			
-			if(!runGame)alert("没有正在工作的表格");
+			if(!runGame)alert("沒有正在工作的表格");
 			else selectHistory();
 			
 		},{param:{uid:$app.getQueryStr("uid")}})
@@ -699,7 +724,7 @@
 		var hid = $("#history_group").val();
 		var h = $("#history_group").data("hdata")[hid];
 		if(!h){
-			alert("错误");
+			alert("錯誤");
 			return;
 		}
 		$("#tbNum").html(h.tbNum);
@@ -780,7 +805,7 @@
 		$("#main_group").html(html);
 		
 		
-		$("#xjtg_group").html(template("tmpl_xjtg",gameCore.xjtg($("#model_select").val(),map.count)));
+		$("#xjtg_group").html(template("tmpl_xjtg",gameCore.xjtg($("#model_select").val(),map.count,"11111111111111111111")));
 		
 		var queue = gameCore.queue(list);
 		var queueSum = 0;
@@ -800,7 +825,7 @@
 		tb.tableExport({type:'excel',ignoreColumn: [],ignoreRow:[]
 			, separator:';', escape:'false'
 				 ,formats: ['xlsx']
-		,fileName: '后台表导出'+new Date().format("yyyy-MM-dd")});
+		,fileName: '後臺表導出'+new Date().format("yyyy-MM-dd")});
 		tb.remove();
 	}
 
@@ -809,16 +834,16 @@
 	
 	</script>
 	<script type="text/javascript">
+
 	var gameCore = {
 			xjtg:function(mod,count,lastGong){
 				var xj = {};//小结
 				var xjCount = 0;//小结统计
 				var tg = 0;//提供数
 				var tgSum =0;//提供值
-				var tgInfo = {};
 				for (var i = 0; i < count.length; i++) {
 					var hu = {l:0,r:0};
-					tgInfo[count[i].index] = {};
+					
 					var ltg,rtg;
 					switch ((mod+'')) {
 					case '2':
@@ -849,27 +874,107 @@
 						if(ltg.substring(j*4,j*4+2)=="01"){
 							tg+=1;
 							tgSum+=l;
-							if(lastGong&&j==rtg.length/4-1)
-								tgInfo[count[i].index].l = lastGong.substring(i*2,i*2+1);
 						}
 						if(rtg.substring(j*4,j*4+2)=="01"){
 							tg+=1;
 							tgSum+=r;
-							if(lastGong&&j==rtg.length/4-1)
-								tgInfo[count[i].index].r = lastGong.substring(i*2+1,i*2+2);
+							
 						}
-						
-						
-						
 					}
+					
+					
+				
 					xjCount+=hu.l;
 					xjCount+=hu.r;
 					xj[count[i].index] = hu;
 					
 				}
+				var tgInfo = this.tgInfo(mod,count,lastGong,tg);
 				
-				return {xj:xj,xjCount:xjCount,tg:tg,tgSum:tgSum,tgInfo:tgInfo};
+				
+				return {xj:xj,xjCount:xjCount,tg:tg+tgInfo.tg,tgSum:tgSum,tgInfo:tgInfo.list};
 			}
+	
+		,tgInfo:function(mod,count,lastGong){
+			var tg = 0;
+			var tgInfo = {};
+			for (var i = 0; i < count.length; i++) {
+				tgInfo[count[i].index] = {};
+				var lp1,lp2,lp3,lp4,rp1,rp2,rp3,rp4;
+				var lc = count[i].lcount;
+				var rc = count[i].rcount;
+				if(lc.length>=4){
+					lp1 = new Number(lc.substring(lc.length-2,lc.length));
+					lp2 = new Number(lc.substring(lc.length-4,lc.length-2));
+					
+					rp1 = new Number(rc.substring(rc.length-2,rc.length));
+					rp2 = new Number(rc.substring(rc.length-4,rc.length-2));
+				}
+				if(lc.length>=6){
+					var lp3 = new Number(lc.substring(lc.length-6,lc.length-4));
+					var rp3 = new Number(rc.substring(rc.length-6,rc.length-4));
+				}
+				
+				if(lc.length>=8){
+					var lp4 = new Number(lc.substring(lc.length-8,lc.length-6));
+					var rp4 = new Number(rc.substring(rc.length-8,rc.length-6));
+				}
+				
+				
+				
+				switch ((mod+'')) {
+				case '2':
+					if(lp1!==undefined&&lp2!==undefined&&lp3!==undefined)
+						if(lp1*lp2>0&&lp1*lp3>0){
+						tg+=1;
+						tgInfo[count[i].index].l = lastGong.substring(i*2,i*2+1);
+						
+					}
+						
+					if(rp1!==undefined&&rp2!==undefined&&rp3!==undefined)
+						if(rp1*rp2>0&&rp1*rp3>0){
+						tg+=1;
+						tgInfo[count[i].index].r = lastGong.substring(i*2+1,i*2+2);	
+					}
+						
+					
+					break;
+				case '3':
+					if(lp1!==undefined&&lp2!==undefined&&lp3!==undefined&&lp4!==undefined)
+						if(lp1*lp2>0&&lp1*lp3>0&&lp1*lp4>0){
+							tg+=1;
+							tgInfo[count[i].index].l = lastGong.substring(i*2,i*2+1);
+						}
+					if(rp1!==undefined&&rp2!==undefined&&rp3!==undefined&&rp4!==undefined)
+						if(rp1*rp2>0&&rp1*rp3>0&&rp1*rp4>0){
+							tg+=1;
+							tgInfo[count[i].index].r = lastGong.substring(i*2+1,i*2+2);
+						}	
+					
+					break;
+				case '1':
+				default:
+					if(lp1!==undefined&&lp2!==undefined)
+						if(lp1*lp2>0){
+							tg+=1;
+							tgInfo[count[i].index].l = lastGong.substring(i*2,i*2+1);
+						}
+					if(rp1!==undefined&&rp2!==undefined)
+						if(rp1*rp2>0){
+							tg+=1;
+							tgInfo[count[i].index].r = lastGong.substring(i*2+1,i*2+2);
+						}	
+					
+				
+					break;
+				}
+				
+				}
+			return {tg:tg,list:tgInfo};
+			
+		}
+	
+	
 		,queue:function(mainTb,onScan){
 			var queue = {
 					"6":0,"7":0,"8":0,"9":0,"10":0,"11":0
@@ -911,55 +1016,53 @@
 			
 	}
 	
-	
-	
 	</script>
 	
 	<script type="text/html" id="tmpl_xjtg">
 	<tr>
-	<td colspan="2">小结统计</td>
+	<td colspan="2">小結統計</td>
 	<td class="rd">{{xj['1'].l}}</td>
 	<td colspan="2"></td>
 	<td class="rd">{{xj['1'].r}}</td>
-	<td class="rd">{{xj['2'].r}}</td>
+	<td class="rd">{{xj['2'].l}}</td>
 	<td colspan="2"></td>
 	<td class="rd">{{xj['2'].r}}</td>
-	<td class="rd">{{xj['3'].r}}</td>
+	<td class="rd">{{xj['3'].l}}</td>
 	<td colspan="2"></td>
 	<td class="rd">{{xj['3'].r}}</td>
-	<td class="rd">{{xj['4'].r}}</td>
+	<td class="rd">{{xj['4'].l}}</td>
 	<td colspan="2"></td>
 	<td class="rd">{{xj['4'].r}}</td>
-	<td class="rd">{{xj['5'].r}}</td>
+	<td class="rd">{{xj['5'].l}}</td>
 	<td colspan="2"></td>
 	<td class="rd">{{xj['5'].r}}</td>
-	<td class="rd">{{xj['6'].r}}</td>
+	<td class="rd">{{xj['6'].l}}</td>
 	<td colspan="2"></td>
 	<td class="rd">{{xj['6'].r}}</td>
-	<td class="rd">{{xj['7'].r}}</td>
+	<td class="rd">{{xj['7'].l}}</td>
 	<td colspan="2"></td>
 	<td class="rd">{{xj['7'].r}}</td>
-	<td class="rd">{{xj['8'].r}}</td>
+	<td class="rd">{{xj['8'].l}}</td>
 	<td colspan="2"></td>
 	<td class="rd">{{xj['8'].r}}</td>
-	<td class="rd">{{xj['9'].r}}</td>
+	<td class="rd">{{xj['9'].l}}</td>
 	<td colspan="2"></td>
 	<td class="rd">{{xj['9'].r}}</td>
-	<td class="rd">{{xj['10'].r}}</td>
+	<td class="rd">{{xj['10'].l}}</td>
 	<td colspan="2"></td>
 	<td class="rd">{{xj['10'].r}}</td>
-	<td rowspan="4"><a title="导出表格" href="javascript:tableExport()">结算</a></td>
+	<td rowspan="4"><a title="导出表格" href="javascript:tableExport()">結算</a></td>
 </tr>
 <tr>
-	<td colspan="2">小结结果</td>
+	<td colspan="2">小結結果</td>
 	<td class="rd" colspan="40">{{xjCount}}</td>
 </tr>
 <tr>
-	<td colspan="2">提供统计</td>
+	<td colspan="2">提供統計</td>
 	<td class="rd" colspan="40">{{tg}}</td>
 </tr>
 <tr>
-	<td colspan="2">提供结果</td>
+	<td colspan="2">提供結果</td>
 	<td class="rd" colspan="40">{{tgSum}}</td>
 </tr>
 	
