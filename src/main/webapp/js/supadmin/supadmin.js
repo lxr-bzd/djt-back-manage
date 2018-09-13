@@ -135,9 +135,9 @@ function update_admin_psw(admin_num,new_psw){
 function cr_admin_pageInfo(result){
 	$("#admin_pageInfo_area").empty();
 	$("#admin_pageInfo_area").append(
-			"当前第" + result.pageNum + "页,总共"
-			+ result.pages + "页,总共"
-			+ result.total + "条记录");
+			"當前第" + result.pageNum + "頁,總共"
+			+ result.pages + "頁,總共"
+			+ result.total + "條記錄");
 }
 
 //創建分頁信息
@@ -146,9 +146,9 @@ function get_admin_nav(result){
 	var nav = $("<nav></nav>");
 	var ul = $("<ul></ul>").addClass("pagination");
 	var firstPageLi = $("<li></li>").append(
-			$("<a></a>").append("首页").attr("href", "javascript:;"));
+			$("<a></a>").append("首頁").attr("href", "javascript:;"));
 	var lastPageLi = $("<li></li>").append(
-			$("<a></a>").append("末页").attr("href", "javascript:;"));
+			$("<a></a>").append("末頁").attr("href", "javascript:;"));
 	var prePageLi = $("<li></li>").append(
 			$("<a></a>").append("&laquo;").attr("href", "javascript:;"));
 	var nextPageLi = $("<li></li>").append(

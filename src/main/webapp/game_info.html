@@ -693,7 +693,7 @@
 			var hdata = {};
 			var runGame;
 			for (var i = 0; i < history.length; i++) {
-				var st = "已完成";
+				var st = "已結束";
 				if(history[i].state==1)st="進行中"; 
 				html+='<option value='+history[i].id+'>開始於：'+new Date(history[i].createtime).format("yyyy-MM-dd")+'('+st+')</option>';
 				if(history[i].state==1)runGame = history[i];
@@ -746,7 +746,8 @@
 		var list = map.data;
 		
 		
-		var vData = {hlist:[list[0],list[1]],mData:[]
+		var vData = {mod:$("#model_select").val()
+				,hlist:[list[0],list[1]],mData:[]
 		,count:map.count
 		,subChar:function(str,i){
 			return str.substring(i,i+1);
@@ -762,9 +763,23 @@
 			
 			return html;
 		}
-		,xiaojie:function(cot,i){
-			if(cot.length<i*2+2)return "";
-			return cot.substring(i*2,i*2+2);
+		,xiaojie:function(cot,i,mod){
+			var vlen = 8;
+			if(cot.length<(i+1)*vlen)return "";
+			var md = cot.substring((i+1)*vlen-2,(i+1)*vlen);
+			var modVal = null;
+			switch (mod) {
+			case "1":
+				modVal = cot.substring((i+1)*vlen-8,(i+1)*vlen-6);
+				break;
+			case "2":
+				modVal = cot.substring((i+1)*vlen-6,(i+1)*vlen-4);
+				break;
+			case "3":
+				modVal = cot.substring((i+1)*vlen-4,(i+1)*vlen-2);
+				break;
+			}
+			return md+'<br><span style="color:red;">'+modVal+'</span>';
 			
 		}
 		,duicuo:function(str,i){
@@ -836,7 +851,7 @@
 	<script type="text/javascript">
 
 	var gameCore = {
-			xjtg:function(mod,count,lastGong){
+			xjtg:function(mod,count,lastGong,lastCol){
 				var xj = {};//小结
 				var xjCount = 0;//小结统计
 				var tg = 0;//提供数
@@ -882,96 +897,85 @@
 						}
 					}
 					
-					
-				
 					xjCount+=hu.l;
 					xjCount+=hu.r;
 					xj[count[i].index] = hu;
 					
 				}
-				var tgInfo = this.tgInfo(mod,count,lastGong,tg);
+				var tginfo = this.tgInfo(mod,count,lastGong,lastCol);
+				tg+=tginfo.tg;
 				
-				
-				return {xj:xj,xjCount:xjCount,tg:tg+tgInfo.tg,tgSum:tgSum,tgInfo:tgInfo.list};
+				return {xj:xj,xjCount:xjCount,tg:tg,tgSum:tgSum,tgInfo:tginfo.list};
 			}
 	
-		,tgInfo:function(mod,count,lastGong){
-			var tg = 0;
+		,tgInfo:function(mod,count,lastGong,lastCol){
 			var tgInfo = {};
+			var tg = 0;
 			for (var i = 0; i < count.length; i++) {
 				tgInfo[count[i].index] = {};
-				var lp1,lp2,lp3,lp4,rp1,rp2,rp3,rp4;
 				var lc = count[i].lcount;
 				var rc = count[i].rcount;
-				if(lc.length>=4){
-					lp1 = new Number(lc.substring(lc.length-2,lc.length));
-					lp2 = new Number(lc.substring(lc.length-4,lc.length-2));
-					
-					rp1 = new Number(rc.substring(rc.length-2,rc.length));
-					rp2 = new Number(rc.substring(rc.length-4,rc.length-2));
-				}
-				if(lc.length>=6){
-					var lp3 = new Number(lc.substring(lc.length-6,lc.length-4));
-					var rp3 = new Number(rc.substring(rc.length-6,rc.length-4));
-				}
-				
-				if(lc.length>=8){
-					var lp4 = new Number(lc.substring(lc.length-8,lc.length-6));
-					var rp4 = new Number(rc.substring(rc.length-8,rc.length-6));
-				}
-				
-				
-				
+				var index = count[i].index;
 				switch ((mod+'')) {
 				case '2':
-					if(lp1!==undefined&&lp2!==undefined&&lp3!==undefined)
-						if(lp1*lp2>0&&lp1*lp3>0){
+					if(this.mark(lc,3,1)){
 						tg+=1;
-						tgInfo[count[i].index].l = lastGong.substring(i*2,i*2+1);
-						
+						tgInfo[count[i].index].l = {val:lastGong.substring(i*2,i*2+1)};
 					}
 						
-					if(rp1!==undefined&&rp2!==undefined&&rp3!==undefined)
-						if(rp1*rp2>0&&rp1*rp3>0){
+					if(this.mark(rc,3,1)){
 						tg+=1;
-						tgInfo[count[i].index].r = lastGong.substring(i*2+1,i*2+2);	
+						tgInfo[count[i].index].r = {val:lastGong.substring(i*2+1,i*2+2)};	
 					}
-						
-					
 					break;
 				case '3':
-					if(lp1!==undefined&&lp2!==undefined&&lp3!==undefined&&lp4!==undefined)
-						if(lp1*lp2>0&&lp1*lp3>0&&lp1*lp4>0){
-							tg+=1;
-							tgInfo[count[i].index].l = lastGong.substring(i*2,i*2+1);
-						}
-					if(rp1!==undefined&&rp2!==undefined&&rp3!==undefined&&rp4!==undefined)
-						if(rp1*rp2>0&&rp1*rp3>0&&rp1*rp4>0){
-							tg+=1;
-							tgInfo[count[i].index].r = lastGong.substring(i*2+1,i*2+2);
-						}	
+					if(this.mark(lc,4,2)){
+						tg+=1;
+						tgInfo[count[i].index].l = {val:lastGong.substring(i*2,i*2+1)};
+					}
+					if(this.mark(rc,4,2)){
+						tg+=1;
+						tgInfo[count[i].index].r = {val:lastGong.substring(i*2+1,i*2+2)};	
+					}
 					
 					break;
 				case '1':
 				default:
-					if(lp1!==undefined&&lp2!==undefined)
-						if(lp1*lp2>0){
-							tg+=1;
-							tgInfo[count[i].index].l = lastGong.substring(i*2,i*2+1);
-						}
-					if(rp1!==undefined&&rp2!==undefined)
-						if(rp1*rp2>0){
-							tg+=1;
-							tgInfo[count[i].index].r = lastGong.substring(i*2+1,i*2+2);
-						}	
-					
-				
+					if(this.mark(lc,2,0)){
+						tg+=1;
+						tgInfo[count[i].index].l = {val:lastGong.substring(i*2,i*2+1)};
+					}
+					if(this.mark(lc,2,0)){
+						tg+=1;
+						tgInfo[count[i].index].r = {val:lastGong.substring(i*2+1,i*2+2)};	
+					}
 					break;
 				}
 				
+				if(tgInfo[count[i].index].l&&lastCol){
+					tgInfo[count[i].index].l.f = (lastCol.substring((index-1)*2,(index-1)*2+1)=="2")?"+":"-";
 				}
-			return {tg:tg,list:tgInfo};
+				if(tgInfo[count[i].index].r&&lastCol){
+					tgInfo[count[i].index].r.f = (lastCol.substring((index-1)*2+1,(index-1)*2+2)=="2")?"+":"-";
+				}
+				
+				}
+			return {list:tgInfo,tg:tg};
 			
+		}
+		
+		,mark:function(count,n,offset) {
+			 var vlen = 8;
+			 if(count.length<n*vlen)return null;
+			 var ret = 0;
+			 for (var i = 0; i < n; i++) {
+				var nn = new Number(count.substring(count.length-((i+1)*vlen)+(offset*2), count.length-((i+1)*vlen)+(offset*2)+2));
+				if(i==0) {ret = nn>0?1:-1; continue;}
+				if(nn*ret<=0)return null;
+			 }
+			 
+			return ret;
+
 		}
 	
 	
@@ -1015,6 +1019,10 @@
 			
 			
 	}
+	
+	
+	
+	
 	
 	</script>
 	
@@ -1145,16 +1153,16 @@
 				<tr>
 					<td rowspan="4">{{val2.row}}</td>
 					<td>生</td>
-					<td rowspan="24">{{xiaojie(count[0].lcount,i)}}</td><td colspan="2">{{subChar(val2.sheng,0)}}</td><td rowspan="24">{{xiaojie(count[0].rcount,i)}}</td>
-					<td rowspan="24">{{xiaojie(count[1].lcount,i)}}</td><td colspan="2">{{subChar(val2.sheng,1)}}</td><td rowspan="24">{{xiaojie(count[1].rcount,i)}}</td>
-					<td rowspan="24">{{xiaojie(count[2].lcount,i)}}</td><td colspan="2">{{subChar(val2.sheng,2)}}</td><td rowspan="24">{{xiaojie(count[2].rcount,i)}}</td>
-					<td rowspan="24">{{xiaojie(count[3].lcount,i)}}</td><td colspan="2">{{subChar(val2.sheng,3)}}</td><td rowspan="24">{{xiaojie(count[3].rcount,i)}}</td>
-					<td rowspan="24">{{xiaojie(count[4].lcount,i)}}</td><td colspan="2">{{subChar(val2.sheng,4)}}</td><td rowspan="24">{{xiaojie(count[4].rcount,i)}}</td>
-					<td rowspan="24">{{xiaojie(count[5].lcount,i)}}</td><td colspan="2">{{subChar(val2.sheng,5)}}</td><td rowspan="24">{{xiaojie(count[5].rcount,i)}}</td>
-					<td rowspan="24">{{xiaojie(count[6].lcount,i)}}</td><td colspan="2">{{subChar(val2.sheng,6)}}</td><td rowspan="24">{{xiaojie(count[6].rcount,i)}}</td>
-					<td rowspan="24">{{xiaojie(count[7].lcount,i)}}</td><td colspan="2">{{subChar(val2.sheng,7)}}</td><td rowspan="24">{{xiaojie(count[7].rcount,i)}}</td>
-					<td rowspan="24">{{xiaojie(count[8].lcount,i)}}</td><td colspan="2">{{subChar(val2.sheng,8)}}</td><td rowspan="24">{{xiaojie(count[8].rcount,i)}}</td>
-					<td rowspan="24">{{xiaojie(count[9].lcount,i)}}</td><td colspan="2">{{subChar(val2.sheng,9)}}</td><td rowspan="24">{{xiaojie(count[9].rcount,i)}}</td>
+					<td rowspan="24">{{#xiaojie(count[0].lcount,i,mod)}}</td><td colspan="2">{{subChar(val2.sheng,0)}}</td><td rowspan="24">{{#xiaojie(count[0].rcount,i,mod)}}</td>
+					<td rowspan="24">{{#xiaojie(count[1].lcount,i,mod)}}</td><td colspan="2">{{subChar(val2.sheng,1)}}</td><td rowspan="24">{{#xiaojie(count[1].rcount,i,mod)}}</td>
+					<td rowspan="24">{{#xiaojie(count[2].lcount,i,mod)}}</td><td colspan="2">{{subChar(val2.sheng,2)}}</td><td rowspan="24">{{#xiaojie(count[2].rcount,i,mod)}}</td>
+					<td rowspan="24">{{#xiaojie(count[3].lcount,i,mod)}}</td><td colspan="2">{{subChar(val2.sheng,3)}}</td><td rowspan="24">{{#xiaojie(count[3].rcount,i,mod)}}</td>
+					<td rowspan="24">{{#xiaojie(count[4].lcount,i,mod)}}</td><td colspan="2">{{subChar(val2.sheng,4)}}</td><td rowspan="24">{{#xiaojie(count[4].rcount,i,mod)}}</td>
+					<td rowspan="24">{{#xiaojie(count[5].lcount,i,mod)}}</td><td colspan="2">{{subChar(val2.sheng,5)}}</td><td rowspan="24">{{#xiaojie(count[5].rcount,i,mod)}}</td>
+					<td rowspan="24">{{#xiaojie(count[6].lcount,i,mod)}}</td><td colspan="2">{{subChar(val2.sheng,6)}}</td><td rowspan="24">{{#xiaojie(count[6].rcount,i,mod)}}</td>
+					<td rowspan="24">{{#xiaojie(count[7].lcount,i,mod)}}</td><td colspan="2">{{subChar(val2.sheng,7)}}</td><td rowspan="24">{{#xiaojie(count[7].rcount,i,mod)}}</td>
+					<td rowspan="24">{{#xiaojie(count[8].lcount,i,mod)}}</td><td colspan="2">{{subChar(val2.sheng,8)}}</td><td rowspan="24">{{#xiaojie(count[8].rcount,i,mod)}}</td>
+					<td rowspan="24">{{#xiaojie(count[9].lcount,i,mod)}}</td><td colspan="2">{{subChar(val2.sheng,9)}}</td><td rowspan="24">{{#xiaojie(count[9].rcount,i,mod)}}</td>
 					<td rowspan="24"></td>
 				</tr>
 {{else}}

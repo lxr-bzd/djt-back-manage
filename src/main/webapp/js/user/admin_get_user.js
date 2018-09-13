@@ -565,9 +565,9 @@ function check_uname(uname){
 	function get_users_pageInfo(result){
 		$("#pageInfo_area").empty();
 		$("#pageInfo_area").append(
-				"当前第" + result.pageNum + "页,总共"
-				+ result.pages + "页,总共"
-				+ result.total + "条记录");
+				"當前第" + result.pageNum + "頁,總共"
+				+ result.pages + "頁,總共"
+				+ result.total + "條記錄");
 	}
 
 //	解析分頁條
@@ -577,9 +577,9 @@ function check_uname(uname){
 		var nav = $("<nav></nav>");
 		var ul = $("<ul></ul>").addClass("pagination");
 		var firstPageLi = $("<li></li>").append(
-				$("<a></a>").append("首页").attr("href", "javascript:;"));
+				$("<a></a>").append("首頁").attr("href", "javascript:;"));
 		var lastPageLi = $("<li></li>").append(
-				$("<a></a>").append("末页").attr("href", "javascript:;"));
+				$("<a></a>").append("末頁").attr("href", "javascript:;"));
 		var prePageLi = $("<li></li>").append(
 				$("<a></a>").append("&laquo;").attr("href", "javascript:;"));
 		var nextPageLi = $("<li></li>").append(
