@@ -849,8 +849,6 @@
 	
 	</script>
 	<script type="text/javascript">
-
-
 	var gameCore = {
 			xjtg:function(mod,count,lastGong/* ,lastCol */){
 				var xj = {};//小结
@@ -878,13 +876,13 @@
 						break;
 					}
 					
+					var linfo = count[i].l_info;
+					var rinfo = count[i].r_info;
 					if(rtg)
 					for (var j = 0; j < rtg.length/4; j++){
 						//小结统计
 						var l = new Number(ltg.substring(j*4+2,j*4+4));
 						var r = new Number(rtg.substring(j*4+2,j*4+4));
-						hu.l+=l;
-						hu.r+=r;
 						
 						
 						if(ltg.substring(j*4,j*4+2)=="01"){
@@ -894,8 +892,10 @@
 						if(rtg.substring(j*4,j*4+2)=="01"){
 							tg+=1;
 							tgSum+=r;
-							
 						}
+						
+						hu.l+=new Number(linfo.substring(j*2,j*2+2));
+						hu.r+=new Number(rinfo.substring(j*2,j*2+2));
 					}
 					
 					xjCount+=hu.l;
@@ -909,7 +909,7 @@
 				return {xj:xj,xjCount:xjCount,tg:tg,tgSum:tgSum,tgInfo:tginfo.list};
 			}
 	
-		,tgInfo:function(mod,count,lastGong/* ,lastCol */){
+		,tgInfo:function(mod,count,lastGong){
 			var tgInfo = {};
 			var tg = 0;
 			for (var i = 0; i < count.length; i++) {
@@ -917,8 +917,8 @@
 				var lc = count[i].lcount;
 				var rc = count[i].rcount;
 				var index = count[i].index;
-				var lsy = this.provideSymbol(lc);
-				var rsy = this.provideSymbol(rc);
+				var lsy = this.provideSymbol(lc,count[i].l_lj);
+				var rsy = this.provideSymbol(rc,count[i].r_lj);
 				switch ((mod+'')) {
 				case '2':
 					if(lsy[1]){
@@ -961,7 +961,7 @@
 			
 		}
 		
-		,provideSymbol:function(count) {
+		,provideSymbol:function(count,upPile) {
 			var COUNT_VLEN =11;
 			var ret = [];
 			
@@ -974,7 +974,6 @@
 			var pb1 = new Number(count.substring((countNum-1)*COUNT_VLEN+3, (countNum-1)*COUNT_VLEN+3+2));
 			var pc1 = new Number(count.substring((countNum-1)*COUNT_VLEN+6, (countNum-1)*COUNT_VLEN+6+2));
 			
-			
 			var offset = 0;
 			if(pa1!=0) {
 				var aStr1 = count.substring((countNum-1)*COUNT_VLEN+offset, (countNum-1)*COUNT_VLEN+offset+3);
@@ -986,7 +985,9 @@
 					ret[0] = (aStr2.startsWith("-"))?"-":"+";
 				}
 				//提供：上一个不提供，上上不提供
-				if(aStr1.endsWith("n")&&aStr2.endsWith("n")&&aStr1.substring(0,1)==aStr2.substring(0,1)) {
+				if(new Number(upPile.substring(1, upPile.length))<5&&
+						aStr1.endsWith("n")&&aStr2.endsWith("n")
+						&&( new Number(aStr1.substring(0,2)) * new Number(aStr2.substring(0,2)) >0)) {
 					ret[0] = (aStr1.startsWith("-"))?"-":"+";
 				}
 				
@@ -1004,15 +1005,17 @@
 					ret[1] = (aStr2.startsWith("-"))?"-":"+";
 				}
 				//提供：上一个不提供，上上不提供,上上上不提供
-				if(aStr1.endsWith("n")&&aStr2.endsWith("n")&&aStr3.endsWith("n")
-						&&aStr1.substring(0,1)==aStr2.substring(0,1)&&aStr1.substring(0,1)==aStr3.substring(0,1)) {
+				if(new Number(upPile.substring(1, upPile.length))<6&&
+						aStr1.endsWith("n")&&aStr2.endsWith("n")&&aStr3.endsWith("n")
+						&&(  new Number(aStr1.substring(0,2)) *  new Number(aStr2.substring(0,2)) >0)
+						&&(  new Number(aStr1.substring(0,2)) *  new Number(aStr3.substring(0,2)) >0)) {
 					ret[1] = (aStr1.startsWith("-"))?"-":"+";
 				}
 				
 			}
 			
 			offset = 6;
-			if(pb1!=0&&countNum>=4) {
+			if(pc1!=0&&countNum>=4) {
 				var aStr1 = count.substring((countNum-1)*COUNT_VLEN+offset, (countNum-1)*COUNT_VLEN+offset+3);
 				var aStr2 = count.substring((countNum-2)*COUNT_VLEN+offset, (countNum-2)*COUNT_VLEN+offset+3);
 				var aStr3 = count.substring((countNum-3)*COUNT_VLEN+offset, (countNum-3)*COUNT_VLEN+offset+3);
@@ -1024,8 +1027,11 @@
 					ret[2] = (aStr2.startsWith("-"))?"-":"+";
 				}
 				//提供：上一个不提供，上上不提供,上上上不提供
-				if(aStr1.endsWith("n")&&aStr2.endsWith("n")&&aStr3.endsWith("n")&&aStr4.endsWith("n")
-						&&aStr1.substring(0,1)==aStr2.substring(0,1)&&aStr1.substring(0,1)==aStr3.substring(0,1)&&aStr1.substring(0,1)==aStr4.substring(0,1)) {
+				if(new Number(upPile.substring(1, upPile.length))<7&&
+						aStr1.endsWith("n")&&aStr2.endsWith("n")&&aStr3.endsWith("n")&&aStr4.endsWith("n")
+						&&(  new Number(aStr1.substring(0,2)) *  new Number(aStr2.substring(0,2)) >0)
+						&&(  new Number(aStr1.substring(0,2)) *  new Number(aStr3.substring(0,2)) >0)
+						&&(  new Number(aStr1.substring(0,2)) *  new Number(aStr4.substring(0,2)) >0)) {
 					ret[2] = (aStr1.startsWith("-"))?"-":"+";
 				}
 				
@@ -1049,7 +1055,7 @@
 				for (var i = 2; i < mainTb.length; i++) {
 					var gong = mainTb[i].gong;
 					var gongCol = mainTb[i].gong_col;
-					if(onScan)onScan(i,gong,gongCol);
+					if(onScan)onScan(i,mainTb[i]);
 					
 					if(!gongCol)continue;
 					for (var j = 0; j < 20; j++) {
@@ -1075,6 +1081,8 @@
 			
 			
 	}
+	
+	
 	
 	
 	</script>
