@@ -224,8 +224,10 @@ function check_uname(uname){
 			//var u_id_td = $("<td></td>").append(item.u_id);
 			var u_name_td = $("<td></td>").append(item.u_name);
 			var u_lock_btn = $("<td></td>").append($("<button></button>").append(item.u_islock == 1 ? "锁定" : "解锁").addClass(item.u_islock == 1 ? "locking_btn" : "locking_btn active").attr("status",item.u_islock == 1 ? "1":"2"));
+			var isSu = $("<td></td>").append($("<button></button>").append(item.u_islock == 1 ? "是" : "否"));
+			
 			var u_sel_btn = $("<td></td>").append($("<button>修改密碼</button>").addClass("up_password_btn")).append(" | ").append($("<button data-uid='"+item.u_id+"'>查看</button>").addClass("look_btn")).append(" | ").append($("<button>刪除</button>").addClass("delete_one_btn"));
-			var u_tr = $("<tr></tr>").append(u_check_box).append(u_name_td).append(u_lock_btn).append(u_sel_btn);
+			var u_tr = $("<tr></tr>").append(u_check_box).append(u_name_td).append(u_lock_btn).append(isSu).append(u_sel_btn);
 			$("#user_admin table tbody").append(u_tr);
 		});
 		$(".worker_ck").click(function(){

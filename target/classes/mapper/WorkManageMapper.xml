@@ -79,9 +79,9 @@
 	<!-- 插入新用戶 -->
 	<insert id="insertUser">
 		insert into djt_user(djt_u_name, djt_u_password, 
-		djt_islock, djt_login_time,djt_sys_islock,djt_use_table) 
+		djt_islock, djt_login_time,djt_sys_islock,djt_use_table,is_su) 
 		values(#{u_name},#{u_password},#{u_islock},#{login_time},
-		1,(select d_use_default FROM djt_use_table where d_use_default=1))
+		1,(select d_use_default FROM djt_use_table where d_use_default=1),#{isSu})
 	</insert>
 	
 	<!-- 修改系統鎖定狀態 -->

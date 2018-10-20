@@ -23,16 +23,9 @@
  (select count(*) from djt_data_base where d_id<=a.d_id) as rownum
 from djt_data_base a where a.d_tabl_num=10;
 	 -->
-	<select id="selectAllDB" resultMap="All_Data">
-		select sheng,row from data_base 
-		where 
-			<if test="tableNum != null and '' !=tableNum">
-				tabl_num=#{tableNum}
-			</if>
-			<if test="tableNum == null or '' == tableNum">
-				tabl_num=1
-			</if>
-		order by row
+	<select id="selectAll" resultType="map">
+		select sheng,grp from data_base 
+		where tabl_num=#{tableNum} AND grp=#{grp}
 	</select>
 	
 	<!-- 按页码查询相应的数据 -->

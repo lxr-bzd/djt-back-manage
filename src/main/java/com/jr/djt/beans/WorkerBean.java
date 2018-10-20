@@ -28,6 +28,8 @@ public class WorkerBean {
 	
 	private Integer u_use_table;//使用哪一组工作表
 	
+	private Integer isSu;//使用哪一组工作表
+	
 	public Integer getU_use_table() {
 		return u_use_table;
 	}
@@ -92,6 +94,14 @@ public class WorkerBean {
 
 	public void setLogin_time(Long login_time) {
 		this.login_time = login_time;
+	}
+
+	public Integer getIsSu() {
+		return isSu;
+	}
+
+	public void setIsSu(Integer isSu) {
+		this.isSu = isSu;
 	}
 
 	

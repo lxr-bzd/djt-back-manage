@@ -11,7 +11,7 @@ public interface UpdateDBService {
 	 * 获取所有的生的数据结果集
 	 * @return
 	 */
-	List<DataBaseBean> getAllDB(Integer tableNum);
+	Map<String, Object> getAll(Integer tableNum,String grp);
 	/**
 	 * 展示相应页码的生的数据
 	 * @param pageNum
@@ -36,7 +36,7 @@ public interface UpdateDBService {
 	List<TableBean> getableDB();
 	
 	
-	void update(Integer num,List list);
+	void update(Integer tbNum,Integer grp,String data);
 	
 	
 }

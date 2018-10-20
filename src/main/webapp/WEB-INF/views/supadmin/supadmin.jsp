@@ -98,44 +98,6 @@
 		</div>
 	</div>
 
-	<!-- 添加管理彈框 -->
-	<!-- <div class="modal fade" id="add_admin" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myadModalLabel">添加管理</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal" id="insert_new_admin">
-						<div class="form-group">
-							<label for="admin_add_input" class="col-sm-2 control-label">管理名稱:</label><span class="error_uname" style="display:none">用户名已经存在</span>
-							<div class="col-sm-10">
-								<input type="text" name="u_name" class="form-control"
-									id="admin_add_input" placeholder="管理名稱">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">管理密碼:</label>
-							<div class="col-sm-10">
-								<input type="text" name="u_password" class="form-control"
-									id="admin_add_input" placeholder="管理密碼">
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="admin_save_btn">保存</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
-
 
 
 	<!-- 修改用戶密码模态框 -->
@@ -211,6 +173,19 @@
 								</label>
 							</div>
 						</div>
+						
+						<div class="form-group">
+							<label for="sex_add_input" class="col-sm-2 control-label">是否是超级账号:</label>
+							<div class="col-sm-10">
+								<label class="radio-inline"> <input type="radio"
+									name="isSu" value="0" checked="checked"/>
+									否
+								</label> <label class="radio-inline"> <input type="radio"
+									name="isSu" value="1"/> 是
+								</label>
+							</div>
+						</div>
+						
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -239,7 +214,7 @@
 					<li class="layui-nav-item layui-nav-itemed user_admin"><a class="" href="javascript:;">用戶管理</a></li>
 					<c:if test="${isSu}">
 					<li class="layui-nav-item layui-nav-itemed crud_admin"><a class="" href="javascript:;">管理員管理</a></li>
-					</c:if>
+					
 					<li class="layui-nav-item backs_admin"><a href="javascript:;">後台管理</a>
 					
 						<dl class="layui-nav-child">
@@ -249,7 +224,11 @@
 							<dd class="backs_item">
 								<a id="back_admin_usetable" href="../table_use.html"  target="backs_admin_iframe">生表數據使用狀況</a>
 							</dd>
+							<dd class="backs_item">
+								<a id="back_admin_usetable" href="../table_use.html"  target="backs_admin_iframe">总结果汇总表</a>
+							</dd>
 						</dl></li>
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -277,6 +256,7 @@
 								<th><input type="checkbox" id="select_all_worker"/> </th>
 								<th>用戶名</th>
 								<th>是否鎖定</th>
+								<th>是否是超级用户</th>
 								<th width="20%">操作</th>
 							</tr>
 						</thead>
@@ -322,8 +302,8 @@
 					<iframe name="user_detail_iframe" ></iframe>
 				</div>
 				
-				<!-- 查看生成表 -->
-				<div class="con_item" id="backs_admin">
+				<!-- 共用iframe -->
+				<div class="con_item" id="backs_admin" style="padding: 0px;">
 					<iframe name="backs_admin_iframe" ></iframe>
 				</div>
 				

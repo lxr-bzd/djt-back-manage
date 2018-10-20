@@ -103,23 +103,30 @@
 			return;
 		}
 		
-		$("#tb_group").attr("data-tbNum",num);
+		var grp = 1;
+		
+		$("#tb_group").attr("data-tbNum","");
+		$("#tb_group").attr("data-grp","");
 		$("#tb_group").empty();
 		
 		$.ajax({
-			url : "new/selectData2.do",
+			url : "new/findAll.do",
 			//data : "pageNum=" + pageNum+"&tableNum="+tableNum,
-			data : {"tableNum":num},
+			data : {"tableNum":num,grp:1},
 			type : "POST",
 			success : function(result) {
 				if (result.code == 100) {
 					
 					var data = result.map.tb;
-					if(data.length!=182){alert("数据异常");return;}
+					if(data.sheng.length!=(1820+181)){alert("数据异常");return;}
+					var list = data.sheng.split(",");
 					//在指定位置上將數據添加進去
-					var html = template("tmpl_tb",{list:data,substring:function(str,i,ii){
+					var html = template("tmpl_tb",{list:list,substring:function(str,i,ii){
 						return str.substring(i,ii);
 					}});
+					
+					$("#tb_group").attr("data-tbNum",num);
+					$("#tb_group").attr("data-grp",grp);
 					
 					$("#tb_group").html(html);
 				} else {
@@ -133,11 +140,12 @@
 	
 	function saveData(){
 		var num = new Number($("#tb_group").attr("data-tbNum"));
+		var grp = new Number($("#tb_group").attr("data-grp"));
 		var data = getData();
 		$.ajax({
 			url : "new/saveData2.do",
 			//data : "pageNum=" + pageNum+"&tableNum="+tableNum,
-			data : {"tableNum":num,json:JSON.stringify(data)},
+			data : {"tableNum":num,grp:grp,data:data},
 			type : "POST",
 			success : function(result) {
 				if (result.code == 100) {
@@ -163,13 +171,12 @@
 					return false;
 				}
 				rdata+=val;
-				
 			});
 			if(rdata.length!=10)return false;
-			data.push({sheng:rdata,row:$(e).attr("data-row")});
+			data.push(rdata);
 		});
 		
-		return data;
+		return data.join(",");
 		
 	}
 	
@@ -208,38 +215,38 @@
 	<script type="text/html" id="tmpl_tb">
 
  {{each list as val i}}
-	<tr data-row="{{val.d_id}}">
-	<td rowspan="1">{{if val.d_id<1}}0{{else}}{{val.d_id}}{{/if}}</td>
+	<tr data-row="{{i}}"> 
+	<td rowspan="1">{{if i<3}}0{{else}}{{i}}{{/if}}</td> 
 	<td>生</td>
 	<td colspan="2">
-		<input type="text" value="{{#substring(val.d_data,0,1)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+		<input type="text" value="{{#substring(val,0,1)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
 	</td>
 	<td colspan="2">
-		<input type="text" value="{{#substring(val.d_data,1,2)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+		<input type="text" value="{{#substring(val,1,2)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
 	</td>
 	<td colspan="2">
-		<input type="text" value="{{#substring(val.d_data,2,3)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+		<input type="text" value="{{#substring(val,2,3)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
 	</td>
 	<td colspan="2">
-		<input type="text" value="{{#substring(val.d_data,3,4)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+		<input type="text" value="{{#substring(val,3,4)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
 	</td>
 	<td colspan="2">
-		<input type="text" value="{{#substring(val.d_data,4,5)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+		<input type="text" value="{{#substring(val,4,5)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
 	</td>
 	<td colspan="2">
-		<input type="text" value="{{#substring(val.d_data,5,6)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+		<input type="text" value="{{#substring(val,5,6)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
 	</td>
 	<td colspan="2">
-		<input type="text" value="{{#substring(val.d_data,6,7)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+		<input type="text" value="{{#substring(val,6,7)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
 	</td>
 	<td colspan="2">
-		<input type="text" value="{{#substring(val.d_data,7,8)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+		<input type="text" value="{{#substring(val,7,8)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
 	</td>
 	<td colspan="2">
-		<input type="text" value="{{#substring(val.d_data,8,9)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+		<input type="text" value="{{#substring(val,8,9)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
 	</td>
 	<td colspan="2">
-		<input type="text" value="{{#substring(val.d_data,9,10)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
+		<input type="text" value="{{#substring(val,9,10)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />
 	</td>
 </tr>
  {{/each}}

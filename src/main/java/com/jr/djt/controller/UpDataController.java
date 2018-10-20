@@ -115,41 +115,29 @@ public class UpDataController extends UpdateDBController {
 	
 	@RequestMapping(value="saveData2",method=RequestMethod.POST)
 	@ResponseBody
-	public MessageBean saveData2(HttpServletRequest request,Integer tableNum, String json) throws Exception{
+	public MessageBean saveData2(HttpServletRequest request,Integer tableNum,Integer grp, String data) throws Exception{
 		
-		JSONArray list = JSONArray.parseArray(json);
-		udbs.update(tableNum, list);
+		if(data==null||"".equals(data))
+			throw new RuntimeException("错误参数");
+		
+		udbs.update(tableNum, grp,data);
 		
 		return MessageBean.success().add("msg", "");
 		
 	}
 	
-	/**
-	 * 分頁展示數據
-	 * @return
-	 */
-	@RequestMapping("selectData")
-	@ResponseBody
-	public MessageBean getAllDB(@RequestParam(value="pageNum",defaultValue="1")Integer pageNum,Integer tableNum){
-		System.out.println("傳進頁數:"+pageNum+":傳入表號:"+tableNum);
-		PageHelper.startPage(pageNum, 3);
-		List<DataBaseBean> allDB = udbs.getAllDB(tableNum);
-		System.out.println("第"+allDB.get(0).getD_id()+"組數據");
-		PageInfo page = new PageInfo(allDB);
-		return MessageBean.success().add("pageInfo", page);
-	}
+	
 	
 	/**
 	 * 分頁展示數據
 	 * @return
 	 */
-	@RequestMapping("selectData2")
+	@RequestMapping("findAll")
 	@ResponseBody
-	public MessageBean getAllDB2(Integer tableNum){
+	public MessageBean getAllDB2(Integer tableNum,String grp){
 		
-		List<DataBaseBean> allDB = udbs.getAllDB(tableNum);
 		
-		return MessageBean.success().add("tb", allDB);
+		return MessageBean.success().add("tb", udbs.getAll(tableNum,grp));
 	}
 	/**
 	 * 查生表所有張數

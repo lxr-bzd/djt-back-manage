@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.jr.djt.beans.DataBaseBean;
@@ -14,10 +15,14 @@ import com.jr.djt.service.UpdateDBService;
 public class UpdateDBServiceImpl implements UpdateDBService {
 	@Autowired
 	private UpdateDBMapper udbm;
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+	
 	@Override
-	public List<DataBaseBean> getAllDB(Integer tableNum) {
-		// TODO Auto-generated method stub
-		return udbm.selectAllDB(tableNum);
+	public Map<String, Object> getAll(Integer tableNum,String grp) {
+		
+		return udbm.selectAll(tableNum,grp);
 	}
 	@Override
 	public DataBaseBean getDById(Integer pageNum) {
@@ -40,9 +45,10 @@ public class UpdateDBServiceImpl implements UpdateDBService {
 		return udbm.getableDB();
 	}
 	@Override
-	public void update(Integer num, List list) {
+	public void update(Integer num,Integer grp, String data) {
 		
-		udbm.update(num, list);
+		jdbcTemplate.update("UPDATE data_base set sheng=? WHERE tabl_num=? AND grp=?"
+				,data,num,grp);		 
 	}
 	
 }

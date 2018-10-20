@@ -1,6 +1,7 @@
 package com.jr.djt.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -8,11 +9,13 @@ import com.jr.djt.beans.DataBaseBean;
 import com.jr.djt.beans.TableBean;
 
 public interface UpdateDBMapper {
+	
 	/**
 	 * 获取所有生的数据的结果集
 	 * @return
 	 */
-	List<DataBaseBean> selectAllDB(@Param("tableNum")Integer tableNum);
+	Map<String, Object> selectAll(@Param("tableNum")Integer tableNum,@Param("grp")String grp);
+	
 	/**
 	 * 展示相应页码的生的数据
 	 * @param pageNum
@@ -35,8 +38,5 @@ public interface UpdateDBMapper {
 	 * @return
 	 */
 	List<TableBean> getableDB();
-	
-	
-	void update(@Param("tableNum")Integer tb,@Param("list")List list);
 
 }
