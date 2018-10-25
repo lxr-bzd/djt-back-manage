@@ -6,10 +6,12 @@
 		<meta name="Keywords" content="" />
 		<meta name="Description" content="" />
 		<link rel="stylesheet" href="css/web.css" />
+		<link rel="stylesheet" type="text/css" href="v3/css/main.css"/>
 	</head>
 	<body style="padding-top:20px;" >
 	<div style="text-align: center;width: 100%;margin: 10px 10px;">
-		<select id="select_table" onchange="initData(this.value);">
+	<span id="grp_group">第--组</span>
+		<select id="select_table" onchange="initData(this.value,1);">
 			<option value="1">模板表1</option>
 			<option value="2">模板表2</option>
 			<option value="3">模板表3</option>
@@ -26,7 +28,7 @@
 	</div>
 		<div class="h-center">
 		
-		<table class="generate">
+		<table class="generate" style="margin-bottom: 305px;">
 				<tr>
 					<td colspan="2">序號</td>
 					<td colspan="2">第一戶</td>
@@ -81,29 +83,45 @@
 				</tbody>
 				
 			</table>
+			<div class="group_btn_wrap">
+				<div class="group_btn_box" style="margin:auto 20px;max-width:100000px;"></div>
+			</div>
 		</div>
 		
 	<script type="text/javascript" src="js/jquery-1.12.4.min.js" ></script>
 	<script type="text/javascript" src="js/template-web.js"></script>
 	
+	<script type="text/javascript" src="layui/layui.all.js"></script>
+	
 	<script type="text/javascript">
+//	元素置顶
+	$(".group_btn_box a").click(function(){
+		$('.layui-body').animate({scrollTop: '0px'}, 800);
+	});
+//	插入分组按钮
+	for (var i=1;i<=100;i++) {
+		$('.group_btn_box').append('<a href="javascript:toPage('+i+')">'+i+'</a>')
+	}
 	
 	$(function(){
 		
-		initData($("#select_table").val());
+		initData($("#select_table").val(),1);
 		
 	});
 	
+	function toPage(n){
+		initData($("#select_table").val(),n);
+	}
 	
 	
-	function initData(num){
+	
+	function initData(num,grp){
 		
 		if(isNaN(num)||num<1||num>10){
 			alert("错误");
 			return;
 		}
 		
-		var grp = 1;
 		
 		$("#tb_group").attr("data-tbNum","");
 		$("#tb_group").attr("data-grp","");
@@ -112,7 +130,7 @@
 		$.ajax({
 			url : "new/findAll.do",
 			//data : "pageNum=" + pageNum+"&tableNum="+tableNum,
-			data : {"tableNum":num,grp:1},
+			data : {"tableNum":num,grp:grp},
 			type : "POST",
 			success : function(result) {
 				if (result.code == 100) {
@@ -127,7 +145,7 @@
 					
 					$("#tb_group").attr("data-tbNum",num);
 					$("#tb_group").attr("data-grp",grp);
-					
+					$("#grp_group").html("第"+grp+"组")
 					$("#tb_group").html(html);
 				} else {
 					alert("所查頁面有誤！");
@@ -216,7 +234,7 @@
 
  {{each list as val i}}
 	<tr data-row="{{i}}"> 
-	<td rowspan="1">{{if i<3}}0{{else}}{{i}}{{/if}}</td> 
+	<td rowspan="1">{{i-1}}</td> 
 	<td>生</td>
 	<td colspan="2">
 		<input type="text" value="{{#substring(val,0,1)}}" maxlength="1" onkeyup="onInput(this)" class="int_item" />

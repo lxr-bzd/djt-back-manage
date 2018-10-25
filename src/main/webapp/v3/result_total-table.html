@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	</head>
+	<body>
+		<!--后台表-->
+		<section class="backstage_wrap">
+			<div class="backstage_box">
+				<h2>总结果汇总表</h2>
+				<!--数据表-->
+				<div class="clearfix history_total_table">
+					
+					<!--第一組-->
+					<table border="1">
+						<tr><th rowspan="2">会员账号</th><th colspan="20">列队结果</th><th rowspan="2" class="red">列队统计</th></tr>
+						<tr class="group_class">
+					    	<th>6</th>
+							<th>7</th>
+							<th>8</th>
+							<th>9</th>
+							<th>10</th>
+							<th>11</th>
+							<th>12</th>
+							<th>13</th>
+							<th>14</th>
+							<th>15</th>
+							<th>16</th>
+							<th>17</th>
+							<th>18</th>
+							<th>19</th>
+							<th>20</th>
+							<th>21</th>
+							<th>22</th>
+							<th>23</th>
+							<th>24</th>
+							<th>25</th>
+						</tr>
+					  	<!--数据行--001-->
+					  	<tbody id="main_group">
+					  	<tr>
+					  		<th>1</th>
+					  		<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<th class="red"></th>
+					  	</tr>
+						<tr>
+					  		<th>2</th>
+					  		<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<th class="red"></th>
+					  	</tr>
+						<!--统计-->
+						<tr class="tr_red">
+							<th>结果汇总</th>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<th colspan=""></th>
+						</tr>
+						</tbody>
+						<tr>
+							<th rowspan="2"><a title="导出表格" href="javascript:tableExport()">全表导出</a></th>
+							<th>6</th>
+							<th>7</th>
+							<th>8</th>
+							<th>9</th>
+							<th>10</th>
+							<th>11</th>
+							<th>12</th>
+							<th>13</th>
+							<th>14</th>
+							<th>15</th>
+							<th>16</th>
+							<th>17</th>
+							<th>18</th>
+							<th>19</th>
+							<th>20</th>
+							<th>21</th>
+							<th>22</th>
+							<th>23</th>
+							<th>24</th>
+							<th>25</th>
+							<th colspan="1" rowspan="2" class="red">列队统计</th>
+						</tr>
+						<tr>
+							<th colspan="20">列队结果</th>
+						</tr>
+					</table>
+					
+				</div>
+			</div>
+			
+		</section>
+		
+	</body>
+	<script type="text/javascript" src="../js/jquery-1.12.4.min.js" ></script>
+	<script type="text/javascript" src="../js/template-web.js"></script>
+	<script type="text/javascript" src="../js/app.js"></script>
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/gameCore.js"></script>
+	
+		<script type="text/javascript" src="../js/tableExport.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.base64.js"></script>
+	
+	<script type="text/javascript">
+	
+	$(function(){
+		$app.request("../allTotalData.do",function(json){
+			
+			var mod = {};
+			var list = json.map.hs;
+			
+			for (var i = 0; i < list.length; i++) {
+				var item = list[i];
+				if(!mod[item.uid])mod[item.uid] = {uname:item.uname,list:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+				addData(mod[item.uid],item.queue_count);
+			
+			}
+			rdTb(mod);
+			
+			
+		},{});
+		
+		
+	
+		
+		
+		
+		
+	});
+	
+	function rdTb(mod){
+		
+		var yCount = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		var html = "";
+		var allCount = 0;
+		for ( var i in mod) {
+			var item = mod[i];
+			var xCount = 0;
+			html += '<tr><th>'+item.uname+'</th>';
+			for (var i = 0; i < 20; i++) {
+				html+='<td>'+item.list[i]+'</td>'
+				xCount+=item.list[i];
+				yCount[i]+=item.list[i];
+			}
+			allCount+=xCount;
+			html+='<th class="red">'+xCount+'</th></tr>'
+			
+		}
+		
+		html+='<tr class="tr_red"><th>结果汇总</th>';
+							
+		for (var i = 0; i < yCount.length; i++) {
+			html+='<td>'+yCount[i]+'</td>';
+		}
+		html+='<th colspan="1">'+allCount+'</th></tr>';
+		$("#main_group").html(html);
+	}
+	
+	
+	function addData(uData,qc){
+		var qcs = qc.split(",");
+		for (var i = 0; i < qcs.length; i++) {
+			var n = new Number(qcs[i]);
+			uData.list[i]+= (isNaN(n)?0:n);
+		}
+		
+	}
+	
+	
+	
+	
+	function tableExport(){
+		layer.confirm('确认导出表格？', {
+			  btn: ['是','否'] //按钮
+			}, function(i){
+				layer.close(i);
+				var tb = $("table");
+				tb.tableExport({type:'excel',ignoreColumn: [],ignoreRow:[]
+					, separator:';', escape:'false'
+						 ,formats: ['xlsx']
+				,fileName: '总结果汇总表-'+new Date().format("yyyy-MM-dd")});
+			}, function(){
+			  
+			});
+		
+		
+	}
+	
+	
+	</script>
+</html>

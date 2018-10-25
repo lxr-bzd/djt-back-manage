@@ -41,7 +41,7 @@
 	<!-- 工作者信息，不包括游戏数据信息 -->
 	<sql id="worker_news">
 		u.djt_u_id, u.djt_u_name, u.djt_u_password, 
-		u.djt_islock, u.djt_login_time,u.djt_use_table
+		u.djt_islock, u.djt_login_time,u.djt_use_table,u.is_su isSu
 	</sql>
 	<!-- 查询所有工作者所有信息，不包括工作中的数据信息 
 	
@@ -81,7 +81,7 @@
 		insert into djt_user(djt_u_name, djt_u_password, 
 		djt_islock, djt_login_time,djt_sys_islock,djt_use_table,is_su) 
 		values(#{u_name},#{u_password},#{u_islock},#{login_time},
-		1,(select d_use_default FROM djt_use_table where d_use_default=1),#{isSu})
+		1,#{u_use_table},#{isSu})
 	</insert>
 	
 	<!-- 修改系統鎖定狀態 -->

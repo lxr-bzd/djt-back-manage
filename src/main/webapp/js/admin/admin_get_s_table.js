@@ -1,6 +1,6 @@
 $(function(){
 	cr_get_s_tb();
-	cr_nav_get_s_btn()
+	//cr_nav_get_s_btn()
 	/*$("#back_admin_gets").click(function(){
 		to_page(1,null);
 		//插入表的張數
@@ -236,40 +236,3 @@ function insert_data(result) {
 
 	});
 }
-
-//創建導航條
-/*function cr_nav_btn() {
-	//發送請求獲取導航信息,總共多少條數據
-	$.ajax({
-		url : $("#e_heard").val()+"/getDataCount.do",
-		success : function(result) {
-			//console.log(result);
-			//解析並生成導航按鈕
-			var num = result.map.data_count;
-			for (var nav_num = 1; nav_num <= num; nav_num++) {
-				var nav_a_text_head = "" + ((nav_num - 1) * 3 + 1);
-				var nav_a_text_foot = "" + nav_num * 3;
-				var nav_a_text = (nav_a_text_head.length < 2 ? "0"
-						+ nav_a_text_head : nav_a_text_head)
-						+ "-"
-						+ (nav_a_text_foot.length < 2 ? "0"
-								+ nav_a_text_foot : nav_a_text_foot);
-				var nav_a = $("<a href='javascript:;'></a>").append(
-						nav_a_text).addClass("nav_btn").attr("page",
-								nav_num);
-				$("#nav_box").append(nav_a).append(" ");
-			}
-			$(".nav_btn:eq(0)").addClass("cr_page");
-			//給導航按鈕綁定事件
-			$(".nav_btn").on("click", function() {
-				$(".nav_btn").removeClass("cr_page");
-				$(this).addClass("cr_page");
-				var pageNum = $(this).attr("page");
-				var tableNum = $("#s_table_num").val();
-				alert(1111111);
-				to_page(pageNum,tableNum);
-				$('.layui-body').animate({scrollTop: '0px'}, 100);
-			});
-		}
-	});
-}*/

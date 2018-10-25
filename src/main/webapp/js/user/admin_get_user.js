@@ -2,7 +2,7 @@
 $(function(){
 	get_users_page(1);
 	cr_user_tb();
-	cr_user_nav_btn();
+	//cr_user_nav_btn();
 	//点击新增按钮弹出模态框
 	$("#add_workerModel").click(function() {
 		//弹出模态框add_workerModel
@@ -72,9 +72,9 @@ $(function(){
 	$("#worker_save_btn").click(function(){
 		var uname=$("#insert_new_user input[name=u_name]").val();
 		var password=$("#insert_new_user input[name=u_password]").val();
-		if(uname.replace(/\s+/g, "")=='' || uname.replace(/\s+/g, "").length<6){
+		if(uname.replace(/\s+/g, "")=='' || uname.replace(/\s+/g, "").length<1){
 			var name_error = $("#insert_new_user .error").eq(0).empty();
-			name_error.append('請輸入正確的用戶名，用戶名字不得少於6位');
+			name_error.append('請輸入正確的用戶名');
 			name_error.css("display","block");
 			$("#insert_new_user input[name=u_name]").focus(function(){
 				$("#insert_new_user .error").eq(0).css("display","none");
@@ -224,10 +224,17 @@ function check_uname(uname){
 			//var u_id_td = $("<td></td>").append(item.u_id);
 			var u_name_td = $("<td></td>").append(item.u_name);
 			var u_lock_btn = $("<td></td>").append($("<button></button>").append(item.u_islock == 1 ? "锁定" : "解锁").addClass(item.u_islock == 1 ? "locking_btn" : "locking_btn active").attr("status",item.u_islock == 1 ? "1":"2"));
-			var isSu = $("<td></td>").append($("<button></button>").append(item.u_islock == 1 ? "是" : "否"));
+			var useTable = $("<td>"+item.u_use_table+"</td>");
+			var isSu = $("<td></td>").append($("<button></button>").append(item.isSu == 1 ? "是" : "否"));
 			
-			var u_sel_btn = $("<td></td>").append($("<button>修改密碼</button>").addClass("up_password_btn")).append(" | ").append($("<button data-uid='"+item.u_id+"'>查看</button>").addClass("look_btn")).append(" | ").append($("<button>刪除</button>").addClass("delete_one_btn"));
-			var u_tr = $("<tr></tr>").append(u_check_box).append(u_name_td).append(u_lock_btn).append(isSu).append(u_sel_btn);
+			var u_sel_btn = $("<td></td>").append($("<button>修改密碼</button>").addClass("up_password_btn"))
+			.append(" | ").append($("<button>刪除</button>").addClass("delete_one_btn"));
+			if($("#data_group").attr("data-is-su"))
+			u_sel_btn.append(" | ").append($("<button data-url='../v3/game_info.html?uid="+item.u_id+"'>查看后台表</button>").addClass("look_btn"))
+			.append(" | ").append($("<button data-url='../v3/game_history.html?uid="+item.u_id+"'>查看历史记录汇总表</button>").addClass("look_btn"))
+			.append(" | ").append($("<button data-url='../v3/game_total.html?uid="+item.u_id+"'>查看汇总表</button>").addClass("look_btn"));
+			var u_tr = $("<tr></tr>").append(u_check_box).append(u_name_td).append(u_lock_btn).append(useTable)
+			.append(isSu).append(u_sel_btn);
 			$("#user_admin table tbody").append(u_tr);
 		});
 		$(".worker_ck").click(function(){
@@ -257,7 +264,7 @@ function check_uname(uname){
 		//查看信息綁定
 		$(".look_btn").click(function(e){
 			$("#user_detail").show().siblings(".con_item").hide();
-			$("iframe[name=user_detail_iframe]").attr("src","../game_info.html?uid="+$(e.target).attr("data-uid"));
+			$("iframe[name=user_detail_iframe]").attr("src",$(e.target).attr("data-url"));
 			/*var user_num = $(this).parents("tr").find(".worker_ck").eq(0).attr("num");
 			check_user_data(user_num,1);*/
 		});

@@ -1,6 +1,6 @@
 $(function(){
 	cr_null_up_table();
-	cr_nav_up_btn();
+	//cr_nav_up_btn();
 	cr_select_box();
 	$("#back_admin_update").click(function(){
 		to_page_get_data(1,null);

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,8 @@ import com.jr.djt.service.WorkManageService;
 public class WorkManageController extends BaseController {
 	@Autowired
 	private WorkManageService wms;
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 
 	@RequestMapping("/workerspage")
 	public String workerPage(){
@@ -309,7 +312,7 @@ public class WorkManageController extends BaseController {
 	
 	
 	/**
-	 * 修改用户密码
+	 * 详情表
 	 * @param user_num
 	 * @param new_password
 	 * @return
@@ -324,5 +327,58 @@ public class WorkManageController extends BaseController {
 		return MessageBean.success()
 				.add("data", wms.workData(hid))
 				.add("count", wms.workCount(hid));
+	}
+	
+	
+	/**
+	 * 汇总表数据
+	 * @param user_num
+	 * @param new_password
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="totalData",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean totalData(String hid) throws Exception{
+		
+		if(hid==null||hid.equals(""))
+			throw new RuntimeException("hid不能为空");
+		return MessageBean.success()
+				.add("count", wms.workCount(hid));
+	}
+	
+	/**
+	 * 历史汇总表数据
+	 * @param user_num
+	 * @param new_password
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="historyTotalData",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean historyTotalData(String uid) throws Exception{
+		
+		if(uid==null||uid.equals(""))
+			throw new RuntimeException("uid不能为空");
+		
+		return MessageBean.success().add("hs", wms.workCounts(uid));
+	}
+	
+	
+	/**
+	 * 历史汇总表数据
+	 * @param user_num
+	 * @param new_password
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="allTotalData",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean allTotalData(String uid) throws Exception{
+		
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("select a.id,a.uid,b.djt_u_name uname,c.queue_count from game_history a LEFT JOIN djt_user b ON a.uid = b.djt_u_id\r\n" + 
+				"left join game_runing_count c ON a.id=c.hid");
+		
+		return MessageBean.success().add("hs", list);
 	}
 }

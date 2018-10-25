@@ -31,7 +31,9 @@
 	src="${pageContext.request.contextPath }/js/supadmin/supadmin.js"></script>
 </head>
 
-<body class="layui-layout-body">
+
+<body id="data_group" class="layui-layout-body" data-is-su='<c:if test="${isSu }">1</c:if>'>
+
 
 	<!-- 修改管理密码模态框 -->
 	<div class="modal fade" id="update_admin_password_modal" tabindex="-1" role="dialog"
@@ -163,6 +165,22 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="sex_add_input" class="col-sm-2 control-label">使用模板表:</label>
+							<div class="col-sm-10">
+								<select name="u_use_table" class="form-control">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option></select>
+							</div>
+						</div>
+						<div class="form-group">
 							<label for="sex_add_input" class="col-sm-2 control-label">是否鎖定:</label>
 							<div class="col-sm-10">
 								<label class="radio-inline"> <input type="radio"
@@ -225,7 +243,7 @@
 								<a id="back_admin_usetable" href="../table_use.html"  target="backs_admin_iframe">生表數據使用狀況</a>
 							</dd>
 							<dd class="backs_item">
-								<a id="back_admin_usetable" href="../table_use.html"  target="backs_admin_iframe">总结果汇总表</a>
+								<a id="back_admin_usetable" href="../v3/result_total-table.html"  target="backs_admin_iframe">总结果汇总表</a>
 							</dd>
 						</dl></li>
 					</c:if>
@@ -256,6 +274,7 @@
 								<th><input type="checkbox" id="select_all_worker"/> </th>
 								<th>用戶名</th>
 								<th>是否鎖定</th>
+								<th>使用的表</th>
 								<th>是否是超级用户</th>
 								<th width="20%">操作</th>
 							</tr>

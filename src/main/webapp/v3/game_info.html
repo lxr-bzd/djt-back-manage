@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	</head>
+	<body>
+		<!--后台表-->
+		<section class="backstage_wrap">
+			<div class="backstage_box" >
+				<h2>后台表 <select id="history_group"  onchange="selectHistory()"></select></h2>
+				<!--数据表-->
+				<div class="backtable_wrap clearfix">
+					<!--第一組-->
+					<table border="1" class="fl" id="main_group1">
+						<tr><th colspan="1">编號</th><th colspan="1" class="hid">--</th><th colspan="20" class="user-info">ID :--   用户名 :--   正在使用的工作表 : 第-張</th></tr>
+						<tr class="group_num"><th colspan="2" rowspan="2">序號</th><th colspan="20">第<span class="grp">--</span>組</th></tr>
+						<tr class="group_class">
+					    	<th colspan="2">第 1 戶</th>
+					    	<th colspan="2">第 2 戶</th>
+					    	<th colspan="2">第 3 戶</th>
+					    	<th colspan="2">第 4 戶</th>
+					    	<th colspan="2">第 5 戶</th>
+					    	<th colspan="2">第 6 戶</th>
+					    	<th colspan="2">第 7 戶</th>
+					    	<th colspan="2">第 8 戶</th>
+					    	<th colspan="2">第 9 戶</th>
+					    	<th colspan="2">第 10 戶</th>
+						</tr>
+					  	<!--数据行--001-->
+					  	<!--生-->
+					  	<tbody class="main_group">
+					  	<tr class="g_int">
+					  		<td rowspan="4" class="cell_row">---</td>
+					  		<td>生</td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  	</tr>
+					  	<!--配-->
+					  	<tr>
+					  		<td>配</td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  	</tr>
+					  	<!--兑-->
+					  	<tr>
+					  		<td>兌</td>
+					  		<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+					  	</tr>
+						<!--供-->
+						<tr class="child_tr">
+							<td>供</td>
+						</tr>
+						</tbody>
+						<!--统计-->
+						<tr><th colspan="2">序號</th><th colspan="20">第<span class="grp">--</span>組</th></tr>
+						<tr><th colspan="2">列队统计</th><th colspan="20" class="red queue-sum">--</th></tr>
+						<tr class="child_tr">
+							<td colspan="2" rowspan="2">列队结果</td>
+						<td>6</td>
+						<td>7</td>
+						<td>8</td>
+						<td>9</td>
+						<td>10</td>
+						<td>11</td>
+						<td>12</td>
+						<td>13</td>
+						<td>14</td>
+						<td>15</td>
+						<td>16</td>
+						<td>17</td>
+						<td>18</td>
+						<td>19</td>
+						<td>20</td>
+						<td>21</td>
+						<td>22</td>
+						<td>23</td>
+						<td>24</td>
+						<td>25</td></tr>
+						<tr class="child_tr_red"></tr>
+					</table>
+						
+					<!--第二組-->
+					<table border="1" class="table_mid fl" id="main_group2">
+						<tr><th colspan="1">编號</th><th colspan="1"class="hid">1</th><th colspan="20" class="user-info">ID :--   用户名 :--   正在使用的工作表 : 第--張</th></tr>
+						<tr class="group_num"><th colspan="2" rowspan="2">序號</th><th colspan="20">第<span class="grp">--</span>組</th></tr>
+						<tr class="group_class">
+					    	<th colspan="2">第 1 戶</th>
+					    	<th colspan="2">第 2 戶</th>
+					    	<th colspan="2">第 3 戶</th>
+					    	<th colspan="2">第 4 戶</th>
+					    	<th colspan="2">第 5 戶</th>
+					    	<th colspan="2">第 6 戶</th>
+					    	<th colspan="2">第 7 戶</th>
+					    	<th colspan="2">第 8 戶</th>
+					    	<th colspan="2">第 9 戶</th>
+					    	<th colspan="2">第 10 戶</th>
+						</tr>
+						<tbody class="main_group">
+					  	<!--数据行--001-->
+					  	<!--生-->
+					  	<tr class="g_int">
+					  		<td rowspan="4" class="cell_row">---</td>
+					  		<td>生</td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  	</tr>
+					  	<!--配-->
+					  	<tr>
+					  		<td>配</td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  		<td colspan="2"></td>
+					  	</tr>
+					  	<!--兑-->
+					  	<tr>
+					  		<td>兌</td>
+					  		<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+					  	</tr>
+						<!--供-->
+						<tr class="child_tr">
+							<td>供</td>
+						</tr>
+						</tbody>
+						<!--统计-->
+						<tr><th colspan="2">序號</th><th colspan="20">第<span class="grp">--</span>組</th></tr>
+						<tr><th colspan="2">列队统计</th><th colspan="20" class="red queue-sum" >--</th></tr>
+						<tr class="child_tr">
+							<td colspan="2" rowspan="2">列队结果</td>
+						<td>6</td>
+						<td>7</td>
+						<td>8</td>
+						<td>9</td>
+						<td>10</td>
+						<td>11</td>
+						<td>12</td>
+						<td>13</td>
+						<td>14</td>
+						<td>15</td>
+						<td>16</td>
+						<td>17</td>
+						<td>18</td>
+						<td>19</td>
+						<td>20</td>
+						<td>21</td>
+						<td>22</td>
+						<td>23</td>
+						<td>24</td>
+						<td>25</td></tr>
+						<tr class="child_tr_red"></tr>
+					</table>
+					
+				</div>
+			</div>
+			<!--分組按钮-->
+			<div class="group_btn_wrap">
+				<div class="group_btn_box"></div>
+			</div>
+		</section>
+		
+	<script type="text/javascript" src="../js/jquery-1.12.4.min.js" ></script>
+	<script type="text/javascript" src="../js/template-web.js"></script>
+	<script type="text/javascript" src="../js/app.js"></script>
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/gameCore.js"></script>
+		<script type="text/javascript">
+			$(".g_int input").on('input propertychange',function(){
+				this.value=this.value.replace(/[^1234]/g,'')
+				if ($(this).val().length>1) {
+					this.value=this.value.replace(/[\d]/g,'')
+				}
+			})
+			//			元素置顶
+			$(".group_btn_box a").click(function(){
+				$('.layui-body').animate({scrollTop: '0px'}, 800);
+			});
+			for (var i=1;i<=20;i++) {
+				$('.child_tr_red').append('<td class="red"></td>')
+			}
+//			插入分组按钮
+			for (var i=1;i<=99;i+=2) {
+				$('.group_btn_box').append('<a href="javascript:toPage('+i+')">'+i+'-'+(i+1)+'</a>')
+			}
+			
+			function toPage(sPage){
+				var index = layer.load(1, {
+					  shade: [0.5,'#555'] //0.1透明度的白色背景
+					});
+				renderTb("#main_group1",sPage);
+				renderTb("#main_group2",sPage+1);
+				layer.close(index);
+			}
+			
+			
+		</script>
+		
+		
+	<script type="text/javascript">
+	
+	
+	
+			$(function(){
+				$app.request("../history.do",function(json){
+					var user = json.map.data.user;
+					var history = json.map.data.history||[];
+					var html = "";
+					var hdata = {};
+					var runGame;
+					for (var i = 0; i < history.length; i++) {
+						var st = "已結束";
+						if(history[i].state==1)st="進行中"; 
+						html+='<option value='+history[i].id+' data-frow="'+history[i].focus_row+'">'+history[i].id+'('+st+')</option>';
+						if(history[i].state==1)runGame = history[i];
+						hdata[history[i].id] = history[i];
+					}
+					
+					
+					$("#history_group").html(html);
+					$("#history_group").data("hdata",hdata);
+					
+					//$("#detail_group").html("ID :"+user.djt_u_id+"   用戶名 :"+user.djt_u_name+"  正在使用的工作表 : 第<span id='tbNum'>--</span>張")
+					mainUser = json.map.data.user;
+					if(!runGame)alert("沒有正在工作的表格");
+					else selectHistory();
+					
+				},{param:{uid:$app.getQueryStr("uid")}})
+				
+				
+			});
+			
+			function selectHistory(){
+				var index = layer.load(1, {
+					  shade: [0.5,'#555'] //0.1透明度的白色背景
+					});
+				
+				var hid = $("#history_group").val();
+				var h = $("#history_group").data("hdata")[hid];
+				if(!h){
+					alert("錯誤");
+					return;
+				} 
+				var frow = $("#history_group>option[value="+h.id+"]").attr("data-frow");
+				//$("#focus_row").html(frow<3?0:(frow-2));
+					mainHistory = null;
+					mainData = null;
+				$app.request("../workData.do",function(json){
+					layer.close(index);
+					mainHistory = h;
+					mainData = json.map;
+					renderTb("#main_group1",1);
+					renderTb("#main_group2",2);
+					
+				},{param:{hid:hid}});
+				
+				
+			}
+			
+			
+			var mainUser = null;
+			var mainHistory = null;
+			var mainData = null;
+			
+			function renderTb(group,grp){
+				$(group).find(".grp").html(grp);
+				$(group).find(".hid").html(mainHistory.id);
+				$(group).find(".user-info").html('ID :'+mainUser.djt_u_id+'   用户名 :'+mainUser.djt_u_name+'   正在使用的工作表 : 第'+mainHistory.tbNum+'張');
+				
+				map = mainData;
+				if(!map)return;
+				
+				//开始处理列队统计
+				var gq = map.count[0].grp_queue.split(",")[grp-1];
+				var html = "";
+				var gqSum = 0;
+				for (var i = 0; i < gq.length/3; i++) {
+					var v = new Number(gq.substring(i*3,(i+1)*3));
+					gqSum+=v;
+					html+='<td>'+v+'</td>';
+				}
+				$(group).find(".queue-sum").html(gqSum);
+				$(group).find(".child_tr_red").html(html);
+				
+				//结束处理列队统计
+				
+				
+				var vData = {
+				mainList:map.data
+				,grp:grp
+				,subChar:function(str,i){
+					return str.substring(i,i+1);
+				}
+				,shengpei:function(mod,grp,rstr){
+					
+					if(!rstr)return '<td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td><td colspan="2"></td>';
+					if(mod==1){
+						var str = rstr.split(",")[grp-1];
+					}else{
+						var str = rstr;
+					}
+					
+					var html = "";
+					for (var i = 0; i < str.length; i++) {
+						html+= '<td colspan="2">'+str.substring(i,i+1)+'</td>';
+					}
+					
+					return html;
+				}
+				,dui:function(grp,rstr){
+					if(!rstr)return '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>'
+					+'<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>'
+					+'<td></td><td></td><td></td><td></td>';
+					var str = rstr.split(",")[grp-1];
+					var html = "";
+					for (var i = 0; i < str.length; i++) {
+						var s = str.substring(i,i+1);
+						html+= '<td >'+(s=="2"?"X":"√")+'</td>';
+					}
+					
+					return html;
+				},
+				gong:function(grp,rgong,rgong_col){
+					if(!rgong)return '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>'
+					+'<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>'
+					+'<td></td><td></td><td></td><td></td>';
+					var gong = rgong.split(",")[grp-1];
+					var gong_col = rgong_col?rgong_col.split(",")[grp-1]:null;
+					var html = "";
+					for (var i = 0; i < gong.length; i++) {
+						var gc = "";
+						if(gong_col){
+							var gc = gong_col.substring(i,i+1);
+							if(gc=="2")gc='class="bg_r"';
+						}
+						var g = gong.substring(i,i+1);
+						html+= '<td '+gc+'>'+g+'</td>';
+					}
+					
+					return html;
+				}};
+				
+				
+				$(group).find(".main_group").html(template("tmpl_tb",vData));
+				
+			}
+	
+	</script>
+		
+	</body>
+	<script type="text/html" id="tmpl_tb">
+
+	<!--数据行--001-->
+ {{each mainList as item i}}
+					  	<!--生-->
+					  	<tr class="g_int">
+					  		<td rowspan="4" class="cell_row">{{item.row-2}}</td>
+					  		<td>生</td>
+					  		{{#shengpei(1,grp,item.sheng,1)}}
+					  	</tr>
+					  	<!--配-->
+					  	<tr>
+					  		<td>配</td>
+					  		{{#shengpei(2,grp,item.pei)}}
+					  	</tr>
+					  	<!--兑-->
+					  	<tr>
+					  		<td>兌</td>
+							{{#dui(grp,item.dui)}}
+					  	</tr>
+						<!--供-->
+						<tr class="child_tr">
+							<td>供</td>
+						{{#gong(grp,item.gong,item.gong_col)}}
+</tr>
+	{{/each}}
+	</script>
+</html>

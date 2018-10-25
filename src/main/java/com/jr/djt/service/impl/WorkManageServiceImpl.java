@@ -81,8 +81,14 @@ public class WorkManageServiceImpl implements WorkManageService {
 	}
 	@Override
 	public List<Map<String, Object>> workCount(String hid) {
-		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from game_runing_count WHERE hid=? ORDER BY `index`"
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from game_runing_count WHERE hid=? limit 1"
 				,hid);
+		return list;
+	}
+	@Override
+	public List<Map<String, Object>> workCounts(String uid) {
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("select a.id,a.focus_row,b.queue,b.queue_count from game_history a LEFT JOIN game_runing_count b ON a.id=b.hid WHERE uid=? ORDER BY a.id DESC"
+				,uid);
 		return list;
 	}
 	

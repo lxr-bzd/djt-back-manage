@@ -70,4 +70,7 @@ public interface WorkManageService {
 	
 	
 	List<Map<String, Object>> workCount(String hid);
+	
+	List<Map<String, Object>> workCounts(String uid);
+	
 }
