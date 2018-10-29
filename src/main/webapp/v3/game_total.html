@@ -200,7 +200,7 @@
 			var qcs = map.count[0].queue_count.split(",");
 			for (var i = 0; i < 25-5; i++) {
 				var v =new Number(qcs[i]?qcs[i]:0);
-				html2+='<td class="red">'+v+'</td>'; 
+				html2+='<td class="red">'+(v==0?"":v)+'</td>'; 
 				sum+=v;
 			}
 			$("#result_group").html(html2);

@@ -14,7 +14,7 @@ public interface UpdateDBMapper {
 	 * 获取所有生的数据的结果集
 	 * @return
 	 */
-	Map<String, Object> selectAll(@Param("tableNum")Integer tableNum,@Param("grp")String grp);
+	Map<String, Object> selectAll(@Param("tableNum")Integer tableNum,@Param("grp")String grp,@Param("uid")String uid);
 	
 	/**
 	 * 展示相应页码的生的数据

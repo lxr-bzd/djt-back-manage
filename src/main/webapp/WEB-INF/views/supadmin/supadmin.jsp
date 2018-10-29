@@ -237,7 +237,7 @@
 					
 						<dl class="layui-nav-child">
 							<dd class="backs_item">
-								<a id="back_admin_gets" href="../base_table.html"  target="backs_admin_iframe">修改生表數據</a>
+								<a id="back_admin_gets" href="../v3/user_table.html"  target="backs_admin_iframe">修改生表數據</a>
 							</dd>
 							<dd class="backs_item">
 								<a id="back_admin_usetable" href="../table_use.html"  target="backs_admin_iframe">生表數據使用狀況</a>
@@ -317,7 +317,7 @@
 				</div>
 				
 				<!-- 查看生成表 -->
-				<div class="con_item" id="user_detail">
+				<div class="con_item" id="user_detail" style="height:100%">
 					<iframe name="user_detail_iframe" ></iframe>
 				</div>
 				

@@ -71,8 +71,8 @@
 						var td_id = $("<td></td>").append(this.dTableId);
 						var td_use_status = $("<td></td>").append(this.dUseDefault==1?'使用中':'準備中');
 						var td_button = $("<td></td>").append($("<button>"+(this.dUseDefault==1?'使用中':'使用')+"</button>").addClass(this.dUseDefault==1?'locking_btn active':'prepare'));
-						var mod = '<td><select id="model_select" onchange="changeModel('+this.dTableId+',this)">'+'<option value="1" '+(this.model==1?'selected = "selected"':'')+' >计算表  A</option><option value="2" '+(this.model==2?'selected = "selected"':'')+' >计算表  B</option><option value="3" '+(this.model==3?'selected = "selected"':'')+' >计算表  C</option></select></td>';
-						
+						//var mod = '<td><select id="model_select" onchange="changeModel('+this.dTableId+',this)">'+'<option value="1" '+(this.model==1?'selected = "selected"':'')+' >计算表  A</option><option value="2" '+(this.model==2?'selected = "selected"':'')+' >计算表  B</option><option value="3" '+(this.model==3?'selected = "selected"':'')+' >计算表  C</option></select></td>';
+						var mod = '<td></td>';
 						table.append(tr.append(td_id).append(td_use_status).append(td_button).append(mod));
 						});
 					$(".prepare").click(function(){

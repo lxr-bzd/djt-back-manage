@@ -346,7 +346,7 @@
 				for (var i = 0; i < gq.length/3; i++) {
 					var v = new Number(gq.substring(i*3,(i+1)*3));
 					gqSum+=v;
-					html+='<td>'+v+'</td>';
+					html+='<td class="red">'+(v==0?"":v)+'</td>';
 				}
 				$(group).find(".queue-sum").html(gqSum);
 				$(group).find(".child_tr_red").html(html);

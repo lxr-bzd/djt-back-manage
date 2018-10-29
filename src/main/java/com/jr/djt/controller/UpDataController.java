@@ -115,12 +115,14 @@ public class UpDataController extends UpdateDBController {
 	
 	@RequestMapping(value="saveData2",method=RequestMethod.POST)
 	@ResponseBody
-	public MessageBean saveData2(HttpServletRequest request,Integer tableNum,Integer grp, String data) throws Exception{
+	public MessageBean saveData2(HttpServletRequest request,Integer tableNum,Integer grp, String data,String uid) throws Exception{
 		
 		if(data==null||"".equals(data))
 			throw new RuntimeException("错误参数");
+		if(uid==null||"".equals(uid))
+			throw new RuntimeException("错误参数");
 		
-		udbs.update(tableNum, grp,data);
+		udbs.update(tableNum, grp,data,uid);
 		
 		return MessageBean.success().add("msg", "");
 		
@@ -134,10 +136,10 @@ public class UpDataController extends UpdateDBController {
 	 */
 	@RequestMapping("findAll")
 	@ResponseBody
-	public MessageBean getAllDB2(Integer tableNum,String grp){
+	public MessageBean getAllDB2(Integer tableNum,String grp,String uid){
 		
 		
-		return MessageBean.success().add("tb", udbs.getAll(tableNum,grp));
+		return MessageBean.success().add("tb", udbs.getAll(tableNum,grp,uid));
 	}
 	/**
 	 * 查生表所有張數

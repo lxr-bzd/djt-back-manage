@@ -20,9 +20,9 @@ public class UpdateDBServiceImpl implements UpdateDBService {
 	JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public Map<String, Object> getAll(Integer tableNum,String grp) {
+	public Map<String, Object> getAll(Integer tableNum,String grp,String uid) {
 		
-		return udbm.selectAll(tableNum,grp);
+		return udbm.selectAll(tableNum,grp,uid);
 	}
 	@Override
 	public DataBaseBean getDById(Integer pageNum) {
@@ -45,10 +45,10 @@ public class UpdateDBServiceImpl implements UpdateDBService {
 		return udbm.getableDB();
 	}
 	@Override
-	public void update(Integer num,Integer grp, String data) {
+	public void update(Integer num,Integer grp, String data,String uid) {
 		
-		jdbcTemplate.update("UPDATE data_base set sheng=? WHERE tabl_num=? AND grp=?"
-				,data,num,grp);		 
+		jdbcTemplate.update("UPDATE data_base set sheng=? WHERE tabl_num=? AND grp=? AND uid=?"
+				,data,num,grp,uid);		 
 	}
 	
 }

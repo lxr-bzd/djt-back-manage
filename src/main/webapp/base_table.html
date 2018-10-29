@@ -92,6 +92,7 @@
 	<script type="text/javascript" src="js/template-web.js"></script>
 	
 	<script type="text/javascript" src="layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
 	
 	<script type="text/javascript">
 //	元素置顶
@@ -121,7 +122,7 @@
 			alert("错误");
 			return;
 		}
-		
+		var uid = $app.getQueryStr("uid");
 		
 		$("#tb_group").attr("data-tbNum","");
 		$("#tb_group").attr("data-grp","");
@@ -130,7 +131,7 @@
 		$.ajax({
 			url : "new/findAll.do",
 			//data : "pageNum=" + pageNum+"&tableNum="+tableNum,
-			data : {"tableNum":num,grp:grp},
+			data : {"tableNum":num,grp:grp,uid:uid},
 			type : "POST",
 			success : function(result) {
 				if (result.code == 100) {
@@ -148,7 +149,7 @@
 					$("#grp_group").html("第"+grp+"组")
 					$("#tb_group").html(html);
 				} else {
-					alert("所查頁面有誤！");
+					alert("操作异常！");
 				}
 			}
 		});
@@ -157,19 +158,20 @@
 	
 	
 	function saveData(){
+		var uid = $app.getQueryStr("uid");
 		var num = new Number($("#tb_group").attr("data-tbNum"));
 		var grp = new Number($("#tb_group").attr("data-grp"));
 		var data = getData();
 		$.ajax({
 			url : "new/saveData2.do",
 			//data : "pageNum=" + pageNum+"&tableNum="+tableNum,
-			data : {"tableNum":num,grp:grp,data:data},
+			data : {"tableNum":num,grp:grp,data:data,uid:uid},
 			type : "POST",
 			success : function(result) {
 				if (result.code == 100) {
 					alert("保存成功");
 				} else {
-					alert("所查頁面有誤！");
+					alert("操作异常！");
 				}
 			}
 		});

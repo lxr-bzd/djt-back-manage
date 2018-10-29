@@ -25,7 +25,7 @@ from djt_data_base a where a.d_tabl_num=10;
 	 -->
 	<select id="selectAll" resultType="map">
 		select sheng,grp from data_base 
-		where tabl_num=#{tableNum} AND grp=#{grp}
+		where tabl_num=#{tableNum} AND grp=#{grp} AND uid=#{uid}
 	</select>
 	
 	<!-- 按页码查询相应的数据 -->

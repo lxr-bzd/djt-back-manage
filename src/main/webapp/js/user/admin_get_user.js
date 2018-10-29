@@ -224,7 +224,7 @@ function check_uname(uname){
 			//var u_id_td = $("<td></td>").append(item.u_id);
 			var u_name_td = $("<td></td>").append(item.u_name);
 			var u_lock_btn = $("<td></td>").append($("<button></button>").append(item.u_islock == 1 ? "锁定" : "解锁").addClass(item.u_islock == 1 ? "locking_btn" : "locking_btn active").attr("status",item.u_islock == 1 ? "1":"2"));
-			var useTable = $("<td>"+item.u_use_table+"</td>");
+			var useTable = $("<td>"+(item.isSu == 1 ? item.u_use_table : "-")+"</td>");
 			var isSu = $("<td></td>").append($("<button></button>").append(item.isSu == 1 ? "是" : "否"));
 			
 			var u_sel_btn = $("<td></td>").append($("<button>修改密碼</button>").addClass("up_password_btn"))

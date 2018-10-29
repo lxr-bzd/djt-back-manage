@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>前往修改</title>
+<link href="../statis/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="../css/main.css" />
+<script
+	src="../js/jquery-1.11.2.min.js"></script>
+<script src="../layui/layui.js"></script>
+<script
+	src="../statis/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</head>
+
+
+<body >
+					<table id="main_tb" class="layui-table">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="select_all_worker"> </th>
+								<th>用戶名</th>
+								<th>是否鎖定</th>
+								<th>是否是超级用户</th>
+								<th width="20%">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					<!-- 用户分頁信息 -->
+					<div class="row">
+						<div class="col-md-6" id="pageInfo_area">當前第1頁,總共1頁,總共10條記錄</div>
+						<div class="col-md-6" id="pageNav_area"><nav><ul class="pagination"><li class="disabled"><a href="javascript:;">首頁</a></li><li class="disabled"><a href="javascript:;">«</a></li><li class="active"><a href="javascript:;">1</a></li><li class="disabled"><a href="javascript:;">»</a></li><li class="disabled"><a href="javascript:;">末頁</a></li></ul></nav></div>
+					</div>
+
+
+</body>
+<script type="text/javascript">
+
+function toUrl(url){
+	
+	window.location.href=url;
+	
+}
+
+$(function(){
+	get_users_page(1);
+});
+
+
+//創建用戶表基礎信息內容
+	function cr_user_admin(result){
+	var group = $("#main_tb tbody");
+		//清空tobdy內容
+	group.empty();
+		//創建tbody內容
+		$.each(result, function(index, item){
+			var u_check_box = $("<td></td>").append($("<input type='checkbox' class='worker_ck' num='"+item.u_id+"'></input>"));
+			//var u_id_td = $("<td></td>").append(item.u_id);
+			var u_name_td = $("<td></td>").append(item.u_name);
+			var u_lock_btn = $("<td></td>").append($("<button></button>").append(item.u_islock == 1 ? "锁定" : "解锁").addClass(item.u_islock == 1 ? "locking_btn" : "locking_btn active").attr("status",item.u_islock == 1 ? "1":"2"));
+			
+			var isSu = $("<td></td>").append($("<button></button>").append(item.isSu == 1 ? "是" : "否"));
+			
+			var u_sel_btn = $("<td></td>").append('<button class="look_btn" onclick="toUrl(\'../base_table.html?uid='+item.u_id+'\')">修改基础表</button>');
+			
+			var u_tr = $("<tr></tr>").append(u_check_box).append(u_name_td).append(u_lock_btn)
+			.append(isSu).append(u_sel_btn);
+			group.append(u_tr);
+		});
+		
+		
+	}
+	
+//	發送請求查詢用戶數據,跳轉到某一頁的方法
+	function get_users_page(pageNum){
+		$.ajax({
+			url:"../allWorker.do",
+			data:"pn="+pageNum,
+			type:"GET",
+			success:function(result){
+				if(result.code == 100){
+					var users = result.map.pageInfo.list;
+					cr_user_admin(users);
+					var pageInfo = result.map.pageInfo;
+					get_users_pageInfo(pageInfo);
+					get_users_nav(pageInfo);
+					totalNum = result.map.pageInfo.total;
+				}
+			}
+		});
+
+		//格式时间方法
+		Date.prototype.Format = function(fmt) {
+			var o = {
+					"M+" : this.getMonth() + 1, //月份 
+					"d+" : this.getDate(), //日 
+					"h+" : this.getHours(), //小时 
+					"m+" : this.getMinutes(), //分 
+					"s+" : this.getSeconds(), //秒 
+					//季度
+					"q+" : Math.floor((this.getMonth() + 3) / 3),
+					"S" : this.getMilliseconds()
+					//毫秒 
+			};
+			if (/(y+)/.test(fmt)) {
+				fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "")
+						.substr(4 - RegExp.$1.length));
+			}
+			for ( var k in o)
+				if (new RegExp("(" + k + ")").test(fmt))
+					fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k])
+							: (("00" + o[k]).substr(("" + o[k]).length)));
+			return fmt;
+		}
+		
+		$("#user_data_details select").on("change",function(){
+			var h_text = $(this).find("option:selected").text();
+			$("#user_data_details h2").eq(0).empty().append(h_text);
+			var num = $("#user_data_details p span").eq(0).text();
+			var pageNum = $(".check_cr_page").eq(0).attr("page");
+			check_user_data(num,pageNum);
+		});
+	}
+
+</script>
+
+</html>
