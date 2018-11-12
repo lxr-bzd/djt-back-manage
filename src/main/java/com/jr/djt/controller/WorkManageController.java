@@ -285,14 +285,17 @@ public class WorkManageController extends BaseController {
 	 */
 	@RequestMapping(value="/updateuserpassword",method=RequestMethod.POST)
 	@ResponseBody
-	public MessageBean updateuserpassword(Integer user_num,String new_password) throws Exception{
+	public MessageBean updateuserpassword(Integer user_num,String new_password,String name) throws Exception{
 		System.out.println(user_num+":"+new_password+"**********************");
-		if(user_num == null ||new_password==null || new_password.length()>6 || new_password.replace(" ", "").length()==0){
+		if(user_num == null ||name==null||name.equals("")){
 			throw new Exception();
 		}
+		if(new_password==null||new_password.equals("")) {
+			new_password=null;
+		}else
 		new_password = new_password.replace(" ", "");
 		System.out.println("修改的用户id:"+user_num+",新密码:"+new_password);
-		wms.updateuserpassword(user_num,new_password);
+		wms.updateuserpassword(user_num,new_password,name);
 		return MessageBean.success();
 	}
 	
@@ -308,6 +311,25 @@ public class WorkManageController extends BaseController {
 	public MessageBean history(String uid) throws Exception{
 		
 		return MessageBean.success().add("data", wms.history(uid));
+	}
+	/**
+	 * 
+	 * @param hid
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/delHistory",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean delHistory(String hid) throws Exception{
+		if(hid==null||"".equals(hid))
+			throw new Exception("参数错误");
+		String[] sqls = new String[] {
+				"delete from game_history where id="+hid,
+				"delete from game_runing where hid="+hid,
+				"delete from game_runing_count where hid="+hid
+		};
+		jdbcTemplate.batchUpdate(sqls);
+		return MessageBean.success();
 	}
 	
 	

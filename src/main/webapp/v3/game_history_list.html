@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>前往修改</title>
+<link href="../statis/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="../css/main.css" />
+<script
+	src="../js/jquery-1.11.2.min.js"></script>
+<script src="../layui/layui.js"></script>
+<script
+	src="../statis/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/app.js"></script>
+</head>
+
+
+<body >
+					<table id="main_tb" class="layui-table">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="select_all_worker"> </th>
+								<th>用戶名</th>
+								<th>編號</th>
+								<th>狀態</th>
+								<th width="20%">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					
+
+
+</body>
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
+<script type="text/javascript">
+
+$(function(){
+	
+	ref();
+	
+});
+
+function toDel(hid){
+	layer.confirm('確認刪除？', {
+		  btn: ['是','否'] //按鈕
+		}, function(i){
+		  layer.close(i);
+		  
+		  $app.request("../delHistory.do",function(json){
+			  if(json.code==100){
+				  layer.msg('刪除成功');
+				  ref();
+			  }else{
+				  layer.msg('刪除s失败');
+			  }
+			  
+				
+				
+			},{param:{hid:hid}})
+		  
+		}, function(){
+		 
+		});
+	
+}
+
+
+function ref(){
+	$app.request("../history.do",function(json){
+		var user = json.map.data.user;
+		var history = json.map.data.history||[];
+		
+		cr_user_admin(user,history);
+		
+		
+	},{param:{uid:$app.getQueryStr("uid")}})
+	
+}
+
+//創建用戶表基礎信息內容
+	function cr_user_admin(user,result){
+		var group = $("#main_tb tbody");
+		//清空tobdy內容
+		group.empty();
+		//創建tbody內容
+		$.each(result, function(index, item){
+			var html = '<td></td>'
+				+'<td>'+user.djt_u_name+'</td>'
+				+'<td>'+item.id+'</td>'
+				+'<td>'+(item.state==1?"進行中":"已結束")+'</td>'
+				+'<td><button class="look_btn" onclick="toDel('+item.id+')">刪除</button></td>';
+			
+			group.append('<tr>'+html+'</tr>');
+		});
+		
+		
+	}
+	
+
+		//格式時間方法
+		Date.prototype.Format = function(fmt) {
+			var o = {
+					"M+" : this.getMonth() + 1, //月份 
+					"d+" : this.getDate(), //日 
+					"h+" : this.getHours(), //小時 
+					"m+" : this.getMinutes(), //分 
+					"s+" : this.getSeconds(), //秒 
+					//季度
+					"q+" : Math.floor((this.getMonth() + 3) / 3),
+					"S" : this.getMilliseconds()
+					//毫秒 
+			};
+			if (/(y+)/.test(fmt)) {
+				fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "")
+						.substr(4 - RegExp.$1.length));
+			}
+			for ( var k in o)
+				if (new RegExp("(" + k + ")").test(fmt))
+					fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k])
+							: (("00" + o[k]).substr(("" + o[k]).length)));
+			return fmt;
+		}
+		
+
+</script>
+
+</html>

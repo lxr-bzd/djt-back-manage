@@ -117,27 +117,41 @@ $(function(){
 	$("#up_u_password_btn").click(function(){
 		var user_num = $("#update_password_num").val();
 		var new_password = $("#update_u_password_input").val();
-		if(new_password.replace(/\s+/g, "")=='' || new_password.replace(/\s+/g, "").length>6){
-			var password_error = $("#update_u_password_form .error").eq(0).empty();
+		var uName = $("#update_u_password_form input[name=name]").val();
+		
+		if(!uName){
+			var err = $("#update_u_password_form input[name=name]").next().empty();
+			err.append("用户名不能为空").css("display","block");
+			return false;
+		}
+		
+/*		if(new_password.replace(/\s+/g, "")=='' || new_password.replace(/\s+/g, "").length>6){
+			var password_error = $("#update_u_password_input").next().empty();
 			password_error.append("請輸入正確的密碼，最多6位").css("display","block");
 			$("#update_u_password_input").focus(function(){
 				password_error.css("display","none");
 			});
 			return false;
-		}
+		}*/
+		
+		
+		
+		var user = {user_num:user_num,name:uName,new_password:new_password};
+		
 		//通过，提交保存
-		update_user_password(user_num,new_password);
+		update_user_password(user);
 	});
 });
-function update_user_password(user_num,new_password){
+function update_user_password(user){
 	$.ajax({
 		url:$("#e_heard").val()+"/updateuserpassword.do",
-		data:{"user_num":user_num,"new_password":new_password},
+		data:user,
 		type:"post",
 		success:function(result){
 			if(result.code==100){
 				alert("修改成功");
 				$('#update_u_password_modal').modal("hide");
+				get_users_page(1);
 			}
 		}
 	});
@@ -227,12 +241,14 @@ function check_uname(uname){
 			var useTable = $("<td>"+(item.isSu == 1 ? item.u_use_table : "-")+"</td>");
 			var isSu = $("<td></td>").append($("<button></button>").append(item.isSu == 1 ? "是" : "否"));
 			
-			var u_sel_btn = $("<td></td>").append($("<button>修改密碼</button>").addClass("up_password_btn"))
-			.append(" | ").append($("<button>刪除</button>").addClass("delete_one_btn"));
+			var u_sel_btn = $("<td></td>").append('<button class="up_password_btn" data-name="'+item.u_name+'">修改用户</button>'
+			+' | <button class="delete_one_btn">刪除</button>');
 			if($("#data_group").attr("data-is-su"))
-			u_sel_btn.append(" | ").append($("<button data-url='../v3/game_info.html?uid="+item.u_id+"'>查看后台表</button>").addClass("look_btn"))
-			.append(" | ").append($("<button data-url='../v3/game_history.html?uid="+item.u_id+"'>查看历史记录汇总表</button>").addClass("look_btn"))
-			.append(" | ").append($("<button data-url='../v3/game_total.html?uid="+item.u_id+"'>查看汇总表</button>").addClass("look_btn"));
+			u_sel_btn.append(" | ").append('<button class="look_btn" data-url="../v3/game_info.html?uid='+item.u_id+'">查看后台表</button>'
+			+' | <button class="look_btn"  data-url="../v3/game_history.html?uid='+item.u_id+'">查看历史记录汇总表</button>'
+			+' | <button class="look_btn" data-url="../v3/game_total.html?uid='+item.u_id+'">查看汇总表</button>'
+			+' | <button class="look_btn" data-url="../v3/game_history_list.html?uid='+item.u_id+'">管理历史记录</button>');
+			
 			var u_tr = $("<tr></tr>").append(u_check_box).append(u_name_td).append(u_lock_btn).append(useTable)
 			.append(isSu).append(u_sel_btn);
 			$("#user_admin table tbody").append(u_tr);
@@ -251,12 +267,13 @@ function check_uname(uname){
 			get_user_lock($(this));
 		});
 		//修改密碼綁定
-		$(".up_password_btn").click(function(){
+		$(".up_password_btn").click(function(e){
 			var u_num = $(this).parents("tr").find(".worker_ck").eq(0).attr("num");
 			//修改密码模态框
 			$("#update_u_password_modal").modal({
 				backdrop : "static"
 			});
+			$("#update_u_password_form input[name=name]").val($(e.target).attr("data-name"));
 			$("#update_u_password_input").val("");
 			$("#update_u_password_form .error").eq(0).css("display","none");
 			$("#update_password_num").val(u_num);

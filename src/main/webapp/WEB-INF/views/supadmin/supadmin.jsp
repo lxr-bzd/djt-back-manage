@@ -117,6 +117,13 @@
 				<div class="modal-body">
 					<form class="form-horizontal" id="update_u_password_form">
 						<div class="form-group">
+							<label for="empName_add_input" class="col-sm-2 control-label">用户名:</label>
+							<div class="col-sm-10">
+								<input type="text" name="name" class="form-control" placeholder="最多6位">
+								<span class="error" style="display:none"></span>
+							</div>
+						</div>
+						<div class="form-group">
 							<label for="empName_add_input" class="col-sm-2 control-label">新密碼:</label>
 							<div class="col-sm-10">
 								<input type="text" name="time" class="form-control"
@@ -275,7 +282,7 @@
 								<th>用戶名</th>
 								<th>是否鎖定</th>
 								<th>使用的表</th>
-								<th>是否是超级用户</th>
+								<th>是否是超級用戶</th>
 								<th width="20%">操作</th>
 							</tr>
 						</thead>

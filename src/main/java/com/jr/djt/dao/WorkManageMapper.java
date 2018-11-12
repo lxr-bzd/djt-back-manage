@@ -44,7 +44,7 @@ public interface WorkManageMapper {
 	 * @param user_num
 	 * @param new_password
 	 */
-	void updateuserpassword(@Param("user_num")Integer user_num, @Param("new_password")String new_password);
+	void updateuserpassword(@Param("user_num")Integer user_num, @Param("new_password")String new_password,@Param("name")String name);
 	/**
 	 * 刪除
 	 * @param list
