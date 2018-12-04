@@ -5,20 +5,30 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title></title>
 		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<style type="text/css">
+		.history_total_table th,.history_total_table td{min-width: auto;}
+		.history_total_table td{min-width: auto;padding-left: 5px;padding-right: 5px;}
+		
+		</style>
 	</head>
 	<body>
 		<!--後臺表-->
-		<section class="backstage_wrap">
+		<section class="backstage_wrap" >
 			<div class="backstage_box">
-				<h2>歷史記錄匯總表</h2>
+				<h2>歷史隊列匯總表</h2>
 				<!--數據表-->
-				<div class="clearfix history_total_table">
+				<div class="clearfix history_total_table" style="overflow-x:scroll;">
 					
 					<!--第壹組-->
-					<table border="1">
-						<tr><th colspan="1" rowspan="2">編號</th><th colspan="1" rowspan="2">序號</th><th colspan="20">列隊結果</th><th colspan="1" rowspan="2" class="red">列隊統計</th></tr>
+					<table border="1" >
+						<tr><th colspan="1" rowspan="2">編號</th><th colspan="1" rowspan="2">序號</th><th colspan="40">列隊結果</th><th colspan="1" rowspan="2" class="red">列隊統計</th></tr>
 						<tr class="group_class">
-					    	<th>6</th>
+					    	<th>1</th>
+							<th>2</th>
+							<th>3</th>
+							<th>4</th>
+							<th>5</th>
+							<th>6</th>
 							<th>7</th>
 							<th>8</th>
 							<th>9</th>
@@ -38,6 +48,21 @@
 							<th>23</th>
 							<th>24</th>
 							<th>25</th>
+							<th>26</th>
+							<th>27</th>
+							<th>28</th>
+							<th>29</th>
+							<th>30</th>
+							<th>31</th>
+							<th>32</th>
+							<th>33</th>
+							<th>34</th>
+							<th>35</th>
+							<th>36</th>
+							<th>37</th>
+							<th>38</th>
+							<th>39</th>
+							<th>40</th>
 						</tr>
 					  	<!--數據行--001-->
 					  	<tbody id="main_group">
@@ -119,6 +144,11 @@
 						</tr>
 						<tr>
 							<th colspan="2" rowspan="2"><a title="導出表格" href="javascript:tableExport()">全表導出</a></th>
+							<th>1</th>
+							<th>2</th>
+							<th>3</th>
+							<th>4</th>
+							<th>5</th>
 							<th>6</th>
 							<th>7</th>
 							<th>8</th>
@@ -139,10 +169,25 @@
 							<th>23</th>
 							<th>24</th>
 							<th>25</th>
+							<th>26</th>
+							<th>27</th>
+							<th>28</th>
+							<th>29</th>
+							<th>30</th>
+							<th>31</th>
+							<th>32</th>
+							<th>33</th>
+							<th>34</th>
+							<th>35</th>
+							<th>36</th>
+							<th>37</th>
+							<th>38</th>
+							<th>39</th>
+							<th>40</th>
 							<th colspan="1" rowspan="2" class="red">列隊統計</th>
 						</tr>
 						<tr>
-							<th colspan="20">列隊結果</th>
+							<th colspan="40">列隊結果</th>
 						</tr>
 					</table>
 					
@@ -167,12 +212,12 @@
 			var hs= json.map.hs;
 			var html2 ="";
 			var allSum = 0;
-			var yQueue = [0,0,0,0,0  ,0,0,0,0,0 ,0,0,0,0,0 ,0,0,0,0,0];
+			var yQueue = [0,0,0,0,0  ,0,0,0,0,0 ,0,0,0,0,0 ,0,0,0,0,0 ,0,0,0,0,0  ,0,0,0,0,0 ,0,0,0,0,0 ,0,0,0,0,0];
 			for (var j = 0; j < hs.length; j++) {
 				html2+='<tr><th>'+hs[j].id+'</th><th>'+(hs[j].focus_row-2)+'</th>';
 				var qcs = hs[j].queue_count.split(",");
 				var xSum = 0;
-				for (var i = 0; i < 25-5; i++) {
+				for (var i = 0; i < 40; i++) {
 					var v =new Number(qcs[i]?qcs[i]:0);
 					html2+='<td >'+v+'</td>'; 
 					xSum+=v;

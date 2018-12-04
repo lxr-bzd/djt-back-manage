@@ -5,20 +5,30 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title></title>
 		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<style type="text/css">
+		.history_total_table th,.history_total_table td{min-width: auto;}
+		.history_total_table td{padding-left: 3px;padding-right: 3px;}
+		.group_class th{font-size: 14px;}
+		</style>
 	</head>
 	<body>
 		<!--後臺表-->
 		<section class="backstage_wrap">
 			<div class="backstage_box">
-				<h2>總結果匯總表</h2>
+				<h2>歷史列隊匯總表</h2>
 				<!--數據表-->
-				<div class="clearfix history_total_table">
+				<div class="clearfix history_total_table" style="overflow-x: scroll;">
 					
 					<!--第壹組-->
 					<table border="1">
-						<tr><th rowspan="2">會員帳號</th><th colspan="20">列隊結果</th><th rowspan="2" class="red">列隊統計</th></tr>
+						<tr><th rowspan="2">序號</th><th colspan="40">列隊結果</th><th rowspan="2" class="red"><a href="javascript:toDel(1,null)">全選刪除</a></th></tr>
 						<tr class="group_class">
-					    	<th>6</th>
+					    	<th>1</th>
+							<th>2</th>
+							<th>3</th>
+							<th>4</th>
+							<th>5</th>
+							<th>6</th>
 							<th>7</th>
 							<th>8</th>
 							<th>9</th>
@@ -38,6 +48,21 @@
 							<th>23</th>
 							<th>24</th>
 							<th>25</th>
+							<th>26</th>
+							<th>27</th>
+							<th>28</th>
+							<th>29</th>
+							<th>30</th>
+							<th>31</th>
+							<th>32</th>
+							<th>33</th>
+							<th>34</th>
+							<th>35</th>
+							<th>36</th>
+							<th>37</th>
+							<th>38</th>
+							<th>39</th>
+							<th>40</th>
 						</tr>
 					  	<!--數據行--001-->
 					  	<tbody id="main_group">
@@ -91,7 +116,7 @@
 					  	</tr>
 						<!--統計-->
 						<tr class="tr_red">
-							<th>結果匯總</th>
+							<th>匯總合計</th>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -116,7 +141,12 @@
 						</tr>
 						</tbody>
 						<tr>
-							<th rowspan="2"><a title="導出表格" href="javascript:tableExport()">全表導出</a></th>
+							<th colspan="1">序號</th>
+							<th>1</th>
+							<th>2</th>
+							<th>3</th>
+							<th>4</th>
+							<th>5</th>
 							<th>6</th>
 							<th>7</th>
 							<th>8</th>
@@ -137,11 +167,26 @@
 							<th>23</th>
 							<th>24</th>
 							<th>25</th>
-							<th colspan="1" rowspan="2" class="red">列隊統計</th>
+							<th>26</th>
+							<th>27</th>
+							<th>28</th>
+							<th>29</th>
+							<th>30</th>
+							<th>31</th>
+							<th>32</th>
+							<th>33</th>
+							<th>34</th>
+							<th>35</th>
+							<th>36</th>
+							<th>37</th>
+							<th>38</th>
+							<th>39</th>
+							<th>40</th>
+							<th><a title="導出表格" href="javascript:tableExport()">全表導出</a></th>
+							
+							
 						</tr>
-						<tr>
-							<th colspan="20">列隊結果</th>
-						</tr>
+						
 					</table>
 					
 				</div>
@@ -163,45 +208,46 @@
 	
 	$(function(){
 		$app.request("../allTotalData.do",function(json){
-			
-			var mod = {};
+		
 			var list = json.map.hs;
 			
+			var mod = {};
 			for (var i = 0; i < list.length; i++) {
-				var item = list[i];
-				if(!mod[item.uid])mod[item.uid] = {uname:item.uname,list:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
-				addData(mod[item.uid],item.queue_count);
-			
+				var tid = list[i].tid;
+				if(!mod[tid])mod[tid] = {tid:tid,list:[]};
+				var qs = addData(list[i].queue_count);
+				var n = mod[tid].list.length>qs.length?mod[tid].list.length:qs.length;
+				for (var j = 0; j < n; j++) {
+					if(isNaN(mod[tid].list[j]))mod[tid].list[j] = 0;
+					mod[tid].list[j]+=(isNaN(qs[j])?0:qs[j]);
+				}
 			}
+			
+			
+			
 			rdTb(mod);
 			
-			
 		},{});
-		
-		
-	
-		
-		
 		
 		
 	});
 	
 	function rdTb(mod){
 		
-		var yCount = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		var yCount = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 		var html = "";
 		var allCount = 0;
 		for ( var i in mod) {
 			var item = mod[i];
 			var xCount = 0;
-			html += '<tr><th>'+item.uname+'</th>';
-			for (var i = 0; i < 20; i++) {
+			html += '<tr><th>'+item.tid+'</th>';
+			for (var i = 0; i < 40; i++) {
 				html+='<td>'+item.list[i]+'</td>'
 				xCount+=item.list[i];
 				yCount[i]+=item.list[i];
 			}
 			allCount+=xCount;
-			html+='<th class="red">'+xCount+'</th></tr>'
+			html+='<th ><a href="javascript:toDel(2,'+item.tid+')">刪除</a></th></tr>'
 			
 		}
 		
@@ -215,12 +261,35 @@
 	}
 	
 	
-	function addData(uData,qc){
+	function addData(qc){
+		if(!qc)return [];
 		var qcs = qc.split(",");
 		for (var i = 0; i < qcs.length; i++) {
 			var n = new Number(qcs[i]);
-			uData.list[i]+= (isNaN(n)?0:n);
+			qcs[i]=n;
 		}
+		return qcs;
+		
+	}
+	
+	
+function  toDel(mod,tid){
+		
+		layer.confirm(mod==1?'確定刪除全部記錄？':'確定刪除('+tid+')？', {
+			  btn: ['是','否'] //按鈕
+			}, function(i){
+				layer.close(i);
+				$app.request("../delHis.do",function(json){
+					
+					if(json.code==100){
+						window.location.reload();
+					}
+					else alert(json.message);
+					
+				},{param:{mod:mod,tid:tid}})
+			}, function(){
+			  
+			});
 		
 	}
 	
@@ -236,7 +305,7 @@
 				tb.tableExport({type:'excel',ignoreColumn: [],ignoreRow:[]
 					, separator:';', escape:'false'
 						 ,formats: ['xlsx']
-				,fileName: '總結果匯總表-'+new Date().format("yyyy-MM-dd")});
+				,fileName: '歷史列隊匯總表-'+new Date().format("yyyy-MM-dd")});
 			}, function(){
 			  
 			});

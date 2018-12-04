@@ -531,12 +531,12 @@ html,body{
 .backstage_wrap{
 	width: 100%;
 	min-width: 1240px;
-	padding: 0 20px 40px;
+	padding: 0 20px;
 	text-align: center;
 	font-size: 14px;
 }
 .backstage_box,.group_btn_box{
-	max-width: 1400px;
+	
 	margin: 0 auto;
 }
 .backstage_box h2{
@@ -594,7 +594,7 @@ html,body{
 .group_btn_wrap{
 	width: 100%;
 	min-width: 1240px;
-	padding: 20px;
+	padding: 5px;
 	font-size: 14px;
 	position: fixed;
 	left: 0;

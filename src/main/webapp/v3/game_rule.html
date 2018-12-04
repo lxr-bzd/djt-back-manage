@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	</head>
+	<body>
+		<!--後臺表-->
+		<section class="backstage_wrap">
+			<div id="use_rule" style="text-align: left;padding: 10px 20px;">
+				<span>设置转换公式表：</span>
+				<input type="radio" name="rule_type" value="1"> 表1
+				<input type="radio" name="rule_type" value="2"> 表2 
+				<input value="保存" type="button"  onclick="save(3)">
+			</div>
+			<div class="backstage_box">
+				<h2>列隊結果轉換數值公式表1</h2>
+				<!--數據表-->
+				<div class="clearfix history_total_table" style="overflow-x:scroll;">
+					
+					<!--第壹組-->
+					<table border="1">
+					  	<!--數據行--001-->
+					  	<tbody id="main_group">
+					  	<tr>
+					  		<th>計算開關</th>
+					  		<th>1</th>
+					  		<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+							<td>24</td>
+							<td>25</td>
+							<td>26</td>
+							<td>27</td>
+							<td>28</td>
+							<td>29</td>
+							<td>30</td>
+					  	</tr>   
+					  		<tr>
+					  		<th>列隊結果</th>
+					  		<th>1</th>
+					  		<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+							<td>24</td>
+							<td>25</td>
+							<td>26</td>
+							<td>27</td>
+							<td>28</td>
+							<td>29</td>
+							<td>30</td>
+					  	</tr> 
+					  	<tr>
+					  		<th>轉換數值</th>
+					  		<th>1</th>
+					  		<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+							<td>24</td>
+							<td>25</td>
+							<td>26</td>
+							<td>27</td>
+							<td>28</td>
+							<td>29</td>
+							<td>30</td>
+					  	</tr> 
+						
+					</table>
+					
+					
+				</div>
+				<div style="padding: 10px;text-align: left;">
+					<span>開始值：</span><input id="start" type="number" >
+					<span>結束值：</span><input id="end" type="number" >
+					<input value="保存" type="button"  onclick="save(1)">
+					<input value="展示效果" type="button" onclick="show(1)">
+				</div>
+				
+				
+			</div>
+			
+			<div class="backstage_box">
+				<h2>列隊結果轉換數值公式表2</h2>
+				<!--數據表-->
+				<div class="clearfix history_total_table" style="overflow-x:scroll;">
+					
+					<!--第壹組-->
+					<table border="1">
+					  	<!--數據行--001-->
+					  	<tbody id="main_group2">
+					  	<tr>
+					  		<th>計算開關</th>
+					  		<th>1</th>
+					  		<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+							<td>24</td>
+							<td>25</td>
+							<td>26</td>
+							<td>27</td>
+							<td>28</td>
+							<td>29</td>
+							<td>30</td>
+					  	</tr>   
+					  		<tr>
+					  		<th>列隊結果</th>
+					  		<th>1</th>
+					  		<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+							<td>24</td>
+							<td>25</td>
+							<td>26</td>
+							<td>27</td>
+							<td>28</td>
+							<td>29</td>
+							<td>30</td>
+					  	</tr> 
+					  	<tr>
+					  		<th>轉換數值</th>
+					  		<th>1</th>
+					  		<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+							<td>24</td>
+							<td>25</td>
+							<td>26</td>
+							<td>27</td>
+							<td>28</td>
+							<td>29</td>
+							<td>30</td>
+					  	</tr> 
+						
+					</table>
+					
+					
+				</div>
+				<div style="padding: 10px;text-align: left;">
+					<span>開始值：</span><input id="start2" type="number" >
+					<span>結束值：</span><input id="end2" type="number" >
+					<input value="保存" type="button"  onclick="save(2)">
+					<input value="展示效果" type="button" onclick="show(2)">
+				</div>
+				
+				
+			</div>
+			
+		</section>
+		
+	</body>
+	<script type="text/javascript" src="../js/jquery-1.12.4.min.js" ></script>
+	<script type="text/javascript" src="../js/template-web.js"></script>
+	<script type="text/javascript" src="../js/app.js"></script>
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/gameCore.js"></script>
+	
+	<script type="text/javascript" src="../js/tableExport.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.base64.js"></script>
+	
+	<script type="text/javascript">
+	$(function(){
+		$app.request("../getRule.do",function(json){
+			
+			var map = {};
+			var rules = json.map.rules;
+			for (var i = 0; i < rules.length; i++) {
+				map[rules[i].ckey] = rules[i].val;
+			}
+			
+			var s = new Number(map.rule.split(",")[0]);
+			var e = new Number(map.rule.split(",")[1]);
+			$("#start").val(s);
+			$("#end").val(e);
+			ref1(s,e);
+			
+			var s = new Number(map.rule2.split(",")[0]);
+			var e = new Number(map.rule2.split(",")[1]);
+			$("#start2").val(s);
+			$("#end2").val(e);
+			ref2(s,e);
+			
+			$("#use_rule input[name=rule_type][value="+map.use_rule+"]").attr('checked', 'true');
+			
+		},{param:{}})
+		
+		
+	});
+	
+	
+	function show(mod){
+		if(mod==1){
+			var s = new Number($("#start").val());
+			var e = new Number($("#end").val());
+		}else {
+			var s = new Number($("#start2").val());
+			var e = new Number($("#end2").val());
+		}
+		
+		if(isNaN(s)||isNaN(e)||!validate(s,e)){
+			alert("格式錯誤");
+			return;
+		}
+		if(mod==1){
+			ref1(s,e);
+		}else {
+			ref2(s,e);
+		}
+		
+		
+	}
+	
+	function save(mod){
+		var par = {};
+		switch (mod) {
+		case 3:
+			
+			var r  = $("#use_rule input[name=rule_type]:checked").val();
+			par.mod = 3;
+			par.useRule = r;
+			break;
+		case 1:
+			
+			var s = new Number($("#start").val());
+			var e = new Number($("#end").val());
+			if(isNaN(s)||isNaN(e)||!validate(s,e)){
+				alert("格式錯誤");
+				return;
+			}
+			par.mod = 1;
+			par.start = s;
+			par.end = e;
+			break;
+		case 2:
+			var s = new Number($("#start2").val());
+			var e = new Number($("#end2").val());
+			if(isNaN(s)||isNaN(e)||!validate(s,e)){
+				alert("格式錯誤");
+				return;
+			}
+			par.mod = 2;
+			par.start = s;
+			par.end = e;
+			break;
+	
+
+		default:
+			alert("错误");
+			return ;
+		}
+		
+		
+		$app.request("../setRule.do",function(json){
+			if(json.code!=100)alert(json.message);
+			else{
+				layer.msg('保存成功')
+			}
+			
+		},{param:par});
+	}
+	
+	function validate(start,end){
+		return !(start<1||start>31||end<1||end>31||start>=end);
+	}
+	
+	
+	function ref1(start,end){
+		
+		var html1 = '<tr><th>計算開關</th>';
+		var html2 = '<tr><th>列隊結果</th>';
+		var html3 = '<tr><th>轉換數值</th>';
+		for (var i = 0; i < 30; i++) {
+			if(i+1>=start&&i+1<end){
+				html1 += '<td>鎖定</td>';
+				html2 += '<td>'+(i+1)+'</td>';
+				html3 += '<td>'+Math.pow(2,i+1-start)+'</td>';
+			}else{
+				html1 += '<td>解鎖</td>';
+				html2 += '<td>'+(i+1)+'</td>';
+				html3 += '<td></td>';
+			}
+		}
+		html1 += '</tr>';
+		html2 += '</tr>';
+		html3 += '</tr>';
+		
+		$("#main_group").html(html1+html2+html3)
+		
+		
+		
+	}
+	
+	
+	function ref2(start,end){
+		
+		var html1 = '<tr><th>計算開關</th>';
+		var html2 = '<tr><th>列隊結果</th>';
+		var html3 = '<tr><th>轉換數值</th>';
+		for (var i = 0; i < 30; i++) {
+			if(i+1>=start&&i+1<end){
+				html1 += '<td>鎖定</td>';
+				html2 += '<td>'+(i+1)+'</td>';
+				html3 += '<td>1</td>';
+			}else{
+				html1 += '<td>解鎖</td>';
+				html2 += '<td>'+(i+1)+'</td>';
+				html3 += '<td></td>';
+			}
+		}
+		html1 += '</tr>';
+		html2 += '</tr>';
+		html3 += '</tr>';
+		
+		$("#main_group2").html(html1+html2+html3)
+		
+		
+		
+	}
+	
+	
+	</script>
+</html>

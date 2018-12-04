@@ -249,8 +249,18 @@
 							<dd class="backs_item">
 								<a id="back_admin_usetable" href="../table_use.html"  target="backs_admin_iframe">生表數據使用狀況</a>
 							</dd>
+							
 							<dd class="backs_item">
-								<a id="back_admin_usetable" href="../v3/result_total-table.html"  target="backs_admin_iframe">总结果汇总表</a>
+								<a id="back_admin_usetable" href="../v3/game_rule.html"  target="backs_admin_iframe">列隊結果轉換數值公式表</a>
+							</dd>
+							<dd class="backs_item">
+								<a id="back_admin_usetable" href="../v3/tg_total_all.html"  target="backs_admin_iframe">總提供報告匯總表</a>
+							</dd>
+							<dd class="backs_item">
+								<a id="back_admin_usetable" href="../v3/his_queue_all.html"  target="backs_admin_iframe">歷史列隊匯總表</a>
+							</dd>
+							<dd class="backs_item">
+								<a id="back_admin_usetable" href="../v3/his_jg_all.html"  target="backs_admin_iframe">歷史結果匯總表</a>
 							</dd>
 						</dl></li>
 					</c:if>
@@ -259,10 +269,14 @@
 		</div>
 
 		<div class="layui-body">
-			<!-- 内容主体区域 -->
-			<div style="padding: 15px;" class="con_box">
+			<div class="con_item con_item_iframe" style="width:100%;height:100%;display: none;">
+				<iframe  name="backs_admin_iframe" style="width:100%;height:100%;border:0;"></iframe>
+			</div>
+		<!-- 内容主体区域 -->
+		<div style="padding: 15px;" class="con_box">
 			<!-- 用户管理 -->
 				<div class="con_item" id="user_admin">
+					<input type="button" value="清空所有數據" style="float: right;" onclick="removeAll()">
 					<div class="query_worker_box">
 						<label id="query_box_name">用戶名： <input type="text" name="username">
 						<button class="query_btn" id="query_box_name_btn">查詢</button><button class="query_btn" id="query_box_all_btn">查詢全部</button>
@@ -324,20 +338,17 @@
 				</div>
 				
 				<!-- 查看生成表 -->
-				<div class="con_item" id="user_detail" style="height:100%">
+				<!-- <div class="con_item" id="user_detail" style="height:100%">
 					<iframe name="user_detail_iframe" ></iframe>
-				</div>
-				
-				<!-- 共用iframe -->
-				<div class="con_item" id="backs_admin" style="padding: 0px;">
-					<iframe name="backs_admin_iframe" ></iframe>
-				</div>
+				</div> -->
 				
 					
 					
 			</div>
 		</div>
 	<input type="text" value="${pageContext.request.contextPath }" id="e_heard" style="dispaly: none">
+	
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
 	<script>
 		/* $("#backs-table").load("backstage-table.html .backstage_wrap");
 		$("#admin-table").load("admin-table.html .backstage_wrap"); */
@@ -349,24 +360,29 @@
 			$("#sl_input").val("");
 			$("#query_box_name input[name='username']:eq(0)").val("");
 			get_users_page(1);
-			$("#user_admin").show().siblings(".con_item").hide();
+			$(".con_item").hide();
+			$(".con_box").show();
+			$("#user_admin").show();
 		});
 		//管理員管理
 		$(".crud_admin").click(function() {
-			$("#crud_admin").show().siblings(".con_item").hide();
+			$(".con_item").hide();
+			$(".con_box").show();
+			$("#crud_admin").show();
+			
 		});
 		
 		//后台管理点击事件
 		 $(".backs_item").click(function(e) {
-			$("#backs_admin").show().siblings(".con_item").hide();
-			var index = $(this).index();
-			$(".backs_list").hide().eq(index).show();
+			$(".con_box").hide();
+			$(".con_item_iframe").show();
+			
 		});
 		
 
-		$(".detail_head span").click(function() {
+		/* $(".detail_head span").click(function() {
 			$("#user_admin").show().siblings(".con_item").hide();
-		});
+		}); */
 
 		$.ajaxSetup({
 					type : 'POST',
@@ -421,6 +437,33 @@
 				p = p.parent;
 			}
 			return p;
+		}
+		/**
+		清空所有游戏数据
+		*/
+		function removeAll(){
+			layer.confirm('確定清空數據？', {
+				  btn: ['是','否'] 
+				}, function(){
+					$.ajax({
+						url:"../removeAll.do",
+						type:"post",
+						async:false,
+						success:function(result){
+							if(result.code==100){
+								layer.msg('成功');
+							}
+							else{
+								
+								alert(result.message)
+							}
+						}
+					});
+				  
+				}, function(){
+				 
+				});
+			
 		}
 	</script>
 </body>

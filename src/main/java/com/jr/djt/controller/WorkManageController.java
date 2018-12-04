@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -398,9 +399,163 @@ public class WorkManageController extends BaseController {
 	@ResponseBody
 	public MessageBean allTotalData(String uid) throws Exception{
 		
-		List<Map<String, Object>> list = jdbcTemplate.queryForList("select a.id,a.uid,b.djt_u_name uname,c.queue_count from game_history a LEFT JOIN djt_user b ON a.uid = b.djt_u_id\r\n" + 
-				"left join game_runing_count c ON a.id=c.hid");
-		
+		/*List<Map<String, Object>> list = jdbcTemplate.queryForList("select a.id,a.uid,b.djt_u_name uname,c.queue_count from game_history a LEFT JOIN djt_user b ON a.uid = b.djt_u_id\r\n" + 
+				"left join game_runing_count c ON a.id=c.hid");*/
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"select * from djt_history ORDER BY hid");
 		return MessageBean.success().add("hs", list);
 	}
+	
+	/**
+	 * 提供报告汇总表
+	 * @param user_num
+	 * @param new_password
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="tgData",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean tgData() throws Exception{
+		Map<String, Object> trun = null;
+		try {
+			trun = jdbcTemplate.queryForMap("select * from game_turn WHERE state = 1 limit 1");
+			
+			
+		} catch (EmptyResultDataAccessException e) {
+			throw new RuntimeException("没有正在工作的表格");
+		}
+		
+		List<Map<String, Object>> counts = jdbcTemplate.queryForList("select * from game_runing_count where tid=?",trun.get("id"));;
+		
+		return MessageBean.success().add("turn", trun)
+				.add("counts", counts);
+		
+		
+	}
+	
+	
+	/**
+	 * 提供报告汇总表
+	 * @param user_num
+	 * @param new_password
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="allTgData",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean allTgData(String uid) throws Exception{
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from djt_history order by tid");
+		List<Map<String, Object>> turns = jdbcTemplate.queryForList("SELECT id,lj FROM game_turn WHERE state=2");
+		
+		return MessageBean.success().add("list", list)
+				.add("turns", turns);
+		
+		
+	}
+	
+	
+	/**
+	 * 删除提供记录
+	 * @param uid
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="delHis",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean delHis(String mod,String tid) throws Exception{
+		if(mod==null)throw new RuntimeException("错误的模块类型");
+		switch (mod) {
+		case "1"://全部删除
+			jdbcTemplate.batchUpdate(
+					"DELETE FROM game_turn WHERE id in (select tid from djt_history)" ,
+					"DELETE FROM djt_history ");
+			break;
+		case "2":
+			jdbcTemplate.batchUpdate(
+					"DELETE FROM game_turn WHERE id ="+tid ,
+					"DELETE FROM djt_history WHERE tid="+tid);
+			break;
+
+		default:throw new RuntimeException("错误的模块类型");
+		}
+		
+		return MessageBean.success();
+		
+		
+	}
+	
+	@RequestMapping(value="getRule",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean rule() throws Exception{
+		
+		List<Map<String, Object>> rules = jdbcTemplate.queryForList("select ckey, val from djt_sys where ckey='rule' OR ckey='rule2' OR ckey='use_rule'");
+		
+		
+
+		return MessageBean.success().add("rules", rules);
+		
+		
+	}
+	
+	/**
+	 * 
+	 * @param mod 1:use_rule,2:rule,3:rule2
+	 * @param start
+	 * @param end
+	 * @param useRule 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="setRule",method=RequestMethod.POST)
+	@ResponseBody
+	public MessageBean setRule(String mod,Integer start,Integer end,Integer useRule) throws Exception{
+		
+		if(mod==null)throw new RuntimeException("错误的模块类型");
+		
+		switch (mod) {
+		case "3":
+			if(useRule==null||useRule<1||useRule>2)	throw new RuntimeException("值范围错误");
+				
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='use_rule'",useRule);
+			break;
+		case "1":
+			if(start<1||start>31||end<1||end>31||start>=end)throw new RuntimeException("值范围错误");
+			
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='rule'",start+","+end);
+			break;
+		case "2":
+			if(start<1||start>31||end<1||end>31||start>=end)
+				throw new RuntimeException("值范围错误");
+			
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='rule2'",start+","+end);
+			break;
+			 
+		default:
+			throw new RuntimeException("错误的模块类型");
+		}
+		
+		
+
+		return MessageBean.success();
+		
+		
+	}
+	
+	
+	
+	@RequestMapping(value="removeAll",method=RequestMethod.POST)
+	@ResponseBody
+	private MessageBean removeAll() {
+		
+		
+		jdbcTemplate.batchUpdate("TRUNCATE `game_turn`" ,
+				"TRUNCATE `djt_history`" ,
+				"TRUNCATE `game_history`" ,
+				"TRUNCATE `game_runing`" ,
+				"TRUNCATE `game_runing_count`");
+		
+		return MessageBean.success();
+
+	}
+	
 }

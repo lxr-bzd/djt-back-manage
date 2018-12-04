@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	</head>
+	<style>
+	
+	.table-head{/* padding-right:17px; */left:0px;top:0px;position:relative;overflow-y:scroll;}
+	.table-body{width:100%; height:480px;overflow-y:scroll;}
+	.table-head table,.table-body table{width:100%;}
+	
+	
+	</style>
+	<body >
+		<!--後臺表-->
+		<section class="backstage_wrap" style="overflow-x:scroll;text-align:left;">
+			<div class="backstage_box" style="display: inline-block;text-align:center;">
+				<h2>历史结果汇总表</h2>
+				<!--數據表-->
+				
+				<div class="clearfix history_total_table" style="display: inline-block;">
+					<div class="table-head">
+				    <table border="1">
+				        <colgroup>
+				            <col style="width: 70px;" />
+				        </colgroup>
+				        <thead>
+				            <tr class="group_class">
+							<th>序号</th>
+							<!-- <th>1</th> -->
+							</tr>
+				        </thead>
+				    </table>
+   				 </div>
+   				 <div class="table-body">
+					<!--第壹組-->
+					<table border="1">
+						<colgroup >
+				            <col style="width: 70px;" />
+				        </colgroup>
+					  	<!--數據行--001-->
+					  	<tbody id="main_group">
+					  	<tr>
+					  		<td>1</td>
+					  		<!-- <td></td> -->
+					  	</tr>
+						<tr>
+					  		<td>2</td>
+					  		<!-- <td></td> -->
+					  	</tr>
+					  	</tbody>
+						
+					</table>
+					</div>
+				</div>
+			</div>
+			
+		</section>
+		
+	</body>
+	<script type="text/javascript" src="../js/jquery-1.12.4.min.js" ></script>
+	<script type="text/javascript" src="../js/template-web.js"></script>
+	<script type="text/javascript" src="../js/app.js"></script>
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/gameCore.js"></script>
+	
+	<script type="text/javascript" src="../js/tableExport.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.base64.js"></script>
+	
+	<script type="text/javascript">
+	
+	$(function(){
+		$app.request("../allTgData.do",function(json){
+			var list= json.map.list;
+			
+			var md = [];
+			for (var j = 0; j < list.length; j++) {
+				var m = {hid:list[j].hid,list:[],sum:0};
+				var ts = (list[j].tg?list[j].tg.split(","):null)||[];
+				for (var i = 0; i < ts.length; i++) {
+					if(ts[i]){
+						var t2 = ts[i].split("_");
+						var n = new Number(t2[0])+new Number(t2[1]);
+						m.sum+=n;
+						m.list.push(n);
+					}
+				}
+				md.push(m);
+			}
+			
+			//渲染表头
+			var colHtml = ' <col style="width: 80px;" />';
+			var html = '<th>序号</th>';
+			for (var i = 0; i < md.length; i++) {
+				html+='<th>'+md[i].hid+'</th>';
+				colHtml+=' <col style="width: 70px;" />';
+			}
+			$('.group_class').html(html);
+			$('.group_class').parent().parent().find('colgroup').html(colHtml);
+			
+			html ='';
+			for (var i = 0; i < 180; i++) {
+				html +='<tr><td>'+(i+1)+'</td>';
+				for (var j = 0; j < md.length; j++) {
+					var v = md[j].list[i-1];
+					html+='<td '+(v>0?'class="red"':'')+'>'+(isNaN(v)?'':v)+'</td>';
+				}
+				html+='</tr>';
+			}
+			
+			var jgHtml ='<tr><td>结果汇总</td>';
+			var xhHtml ='<tr><td>序号</td>';
+			var delHtml ='<tr><td><a href="javascript:toDel(1,null)">全选删除</a></td>';
+			for (var j = 0; j < md.length; j++) {
+				var v = md[j].sum;
+				jgHtml+='<td '+(v>0?'class="red"':'')+'>'+(isNaN(v)?'':v)+'</td>';
+				xhHtml+='<td >'+(md[j].hid)+'</td>';
+				delHtml+='<td ><a href="javascript:toDel(2,'+(md[j].hid)+')">删除</a></td>';
+			}
+			jgHtml+='</tr>';
+			xhHtml+='</tr>';
+			delHtml+='</tr>';
+			
+			$('#main_group').html(html+jgHtml+xhHtml+delHtml);
+			$('#main_group').parent().find('colgroup').html(colHtml);
+			
+			
+		},{param:{uid:$app.getQueryStr("uid")}})
+		
+		
+	});
+	
+	
+	
+	function  toDel(mod,hid){
+		
+		layer.confirm(mod==1?'确定删除全部记录？':'确定删除('+hid+')？', {
+			  btn: ['是','否'] //按钮
+			}, function(i){
+				layer.close(i);
+				$app.request("../delTg.do",function(json){
+					
+					if(json.code==100){
+						window.location.reload();
+					}
+					else alert(json.message);
+					
+				},{param:{mod:mod,hid:hid,uid:$app.getQueryStr("uid")}})
+			}, function(){
+			  
+			});
+		
+		
+		
+	}
+	
+	
+	</script>
+	
+	
+	
+</html>

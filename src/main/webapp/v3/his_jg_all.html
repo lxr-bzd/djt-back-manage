@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	</head>
+	<style>
+	
+	.table-head{/* padding-right:17px; */left:0px;top:0px;position:relative;overflow-y:scroll;}
+	.table-body{width:100%; height:480px;overflow-y:scroll;}
+	.table-head table,.table-body table{width:100%;}
+	
+	.group_class th{font-size: 14px;}
+	
+	</style>
+	<body >
+		<!--後臺表-->
+		<section class="backstage_wrap" style="overflow-x:scroll;text-align:left;">
+			<div class="backstage_box" style="display: inline-block;text-align:center;">
+				<h2>歷史結果匯總表</h2>
+				<!--數據表-->
+				
+				<div class="clearfix history_total_table" style="display: inline-block;">
+					<div class="table-head">
+				    <table border="1">
+				        <colgroup>
+				            <col style="width: 70px;" />
+				        </colgroup>
+				        <thead>
+				            <tr class="group_class">
+							<th>序號</th>
+							<!-- <th>1</th> -->
+							</tr>
+				        </thead>
+				    </table>
+   				 </div>
+   				 <div class="table-body">
+					<!--第壹組-->
+					<table border="1">
+						<colgroup >
+				            <col style="width: 70px;" />
+				        </colgroup>
+					  	<!--數據行--001-->
+					  	<tbody id="main_group">
+					  	<tr>
+					  		<td>1</td>
+					  		<!-- <td></td> -->
+					  	</tr>
+						<tr>
+					  		<td>2</td>
+					  		<!-- <td></td> -->
+					  	</tr>
+					  	</tbody>
+						
+					</table>
+					</div>
+				</div>
+			</div>
+			
+		</section>
+		
+	</body>
+	<script type="text/javascript" src="../js/jquery-1.12.4.min.js" ></script>
+	<script type="text/javascript" src="../js/template-web.js"></script>
+	<script type="text/javascript" src="../js/app.js"></script>
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/gameCore.js"></script>
+	
+	<script type="text/javascript" src="../js/tableExport.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.base64.js"></script>
+	
+	<script type="text/javascript">
+	
+	$(function(){
+		$app.request("../allTgData.do",function(json){
+			var list= json.map.list;
+			var turns = json.map.turns;
+			var tus = {};
+			for (var i = 0; i < turns.length; i++) {
+				tus[turns[i].id] = turns[i].lj;
+			}
+			
+			var md = {};
+			for (var j = 0; j < list.length; j++) {
+				if(!md[list[j].tid])md[list[j].tid] = {list:[],sums:[]};
+				var m = md[list[j].tid];
+				var ts = (list[j].tg?list[j].tg.split(","):null)||[];
+				for (var i = 0; i < ts.length; i++) {
+					if(ts[i]){
+						var t2 = ts[i].split("_");
+						var n = new Number(t2[0])+new Number(t2[1]);
+						
+						if(!m.list[i])m.list[i]=0;
+						m.list[i]+=n;
+					}
+				}
+			}
+			
+			for ( var j in md) {
+				
+				var list = md[j].list;
+				var sums = md[j].sums;
+				md[j].qh = 0;
+				md[j].lj = tus[j];
+				if(list.length>0)
+				for (var i = 0; i < list.length; i++) {
+					if(sums.length<1)sums.push(list[i]);
+					else sums.push(list[i]+sums[sums.length-1]);
+					md[j].qh+=(list[i]>0?1:(list[i]<0?-1:0));
+				}
+			}
+			
+			
+			//渲染表頭
+			var colHtml = ' <col style="width: 80px;" />';
+			var html = '<th>序號</th>';
+			var colNum = 1;
+			for (var i in md) {
+				colNum++;
+				html+='<th colspan="2">'+i+'</th>';
+				colHtml+=' <col style="width: 70px;" /><col style="width: 70px;" />';
+			}
+			$('.group_class').html(html);
+			$('.group_class').parent().parent().find('colgroup').html(colHtml);
+			
+			html ='';
+			
+			for (var i = 0; i < 180; i++) {
+				html +='<tr><td>'+(i+1)+'</td>';
+				for (var j in md) {
+					var v = md[j].list[i];
+					var vm = md[j].sums[i];
+					html+='<td '+(v>0?'class="red"':'')+'>'+(isNaN(v)?'':v)+'</td>'+
+					'<td '+(vm>0?'class="red"':'')+'>'+(isNaN(vm)?'':vm)+'</td>';
+				}
+				html+='</tr>';
+			}
+			
+			var jgHtml ='<tr><td>求和</td>';
+			var xhHtml ='<tr><td>累计</td>';
+			var delHtml ='<tr><td><a href="javascript:toDel(1,null)">全選刪除</a></td>';
+			var allLj = 0;
+			var allJg = 0;
+			for (var j in md) {
+				var sums = md[j].sums
+				var v = sums.length>0?sums[sums.length-1]:0;
+				allJg+=v;
+				allLj+=md[j].lj;
+				jgHtml+='<td colspan="2" '+(md[j].qh>0?'class="red"':'')+'>'+(md[j].qh)+'</td>';
+				xhHtml+='<td colspan="2">'+md[j].lj+'</td>';
+				delHtml+='<td colspan="2"><a href="javascript:toDel(2,'+j+')">刪除</a></td>';
+			}
+			jgHtml+='</tr>';
+			xhHtml+='</tr>';
+			delHtml+='</tr>';
+			
+			$('#main_group').html(html+jgHtml
+					+'<tr><td>结果汇总</td><td colspan="'+(colNum*2-1)+'" '+(allJg>0?'class="red"':'')+'>'+allJg+'</td></tr>'
+					+xhHtml
+					+'<tr><td>累计汇总</td><td colspan="'+(colNum*2-1)+'">'+allLj+'</td></tr>'
+					+delHtml+'<tr><td colspan="'+(colNum*2)+'"><a href="javascript:tableExport()">全表導出</a></td></tr>');
+			$('#main_group').parent().find('colgroup').html(colHtml);
+			
+			
+		},{param:{uid:$app.getQueryStr("uid")}})
+		
+		
+	});
+	
+	
+	
+	function  toDel(mod,tid){
+		
+		layer.confirm(mod==1?'確定刪除全部記錄？':'確定刪除('+tid+')？', {
+			  btn: ['是','否'] //按鈕
+			}, function(i){
+				layer.close(i);
+				$app.request("../delHis.do",function(json){
+					
+					if(json.code==100){
+						window.location.reload();
+					}
+					else alert(json.message);
+					
+				},{param:{mod:mod,tid:tid}})
+			}, function(){
+			  
+			});
+		
+		
+		
+	}
+	
+	
+	function tableExport(){
+		layer.confirm('確認導出表格？', {
+			  btn: ['是','否'] //按鈕
+			}, function(i){
+				layer.close(i);
+				var th = $('<tr>'+$(".group_class").html()+'</tr>')
+				var tb = $('#main_group').parent();
+				$('#main_group').prepend(th);
+				tb.tableExport({type:'excel',ignoreColumn: [],ignoreRow:[]
+					, separator:';', escape:'false'
+						 ,formats: ['xlsx']
+				,fileName: '歷史結果匯總表-'+new Date().format("yyyy-MM-dd")});
+				th.remove()
+			}, function(){
+			  
+			});
+		
+		
+	}
+	
+	
+	</script>
+	
+	
+	
+</html>

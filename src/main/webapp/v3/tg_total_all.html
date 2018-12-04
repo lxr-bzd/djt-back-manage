@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<style type="text/css">
+		.total_table_con .title{
+		height: 70px;
+		}
+		
+		.total_table_con th,.total_table_con tr{
+		height: 45px;
+		font-size: 14px;
+		font-weight: bold;
+		}
+		
+		
+		</style>
+	</head>
+	<body>
+		<!--後臺表-->
+		<section class="backstage_wrap">
+			<div class="backstage_box">
+				<!--<h2>後臺表</h2>-->
+				<!--數據表-->
+				<div class="backtable_wrap clearfix total_table">
+					
+						
+					<!--第壹組-->
+					<table border="1" class="total_table_con" style="table-layout:fixed;">
+						<tr><th colspan="29" class="title" >總提供報告匯總表</th></tr>
+						<tr class="group_class">
+						
+							<th colspan="1">序號</th>
+					    	<th colspan="1">老少</th>
+					    	<th colspan="1">連數</th>
+					    	<th colspan="2">值</th>
+					    	<th colspan="3">和值</th>
+					    	<th colspan="3">連+反報    連-正報</th>
+					    	<th colspan="4">報告</th>
+					    	
+					    	<th colspan="1">男女</th>
+					    	<th colspan="1">連數</th>
+					    	<th colspan="2">值</th>
+					    	<th colspan="3">和值</th>
+					    	<th colspan="3">連+反報    連-正報</th>
+					    	<th colspan="4">報告</th>
+						</tr>
+					  	<!--數據行--001-->
+					  	<tbody id="main_group">
+					  		<tr>
+						  	    <td colspan="1" rowspan="4" class="frow">--</td>
+						  		<td colspan="1">老</td>
+								<td colspan="1">+</td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								<td colspan="1" rowspan="4"></td>
+								<td colspan="3" rowspan="4"></td>
+								               
+								<td colspan="1">男</td>
+								<td colspan="1">+</td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								<td colspan="1" rowspan="4"></td>
+								<td colspan="3" rowspan="4"></td>
+							</tr>
+							<tr>
+						  		<td colspan="1">少</td>
+								<td colspan="1">+</td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								               
+								<td colspan="1">女</td>
+								<td colspan="1">+</td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+							</tr>
+							<tr>
+						  		<td colspan="1">老</td>
+								<td colspan="1">-</td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								               
+								<td colspan="1">男</td>
+								<td colspan="1">-</td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+							</tr>
+							<tr>
+						  		<td colspan="1">少</td>
+								<td colspan="1">-</td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								               
+								<td colspan="1">女</td>
+								<td colspan="1">-</td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+								<td colspan="1"></td>
+								<td colspan="2"></td>
+							</tr>
+							<!-- 實計開始 -->
+							<tr>
+						  		<td colspan="1" class="frow_up"></td>
+								<td colspan="10">實計</td>
+								<td colspan="4"></td>
+								<td colspan="10">實計</td>
+								<td colspan="4"></td>
+							</tr>
+							<tr>
+						  		<td colspan="1">結果</td>
+								<td colspan="28"></td>
+							</tr>
+						</tbody>
+						
+					</table>
+					
+				</div>
+			</div>
+			
+		</section>
+		
+	<script type="text/javascript" src="../js/jquery-1.12.4.min.js" ></script>
+	<script type="text/javascript" src="../js/template-web.js"></script>
+	<script type="text/javascript" src="../js/app.js"></script>
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/gameCore.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$app.request("../tgData.do",function(json){
+				
+				if(json.code!=100){
+					alert(json.message);
+					return;
+				}
+				ref(json.map)
+				
+				
+				
+			},{param:{uid:$app.getQueryStr("uid")}});		
+		});
+		
+		
+		function ref(data){
+			if(!data.turn){
+				alert("沒有正在工作的表格");
+				return ;
+			}
+			
+			var frow = data.turn.frow-2;
+			
+			if(frow<2){
+				$(".frow").html(frow);
+				if(frow-1>-1)
+				$(".frow_up").html(frow-1);
+				return ;
+			}
+			var sj = {s1:0,s2:0,sum:0};
+			
+			var tgM = [];
+			for (var i = 0; i < data.counts.length; i++) {
+					var ts = data.counts[i].tg?data.counts[i].tg.split(","):[];
+					if(ts.length<1){
+						sj.s1=null;sj.s2=null;
+						break;
+					}
+					sj.s1+=new Number(ts[ts.length-2].split("_")[0]);
+					sj.s2+=new Number(ts[ts.length-2].split("_")[1]);
+					for (var j = 0; j < ts.length; j++) {
+						if(!ts[j])continue;
+						var a1 = new Number(ts[j].split("_")[0]);
+						var a2 = new Number(ts[j].split("_")[1]);
+						sj.sum+=(a1+a2);
+					}
+					
+			}
+				
+			
+			
+			var html = template("tmpl_tb",{frow:frow,tg:createTg(eval(data.turn.info)),sj:sj});
+			$("#main_group").html(html);
+			
+			
+		}
+		
+		function createTg(info){
+			info[0] = info[0]||[];
+			info[1] = info[1]||[];
+			info[2] = info[2]||[];
+			info[3] = info[3]||[];
+			
+			var info1 = {
+					'老+':{v:info[6][0]},'少+':{v:info[6][1]},
+					'老-':{v:info[6][2]},'少-':{v:info[6][3]},
+					'男+':{v:info[6][4]},'女+':{v:info[6][5]},
+					'男-':{v:info[6][6]},'女-':{v:info[6][7]},
+			}
+			
+			
+			info1[(info[0][0]==0?'老':'少')+'+'].hz=info[0][1];
+			info1[(info[1][0]==2?'老':'少')+'-'].hz=info[1][1];
+			info1[(info[2][0]==4?'男':'女')+'+'].hz=info[2][1];
+			info1[(info[3][0]==6?'男':'女')+'-'].hz=info[3][1];
+			
+			
+			
+			var tg = {lsbg:{k:info[4]==0?'':(info[4]>0?'老':'少'),v:Math.abs(info[4])}
+			 ,nnbg:{k:info[5]==0?'':(info[5]>0?'男':'女'),v:Math.abs(info[5])}
+			 ,info:info1};
+			
+			
+			
+			return tg;
+		}
+		
+		
+		</script>
+
+		
+	</body>
+	<script type="text/html" id="tmpl_tb">
+
+	<tr>
+				<td colspan="1" rowspan="4">{{frow}}</td>
+				<td colspan="1">老</td>
+				<td colspan="1">+</td>
+				<td colspan="2">{{tg.info['老+'].v}}</td>
+				{{if tg.info['老+'].hz}}
+					<td colspan="1">+</td><td colspan="2">{{tg.info['老+'].hz}}</td>
+					<td colspan="1">少</td><td colspan="2">{{tg.info['老+'].hz}}</td>
+				{{else}}
+				<td colspan="1"></td><td colspan="2"></td>		
+				<td colspan="1"></td><td colspan="2"></td>	
+				{{/if}}
+				<td colspan="1" rowspan="4">{{tg.lsbg.k}}</td>
+				<td colspan="3" rowspan="4" class="red">{{tg.lsbg.v}}</td>
+								               
+				<td colspan="1">男</td>
+				<td colspan="1">+</td>
+				<td colspan="2">{{tg.info['男+'].v}}</td>
+				{{if tg.info['男+'].hz}}
+					<td colspan="1">+</td><td colspan="2">{{tg.info['男+'].hz}}</td>
+					<td colspan="1">女</td><td colspan="2">{{tg.info['男+'].hz}}</td>
+				{{else}}
+				<td colspan="1"></td><td colspan="2"></td>		
+				<td colspan="1"></td><td colspan="2"></td>	
+				{{/if}}
+				<td colspan="1" rowspan="4">{{tg.nnbg.k}}</td>
+				<td colspan="3" rowspan="4" class="red">{{tg.nnbg.v}}</td>
+			</tr>
+			<tr>
+				<td colspan="1">少</td>
+				<td colspan="1">+</td>
+				<td colspan="2">{{tg.info['少+'].v}}</td>
+				{{if tg.info['少+'].hz}}
+					<td colspan="1">+</td><td colspan="2">{{tg.info['少+'].hz}}</td>
+					<td colspan="1">老</td><td colspan="2">{{tg.info['少+'].hz}}</td>
+				{{else}}
+				<td colspan="1"></td><td colspan="2"></td>		
+				<td colspan="1"></td><td colspan="2"></td>	
+				{{/if}}
+			               
+				<td colspan="1">女</td>
+				<td colspan="1">+</td>
+				<td colspan="2">{{tg.info['女+'].v}}</td>
+				{{if tg.info['女+'].hz}}
+					<td colspan="1">+</td><td colspan="2">{{tg.info['女+'].hz}}</td>
+					<td colspan="1">男</td><td colspan="2">{{tg.info['女+'].hz}}</td>
+				{{else}}
+				<td colspan="1"></td><td colspan="2"></td>		
+				<td colspan="1"></td><td colspan="2"></td>	
+				{{/if}}
+			</tr>
+			<tr>
+				<td colspan="1">老</td>
+				<td colspan="1">-</td>
+				<td colspan="2">{{tg.info['老-'].v}}</td>
+				{{if tg.info['老-'].hz}}
+					<td colspan="1">-</td><td colspan="2">{{tg.info['老-'].hz}}</td>
+					<td colspan="1">老</td><td colspan="2">{{tg.info['老-'].hz}}</td>
+				{{else}}
+				<td colspan="1"></td><td colspan="2"></td>		
+				<td colspan="1"></td><td colspan="2"></td>	
+				{{/if}}
+				               
+				<td colspan="1">男</td>
+				<td colspan="1">-</td>
+				<td colspan="2">{{tg.info['男-'].v}}</td>
+				{{if tg.info['男-'].hz}}
+					<td colspan="1">-</td><td colspan="2">{{tg.info['男-'].hz}}</td>
+					<td colspan="1">男</td><td colspan="2">{{tg.info['男-'].hz}}</td>
+				{{else}}
+				<td colspan="1"></td><td colspan="2"></td>		
+				<td colspan="1"></td><td colspan="2"></td>	
+				{{/if}}
+			</tr>
+			<tr>
+				 <td colspan="1">少</td>
+				 <td colspan="1">-</td>
+				 <td colspan="2">{{tg.info['少-'].v}}</td>
+				{{if tg.info['少-'].hz}}
+					<td colspan="1">-</td><td colspan="2">{{tg.info['少-'].hz}}</td>
+					<td colspan="1">少</td><td colspan="2">{{tg.info['少-'].hz}}</td>
+				{{else}}
+				<td colspan="1"></td><td colspan="2"></td>		
+				<td colspan="1"></td><td colspan="2"></td>	
+				{{/if}}
+				                
+				 <td colspan="1">女</td>
+				 <td colspan="1">-</td>
+				 <td colspan="2">{{tg.info['女-'].v}}</td>
+				 {{if tg.info['女-'].hz}}
+					<td colspan="1">-</td><td colspan="2">{{tg.info['女-'].hz}}</td>
+					<td colspan="1">女</td><td colspan="2">{{tg.info['女-'].hz}}</td>
+				{{else}}
+				<td colspan="1"></td><td colspan="2"></td>		
+				<td colspan="1"></td><td colspan="2"></td>	
+				{{/if}}
+			</tr>
+							<!-- 實計開始 -->
+							<tr>
+						  		<td colspan="1">{{frow-1}}</td>
+								<td colspan="10">實計</td>
+								<td colspan="4"class="red">{{sj.s1}}</td>
+								<td colspan="10">實計</td>
+								<td colspan="4"class="red">{{sj.s2}}</td>
+							</tr>
+							<tr>
+						  		<td colspan="1">結果</td>
+								<td colspan="28" class="red">{{sj.sum}}</td>
+							</tr>
+</script>
+</html>

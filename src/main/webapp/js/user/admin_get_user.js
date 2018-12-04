@@ -244,10 +244,11 @@ function check_uname(uname){
 			var u_sel_btn = $("<td></td>").append('<button class="up_password_btn" data-name="'+item.u_name+'">修改用户</button>'
 			+' | <button class="delete_one_btn">刪除</button>');
 			if($("#data_group").attr("data-is-su"))
-			u_sel_btn.append(" | ").append('<button class="look_btn" data-url="../v3/game_info.html?uid='+item.u_id+'">查看后台表</button>'
-			+' | <button class="look_btn"  data-url="../v3/game_history.html?uid='+item.u_id+'">查看历史记录汇总表</button>'
-			+' | <button class="look_btn" data-url="../v3/game_total.html?uid='+item.u_id+'">查看汇总表</button>'
-			+' | <button class="look_btn" data-url="../v3/game_history_list.html?uid='+item.u_id+'">管理历史记录</button>');
+			u_sel_btn.append(" | ").append('<button class="look_btn" data-url="../v3/game_info.html?uid='+item.u_id+'">查看後臺表</button>'
+			
+			+' | <button class="look_btn" data-url="../v3/game_total.html?uid='+item.u_id+'">查看匯總表</button>'
+			+' | <button class="look_btn"  data-url="../v3/game_history_queue.html?uid='+item.u_id+'">歷史隊列匯總表</button>'
+			/*+' | <button class="look_btn"  data-url="../v3/game_history_jg.html?uid='+item.u_id+'">历史结果汇总表</button>'*/);
 			
 			var u_tr = $("<tr></tr>").append(u_check_box).append(u_name_td).append(u_lock_btn).append(useTable)
 			.append(isSu).append(u_sel_btn);
@@ -280,8 +281,9 @@ function check_uname(uname){
 		});
 		//查看信息綁定
 		$(".look_btn").click(function(e){
-			$("#user_detail").show().siblings(".con_item").hide();
-			$("iframe[name=user_detail_iframe]").attr("src",$(e.target).attr("data-url"));
+			$(".con_box").hide();
+			$(".con_item_iframe").show();
+			$(".con_item_iframe>iframe").attr("src",$(e.target).attr("data-url"));
 			/*var user_num = $(this).parents("tr").find(".worker_ck").eq(0).attr("num");
 			check_user_data(user_num,1);*/
 		});
