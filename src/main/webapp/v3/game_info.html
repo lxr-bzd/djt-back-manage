@@ -91,6 +91,7 @@
 						</tbody>
 						<!--統計-->
 						<tr><th colspan="2">序號</th><th colspan="20">第<span class="grp">--</span>組</th></tr>
+						<tr><th colspan="2">原值</th><th colspan="20" class="game_yz">--</th></tr>
 						<tr><th colspan="2">列隊統計</th><th colspan="20" class="red queue-sum">--</th></tr>
 						<tr class="child_tr">
 							<td colspan="2" rowspan="4">列隊結果</td>
@@ -219,6 +220,7 @@
 						</tbody>
 						<!--統計-->
 						<tr><th colspan="2">序號</th><th colspan="20">第<span class="grp">--</span>組</th></tr>
+						<tr><th colspan="2">原值</th><th colspan="20" class=" game_yz">--</th></tr>
 						<tr><th colspan="2">列隊統計</th><th colspan="20" class="red queue-sum" >--</th></tr>
 						<tr class="child_tr">
 							<td colspan="2" rowspan="4">列隊結果</td>
@@ -400,9 +402,20 @@
 					else html2+='<td class="red">'+(v==0?"":v)+'</td>';
 					
 				}
+				
 				$(group).find(".queue-sum").html(gqSum);
 				$(group).find(".queue1").html(html);
 				$(group).find(".queue2").html(html2);
+				//计算原值
+				var yz = 0;
+				for (var i = 0; i < map.data.length; i++) {
+					if(map.data[i].row<3||!map.data[i].gong_col)continue;
+					var gc = map.data[i].gong_col.split(",")[grp-1];
+					for (var j = 0; j < gc.length; j++) {
+						yz+=(gc.charAt(j)=='2'?1:-1)
+					}
+				}
+				$(group).find(".game_yz").html(yz);
 				
 				//結束處理列隊統計
 				

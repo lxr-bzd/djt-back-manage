@@ -14,6 +14,8 @@
 	
 	.group_class th{font-size: 14px;}
 	
+	.style_group>th{height: 1px;}
+	
 	</style>
 	<body >
 		<!--後臺表-->
@@ -23,12 +25,13 @@
 				<!--數據表-->
 				
 				<div class="clearfix history_total_table" style="display: inline-block;">
-					<div class="table-head">
-				    <table border="1">
+					<div class="table-head" style="width:auto;">
+				    <table border="1" style="table-layout: fixed;">
 				        <colgroup>
 				            <col style="width: 70px;" />
 				        </colgroup>
 				        <thead>
+				        	
 				            <tr class="group_class">
 							<th>序號</th>
 							<!-- <th>1</th> -->
@@ -36,9 +39,9 @@
 				        </thead>
 				    </table>
    				 </div>
-   				 <div class="table-body">
+   				 <div class="table-body" >
 					<!--第壹組-->
-					<table border="1">
+					<table border="1" style="table-layout: fixed;">
 						<colgroup >
 				            <col style="width: 70px;" />
 				        </colgroup>
@@ -84,8 +87,10 @@
 			
 			var md = {};
 			for (var j = 0; j < list.length; j++) {
-				if(!md[list[j].tid])md[list[j].tid] = {list:[],sums:[]};
+				if(!md[list[j].tid])md[list[j].tid] = {list:[],sums:[],ys:0};
 				var m = md[list[j].tid];
+				
+				m.ys+=list[j].ys;
 				var ts = (list[j].tg?list[j].tg.split(","):null)||[];
 				for (var i = 0; i < ts.length; i++) {
 					if(ts[i]){
@@ -122,7 +127,9 @@
 				html+='<th colspan="2">'+i+'</th>';
 				colHtml+=' <col style="width: 70px;" /><col style="width: 70px;" />';
 			}
-			$('.group_class').html(html);
+			colHtml+=' <col style="width: 80px;" />';
+			$('.group_class').html(html+'<th>序號</th>');
+			
 			$('.group_class').parent().parent().find('colgroup').html(colHtml);
 			
 			html ='';
@@ -135,33 +142,49 @@
 					html+='<td '+(v>0?'class="red"':'')+'>'+(isNaN(v)?'':v)+'</td>'+
 					'<td '+(vm>0?'class="red"':'')+'>'+(isNaN(vm)?'':vm)+'</td>';
 				}
-				html+='</tr>';
+				html+=('<td>'+(i+1)+'</td></tr>');
 			}
 			
-			var jgHtml ='<tr><td>求和</td>';
-			var xhHtml ='<tr><td>累计</td>';
+			var ysHtml ='<tr><td>原值</td>';
+			var jgHtml ='<tr><td>结果</td>';
+			var qhHtml ='<tr><td>求和</td>';
+			var ljHtml ='<tr><td>累计</td>';
 			var delHtml ='<tr><td><a href="javascript:toDel(1,null)">全選刪除</a></td>';
 			var allLj = 0;
 			var allJg = 0;
+			var allYz = 0;
+			var allQh = 0;
 			for (var j in md) {
 				var sums = md[j].sums
 				var v = sums.length>0?sums[sums.length-1]:0;
 				allJg+=v;
 				allLj+=md[j].lj;
-				jgHtml+='<td colspan="2" '+(md[j].qh>0?'class="red"':'')+'>'+(md[j].qh)+'</td>';
-				xhHtml+='<td colspan="2">'+md[j].lj+'</td>';
+				allYz+=md[j].ys;
+				allQh+=md[j].qh;
+				
+				ysHtml+='<td colspan="2" '+(md[j].ys>0?'class="red"':'')+'>'+(md[j].ys)+'</td>';
+				jgHtml+='<td colspan="2" '+(v>0?'class="red"':'')+'>'+(v)+'</td>';
+				qhHtml+='<td colspan="2" '+(md[j].qh>0?'class="red"':'')+'>'+(md[j].qh)+'</td>';
+				ljHtml+='<td colspan="2" '+(md[j].lj>0?'class="red"':'')+'>'+md[j].lj+'</td>';
 				delHtml+='<td colspan="2"><a href="javascript:toDel(2,'+j+')">刪除</a></td>';
 			}
-			jgHtml+='</tr>';
-			xhHtml+='</tr>';
-			delHtml+='</tr>';
+			ysHtml+='<td>原值</td></tr>';
+			jgHtml+='<td>结果</td></tr>';
+			qhHtml+='<td>求和</td></tr>';
+			ljHtml+='<td>累计</td></tr>';
+			delHtml+='<td><a href="javascript:toDel(1,null)">全選刪除</a></td></tr>';
 			
-			$('#main_group').html(html+jgHtml
-					+'<tr><td>结果汇总</td><td colspan="'+(colNum*2-1)+'" '+(allJg>0?'class="red"':'')+'>'+allJg+'</td></tr>'
-					+xhHtml
-					+'<tr><td>累计汇总</td><td colspan="'+(colNum*2-1)+'">'+allLj+'</td></tr>'
-					+delHtml+'<tr><td colspan="'+(colNum*2)+'"><a href="javascript:tableExport()">全表導出</a></td></tr>');
+			$('#main_group').html(html
+					+ysHtml+'<tr><td>原值汇总</td><td colspan="'+(colNum*2-2)+'" '+(allYz>0?'class="red"':'')+'>'+allYz+'</td><td>原值汇总</td></tr>'
+					+jgHtml+'<tr><td>结果汇总</td><td colspan="'+(colNum*2-2)+'" '+(allJg>0?'class="red"':'')+'>'+allJg+'</td><td>结果汇总</td></tr>'
+					+qhHtml+'<tr><td>求和汇总</td><td colspan="'+(colNum*2-2)+'" '+(allQh>0?'class="red"':'')+'>'+allQh+'</td><td>求和汇总</td></tr>'
+					+ljHtml+'<tr><td>累计汇总</td><td colspan="'+(colNum*2-2)+'" '+(allLj>0?'class="red"':'')+'>'+allLj+'</td><td>累计汇总</td></tr>'
+					+delHtml
+					+'<tr><td colspan="'+(colNum*2)+'"><a href="javascript:tableExport()">全表導出</a></td></tr>');
 			$('#main_group').parent().find('colgroup').html(colHtml);
+			
+			$('.table-head').css('width',(colNum*140+160)+'px')
+			$('.table-body').css('width',(colNum*140+160)+'px')
 			
 			
 		},{param:{uid:$app.getQueryStr("uid")}})
