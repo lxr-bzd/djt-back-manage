@@ -20,8 +20,10 @@
 				<div class="clearfix history_total_table" style="overflow-x: scroll;">
 					
 					<!--第壹組-->
-					<table border="1">
-						<tr><th rowspan="2">序號</th><th colspan="40">列隊結果</th><th rowspan="2" class="red"><a href="javascript:toDel(1,null)">全選刪除</a></th></tr>
+					<table border="1" style="">
+						<tr><th rowspan="2">序號</th><th colspan="50">列隊結果</th>
+						<th rowspan="2" class="red"><a title="導出表格" href="javascript:tableExport()">全表導出</a></th>
+						</tr>
 						<tr class="group_class">
 					    	<th>1</th>
 							<th>2</th>
@@ -63,6 +65,16 @@
 							<th>38</th>
 							<th>39</th>
 							<th>40</th>
+							<th>41</th>
+							<th>42</th>
+							<th>43</th>
+							<th>44</th>
+							<th>45</th>
+							<th>46</th>
+							<th>47</th>
+							<th>48</th>
+							<th>49</th>
+							<th>50</th>
 						</tr>
 					  	<!--數據行--001-->
 					  	<tbody id="main_group">
@@ -182,7 +194,18 @@
 							<th>38</th>
 							<th>39</th>
 							<th>40</th>
-							<th><a title="導出表格" href="javascript:tableExport()">全表導出</a></th>
+							<th>41</th>
+							<th>42</th>
+							<th>43</th>
+							<th>44</th>
+							<th>45</th>
+							<th>46</th>
+							<th>47</th>
+							<th>48</th>
+							<th>49</th>
+							<th>50</th>
+							<th ><a href="javascript:toDel(1,null)">全選刪除</a></th>
+							
 							
 							
 						</tr>
@@ -234,18 +257,19 @@
 	
 	function rdTb(mod){
 		
-		var yCount = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		var yCount = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 		var html = "";
 		var allCount = 0;
 		for ( var i in mod) {
 			var item = mod[i];
 			var xCount = 0;
 			html += '<tr><th>'+item.tid+'</th>';
-			for (var i = 0; i < 40; i++) {
-				html+='<td>'+item.list[i]+'</td>'
+			for (var i = 0; i < 50; i++) {
+				html+='<td>'+(isNaN(item.list[i])?'':item.list[i])+'</td>'
+				if(isNaN(item.list[i]))continue;
 				xCount+=item.list[i];
 				yCount[i]+=item.list[i];
-			}
+			} 
 			allCount+=xCount;
 			html+='<th ><a href="javascript:toDel(2,'+item.tid+')">刪除</a></th></tr>'
 			

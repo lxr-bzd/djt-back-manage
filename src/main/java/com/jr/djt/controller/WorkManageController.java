@@ -393,7 +393,7 @@ public class WorkManageController extends BaseController {
 	 * @param user_num
 	 * @param new_password
 	 * @return
-	 * @throws Exception
+	 * @throws ExceptiongetRule
 	 */
 	@RequestMapping(value="allTotalData",method=RequestMethod.POST)
 	@ResponseBody
@@ -425,7 +425,7 @@ public class WorkManageController extends BaseController {
 			throw new RuntimeException("没有正在工作的表格");
 		}
 		
-		List<Map<String, Object>> counts = jdbcTemplate.queryForList("select * from game_runing_count where tid=?",trun.get("id"));;
+		List<Map<String, Object>> counts = jdbcTemplate.queryForList("select b.id,b.tid,b.hid,b.tg,b.rule,b.rule_type,b.ys,b.g,b.g_sum from game_runing_count b  where b.tid=?",trun.get("id"));;
 		
 		return MessageBean.success().add("turn", trun)
 				.add("counts", counts);
@@ -445,7 +445,7 @@ public class WorkManageController extends BaseController {
 	@ResponseBody
 	public MessageBean allTgData(String uid) throws Exception{
 		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from djt_history order by tid");
-		List<Map<String, Object>> turns = jdbcTemplate.queryForList("SELECT id,lj FROM game_turn WHERE state=2");
+		List<Map<String, Object>> turns = jdbcTemplate.queryForList("SELECT id,lj,yz_jg FROM game_turn WHERE state=2");
 		
 		return MessageBean.success().add("list", list)
 				.add("turns", turns);
@@ -488,7 +488,7 @@ public class WorkManageController extends BaseController {
 	@ResponseBody
 	public MessageBean rule() throws Exception{
 		
-		List<Map<String, Object>> rules = jdbcTemplate.queryForList("select ckey, val from djt_sys where ckey='rule' OR ckey='rule2' OR ckey='use_rule'");
+		List<Map<String, Object>> rules = jdbcTemplate.queryForList("select ckey, val from djt_sys where ckey='rule' OR ckey='rule2' OR ckey='use_rule' OR ckey='mod2'");
 		
 		
 
@@ -508,23 +508,28 @@ public class WorkManageController extends BaseController {
 	 */
 	@RequestMapping(value="setRule",method=RequestMethod.POST)
 	@ResponseBody
-	public MessageBean setRule(String mod,Integer start,Integer end,Integer useRule) throws Exception{
-		
+	public MessageBean setRule(String mod,Integer start,Integer end,Integer useRule,Integer mod2) throws Exception{
+		int maxEnd = 51;
 		if(mod==null)throw new RuntimeException("错误的模块类型");
 		
 		switch (mod) {
+		case "4":
+			if(mod2==null||mod2<1||mod2>2)	throw new RuntimeException("值范围错误");
+				
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='mod2'",mod2);
+			break;
 		case "3":
 			if(useRule==null||useRule<1||useRule>2)	throw new RuntimeException("值范围错误");
 				
 			jdbcTemplate.update("update djt_sys set val=? where ckey ='use_rule'",useRule);
 			break;
 		case "1":
-			if(start<1||start>31||end<1||end>31||start>=end)throw new RuntimeException("值范围错误");
+			if(start<1||start>maxEnd||end<1||end>maxEnd||start>=end)throw new RuntimeException("值范围错误");
 			
 			jdbcTemplate.update("update djt_sys set val=? where ckey ='rule'",start+","+end);
 			break;
 		case "2":
-			if(start<1||start>31||end<1||end>31||start>=end)
+			if(start<1||start>maxEnd||end<1||end>maxEnd||start>=end)
 				throw new RuntimeException("值范围错误");
 			
 			jdbcTemplate.update("update djt_sys set val=? where ckey ='rule2'",start+","+end);

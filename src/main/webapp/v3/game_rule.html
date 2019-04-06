@@ -10,10 +10,17 @@
 		<!--後臺表-->
 		<section class="backstage_wrap">
 			<div id="use_rule" style="text-align: left;padding: 10px 20px;">
-				<span>设置转换公式表：</span>
+				<span>設置轉換公式表：</span>
 				<input type="radio" name="rule_type" value="1"> 表1
 				<input type="radio" name="rule_type" value="2"> 表2 
 				<input value="保存" type="button"  onclick="save(3)">
+			</div>
+			
+			<div id="mod2" style="text-align: left;padding: 10px 20px;">
+				<span>設置模式：</span>
+				<input type="radio" name="mod2" value="1"> A模式
+				<input type="radio" name="mod2" value="2"> B模式
+				<input value="保存" type="button"  onclick="save(4)">
 			</div>
 			<div class="backstage_box">
 				<h2>列隊結果轉換數值公式表1</h2>
@@ -212,6 +219,17 @@
 							<td>28</td>
 							<td>29</td>
 							<td>30</td>
+							<td>30</td>
+							<td>31</td>
+							<td>32</td>
+							<td>33</td>
+							<td>34</td>
+							<td>35</td>
+							<td>36</td>
+							<td>37</td>
+							<td>38</td>
+							<td>39</td>
+							<td>40</td>
 					  	</tr> 
 					  	<tr>
 					  		<th>轉換數值</th>
@@ -274,6 +292,11 @@
 	<script type="text/javascript" src="../js/jquery.base64.js"></script>
 	
 	<script type="text/javascript">
+	
+	var config = {maxLen : 50};
+	
+	
+	
 	$(function(){
 		$app.request("../getRule.do",function(json){
 			
@@ -296,7 +319,7 @@
 			ref2(s,e);
 			
 			$("#use_rule input[name=rule_type][value="+map.use_rule+"]").attr('checked', 'true');
-			
+			$("#mod2 input[name=mod2][value="+map.mod2+"]").attr('checked', 'true');
 		},{param:{}})
 		
 		
@@ -328,6 +351,12 @@
 	function save(mod){
 		var par = {};
 		switch (mod) {
+		case 4:
+			
+			var r  = $("#mod2 input[name=mod2]:checked").val();
+			par.mod = 4;
+			par.mod2 = r;
+			break;
 		case 3:
 			
 			var r  = $("#use_rule input[name=rule_type]:checked").val();
@@ -375,7 +404,7 @@
 	}
 	
 	function validate(start,end){
-		return !(start<1||start>31||end<1||end>31||start>=end);
+		return !(start<1||start>config.maxLen+1||end<1||end>config.maxLen+1||start>=end);
 	}
 	
 	
@@ -384,7 +413,7 @@
 		var html1 = '<tr><th>計算開關</th>';
 		var html2 = '<tr><th>列隊結果</th>';
 		var html3 = '<tr><th>轉換數值</th>';
-		for (var i = 0; i < 30; i++) {
+		for (var i = 0; i < config.maxLen; i++) {
 			if(i+1>=start&&i+1<end){
 				html1 += '<td>鎖定</td>';
 				html2 += '<td>'+(i+1)+'</td>';
@@ -411,7 +440,7 @@
 		var html1 = '<tr><th>計算開關</th>';
 		var html2 = '<tr><th>列隊結果</th>';
 		var html3 = '<tr><th>轉換數值</th>';
-		for (var i = 0; i < 30; i++) {
+		for (var i = 0; i < config.maxLen; i++) {
 			if(i+1>=start&&i+1<end){
 				html1 += '<td>鎖定</td>';
 				html2 += '<td>'+(i+1)+'</td>';

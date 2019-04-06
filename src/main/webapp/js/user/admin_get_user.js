@@ -237,11 +237,11 @@ function check_uname(uname){
 			var u_check_box = $("<td></td>").append($("<input type='checkbox' class='worker_ck' num='"+item.u_id+"'></input>"));
 			//var u_id_td = $("<td></td>").append(item.u_id);
 			var u_name_td = $("<td></td>").append(item.u_name);
-			var u_lock_btn = $("<td></td>").append($("<button></button>").append(item.u_islock == 1 ? "锁定" : "解锁").addClass(item.u_islock == 1 ? "locking_btn" : "locking_btn active").attr("status",item.u_islock == 1 ? "1":"2"));
+			var u_lock_btn = $("<td></td>").append($("<button></button>").append(item.u_islock == 1 ? "鎖定" : "解鎖").addClass(item.u_islock == 1 ? "locking_btn" : "locking_btn active").attr("status",item.u_islock == 1 ? "1":"2"));
 			var useTable = $("<td>"+(item.isSu == 1 ? item.u_use_table : "-")+"</td>");
 			var isSu = $("<td></td>").append($("<button></button>").append(item.isSu == 1 ? "是" : "否"));
 			
-			var u_sel_btn = $("<td></td>").append('<button class="up_password_btn" data-name="'+item.u_name+'">修改用户</button>'
+			var u_sel_btn = $("<td></td>").append('<button class="up_password_btn" data-name="'+item.u_name+'">修改用戶</button>'
 			+' | <button class="delete_one_btn">刪除</button>');
 			if($("#data_group").attr("data-is-su"))
 			u_sel_btn.append(" | ").append('<button class="look_btn" data-url="../v3/game_info.html?uid='+item.u_id+'">查看後臺表</button>'
@@ -580,9 +580,9 @@ function check_uname(uname){
 			success:function(result){
 				if(result.code==100){
 					if (ele.hasClass("active")) {
-						ele.removeClass("active").attr("status","1").text("锁定")
+						ele.removeClass("active").attr("status","1").text("鎖定")
 					} else{
-						ele.addClass("active").attr("status","2").text("解锁")
+						ele.addClass("active").attr("status","2").text("解鎖")
 					}
 				}
 			},

@@ -82,7 +82,7 @@
 			var turns = json.map.turns;
 			var tus = {};
 			for (var i = 0; i < turns.length; i++) {
-				tus[turns[i].id] = turns[i].lj;
+				tus[turns[i].id] = turns[i];
 			}
 			
 			var md = {};
@@ -108,7 +108,8 @@
 				var list = md[j].list;
 				var sums = md[j].sums;
 				md[j].qh = 0;
-				md[j].lj = tus[j];
+				md[j].lj = tus[j].lj;
+				md[j].yzData = getYzData(tus[j]);
 				if(list.length>0)
 				for (var i = 0; i < list.length; i++) {
 					if(sums.length<1)sums.push(list[i]);
@@ -116,6 +117,8 @@
 					md[j].qh+=(list[i]>0?1:(list[i]<0?-1:0));
 				}
 			}
+			
+		
 			
 			
 			//渲染表頭
@@ -134,7 +137,7 @@
 			
 			html ='';
 			
-			for (var i = 0; i < 180; i++) {
+			for (var i = 0; i < 210; i++) {
 				html +='<tr><td>'+(i+1)+'</td>';
 				for (var j in md) {
 					var v = md[j].list[i];
@@ -148,7 +151,7 @@
 			var ysHtml ='<tr><td>原值</td>';
 			var jgHtml ='<tr><td>结果</td>';
 			var qhHtml ='<tr><td>求和</td>';
-			var ljHtml ='<tr><td>累计</td>';
+			var ljHtml ='<tr><td>供計</td>';
 			var delHtml ='<tr><td><a href="javascript:toDel(1,null)">全選刪除</a></td>';
 			var allLj = 0;
 			var allJg = 0;
@@ -159,10 +162,10 @@
 				var v = sums.length>0?sums[sums.length-1]:0;
 				allJg+=v;
 				allLj+=md[j].lj;
-				allYz+=md[j].ys;
+				allYz+=md[j].yzData[1].sum;
 				allQh+=md[j].qh;
 				
-				ysHtml+='<td colspan="2" '+(md[j].ys>0?'class="red"':'')+'>'+(md[j].ys)+'</td>';
+				ysHtml+='<td colspan="2" '+(md[j].yzData[1].sum>0?'class="red"':'')+'>'+(md[j].yzData[1].sum)+'</td>';
 				jgHtml+='<td colspan="2" '+(v>0?'class="red"':'')+'>'+(v)+'</td>';
 				qhHtml+='<td colspan="2" '+(md[j].qh>0?'class="red"':'')+'>'+(md[j].qh)+'</td>';
 				ljHtml+='<td colspan="2" '+(md[j].lj>0?'class="red"':'')+'>'+md[j].lj+'</td>';
@@ -171,16 +174,16 @@
 			ysHtml+='<td>原值</td></tr>';
 			jgHtml+='<td>结果</td></tr>';
 			qhHtml+='<td>求和</td></tr>';
-			ljHtml+='<td>累计</td></tr>';
+			ljHtml+='<td>供計</td></tr>';
 			delHtml+='<td><a href="javascript:toDel(1,null)">全選刪除</a></td></tr>';
 			
 			$('#main_group').html(html
-					+ysHtml+'<tr><td>原值汇总</td><td colspan="'+(colNum*2-2)+'" '+(allYz>0?'class="red"':'')+'>'+allYz+'</td><td>原值汇总</td></tr>'
-					+jgHtml+'<tr><td>结果汇总</td><td colspan="'+(colNum*2-2)+'" '+(allJg>0?'class="red"':'')+'>'+allJg+'</td><td>结果汇总</td></tr>'
-					+qhHtml+'<tr><td>求和汇总</td><td colspan="'+(colNum*2-2)+'" '+(allQh>0?'class="red"':'')+'>'+allQh+'</td><td>求和汇总</td></tr>'
-					+ljHtml+'<tr><td>累计汇总</td><td colspan="'+(colNum*2-2)+'" '+(allLj>0?'class="red"':'')+'>'+allLj+'</td><td>累计汇总</td></tr>'
-					+delHtml
-					+'<tr><td colspan="'+(colNum*2)+'"><a href="javascript:tableExport()">全表導出</a></td></tr>');
+								+ysHtml+'<tr><td>原值匯總</td><td colspan="'+(colNum*2-2)+'" '+(allYz>0?'class="red"':'')+'>'+allYz+'</td><td>原值匯總</td></tr>'
+								+jgHtml+'<tr><td>結果匯總</td><td colspan="'+(colNum*2-2)+'" '+(allJg>0?'class="red"':'')+'>'+allJg+'</td><td>結果匯總</td></tr>'
+								+qhHtml+'<tr><td>求和匯總</td><td colspan="'+(colNum*2-2)+'" '+(allQh>0?'class="red"':'')+'>'+allQh+'</td><td>求和匯總</td></tr>'
+								+ljHtml+'<tr><td>供計匯總</td><td colspan="'+(colNum*2-2)+'" '+(allLj>0?'class="red"':'')+'>'+allLj+'</td><td>供計匯總</td></tr>'
+								+delHtml
+								+'<tr><td colspan="'+(colNum*2)+'"><a href="javascript:tableExport()">全表導出</a></td></tr>');
 			$('#main_group').parent().find('colgroup').html(colHtml);
 			
 			$('.table-head').css('width',(colNum*140+160)+'px')
@@ -192,6 +195,24 @@
 		
 	});
 	
+	
+	
+	function getYzData(turn){
+		
+		/* 开始处理原值数据 */
+		var yzData = [[{},{},0],{list:[null],sum:0,qh:0}];
+		var yzjgs = turn.yz_jg?turn.yz_jg.split(","):[];
+		for (var i = 0; i < yzjgs.length; i++) {
+			if(!yzjgs[i])continue;
+			var v = new Number(yzjgs[i]);
+			yzData[1].list.push(v);
+			yzData[1].sum+=v;
+			yzData[1].qh+=(v>0?1:(v<0?-1:0));
+		}
+		
+		return yzData;
+		/* 结束处理原值数据 */
+	}
 	
 	
 	function  toDel(mod,tid){
