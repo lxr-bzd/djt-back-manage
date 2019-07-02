@@ -22,6 +22,25 @@
 				<input type="radio" name="mod2" value="2"> B模式
 				<input value="保存" type="button"  onclick="save(4)">
 			</div>
+			
+			<div id="gameGroupNum" style="text-align: left;padding: 10px 20px;">
+				<span>設置組數：</span>
+				<input type="radio" name="gameGroupNum" value="100000"> 原版（100000）
+				<input type="radio" name="gameGroupNum" value="10000"> 縮小版（10000）
+				<input value="保存" type="button"  onclick="save(5)">
+			</div>
+			<div id="gameRowNum" style="text-align: left;padding: 10px 20px;">
+				<span>設置行數：</span>
+				<input type="radio" name="gameRowNum" value="212">210行
+				<input type="radio" name="gameRowNum" value="1202">1200行
+				<input value="保存" type="button"  onclick="save(6)">
+			</div>
+			<div id="tip_open" style="text-align: left;padding: 10px 20px;">
+				<span>是否開啟提示：</span>
+				<input type="radio" name="tip_open" value="1">是
+				<input type="radio" name="tip_open" value="2">否
+				<input value="保存" type="button"  onclick="save(7)">
+			</div>
 			<div class="backstage_box">
 				<h2>列隊結果轉換數值公式表1</h2>
 				<!--數據表-->
@@ -279,6 +298,103 @@
 				
 			</div>
 			
+			<!-- 
+			<div class="backstage_box">
+				<h2>合並數值啟始選擇表</h2>
+				數據表
+				<div class="clearfix history_total_table" style="overflow-x:scroll;">
+					
+					第壹組
+					<table border="1">
+					  	數據行--001
+					  	<tbody id="main_group3">
+					  	<tr>
+					  		<th>1</th><td>2</td><td>3</td>
+					  		<td>4</td><td>5</td><td>6</td>
+							<td>7</td><td>8</td><td>9</td>
+							
+							<th>10</th><td>20</td><td>30</td>
+					  		<td>40</td><td>50</td><td>60</td>
+							<td>70</td><td>80</td><td>90</td>
+							
+							<th>100</th><td>200</td><td>300</td>
+					  		<td>400</td><td>500</td><td>600</td>
+							<td>700</td><td>800</td><td>900</td>
+							
+							<th>1000</th><td>2000</td><td>3000</td>
+					  		<td>4000</td><td>5000</td><td>6000</td>
+							<td>7000</td><td>8000</td><td>9000</td>
+							
+							<th>10000</th><td>20000</td><td>30000</td>
+					  		<td>40000</td><td>50000</td><td>60000</td>
+							<td>70000</td><td>80000</td><td>90000</td>
+							
+														
+							<th>100000</th><td>200000</td><td>300000</td>
+					  		<td>400000</td><td>500000</td><td>600000</td>
+							<td>700000</td><td>800000</td><td>900000</td>
+							
+					  	
+						
+					</table>
+					
+					
+				</div>
+				<div style="padding: 10px;text-align: left;">
+					<span>數值：</span><input id="hbBg" type="number" >
+					<input value="保存" type="button"  onclick="save(8)">
+				</div>
+				
+				
+			</div>
+			
+			<div class="backstage_box">
+				<h2>合並求和數值啟始選擇表</h2>
+				數據表
+				<div class="clearfix history_total_table" style="overflow-x:scroll;">
+					
+					第壹組
+					<table border="1">
+					  	數據行--001
+					  	<tbody id="main_group3">
+					  	<tr>
+					  		<th>1</th><td>2</td><td>3</td>
+					  		<td>4</td><td>5</td><td>6</td>
+							<td>7</td><td>8</td><td>9</td><td>10</td>
+							
+							<th>11</th><td>12</td><td>13</td>
+					  		<td>14</td><td>15</td><td>16</td>
+							<td>17</td><td>18</td><td>19</td><td>20</td>
+							
+							<th>21</th><td>22</td><td>23</td>
+					  		<td>24</td><td>25</td><td>26</td>
+							<td>27</td><td>28</td><td>29</td><td>20</td>
+							
+							<th>31</th><td>32</td><td>33</td>
+					  		<td>34</td><td>35</td><td>36</td>
+							<td>37</td><td>38</td><td>39</td><td>30</td>
+							
+							<th>41</th><td>42</td><td>43</td>
+					  		<td>44</td><td>45</td><td>46</td>
+							<td>47</td><td>48</td><td>49</td><td>40</td>
+							
+							<th>51</th><td>52</td><td>53</td>
+					  		<td>54</td><td>55</td><td>56</td>
+							<td>57</td><td>58</td><td>59</td><td>50</td>
+							
+					  	
+						
+					</table>
+					
+					
+				</div>
+				<div style="padding: 10px;text-align: left;">
+					<span>數值：</span><input id="hbQh" type="number" >
+					<input value="保存" type="button"  onclick="save(9)">
+				</div> -->
+				
+				
+			
 		</section>
 		
 	</body>
@@ -320,6 +436,11 @@
 			
 			$("#use_rule input[name=rule_type][value="+map.use_rule+"]").attr('checked', 'true');
 			$("#mod2 input[name=mod2][value="+map.mod2+"]").attr('checked', 'true');
+			$("#gameGroupNum input[name=gameGroupNum][value="+map.gameGroupNum+"]").attr('checked', 'true');
+			$("#gameRowNum input[name=gameRowNum][value="+map.gameRowNum+"]").attr('checked', 'true');
+			$("#tip_open input[name=tip_open][value="+map.tip_open+"]").attr('checked', 'true');
+			$("#hbBg").val(map.hbBg);
+			$("#hbQh").val(map.hbQh);
 		},{param:{}})
 		
 		
@@ -351,16 +472,42 @@
 	function save(mod){
 		var par = {};
 		switch (mod) {
+case 9:
+			var r  = $("#hbQh").val();
+			par.hbQh = r;
+			break;
+		
+case 8:
+			
+			var r  = $("#hbBg").val();
+			par.hbBg = r;
+			break;
+		
+case 7:
+			
+			var r  = $("#tip_open input[name=tip_open]:checked").val();
+			par.tip_open = r;
+			break;
+		
+case 6:
+			
+			var r  = $("#gameRowNum input[name=gameRowNum]:checked").val();
+			par.gameRowNum = r;
+			break;
+case 5:
+			
+			var r  = $("#gameGroupNum input[name=gameGroupNum]:checked").val();
+			par.gameGroupNum = r;
+			break;
 		case 4:
 			
 			var r  = $("#mod2 input[name=mod2]:checked").val();
-			par.mod = 4;
 			par.mod2 = r;
 			break;
 		case 3:
 			
 			var r  = $("#use_rule input[name=rule_type]:checked").val();
-			par.mod = 3;
+			
 			par.useRule = r;
 			break;
 		case 1:
@@ -371,7 +518,6 @@
 				alert("格式錯誤");
 				return;
 			}
-			par.mod = 1;
 			par.start = s;
 			par.end = e;
 			break;
@@ -382,7 +528,6 @@
 				alert("格式錯誤");
 				return;
 			}
-			par.mod = 2;
 			par.start = s;
 			par.end = e;
 			break;
@@ -393,6 +538,8 @@
 			return ;
 		}
 		
+		
+		par.mod = mod;
 		
 		$app.request("../setRule.do",function(json){
 			if(json.code!=100)alert(json.message);

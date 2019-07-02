@@ -445,7 +445,7 @@ public class WorkManageController extends BaseController {
 	@ResponseBody
 	public MessageBean allTgData(String uid) throws Exception{
 		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from djt_history order by tid");
-		List<Map<String, Object>> turns = jdbcTemplate.queryForList("SELECT id,lj,yz_jg FROM game_turn WHERE state=2");
+		List<Map<String, Object>> turns = jdbcTemplate.queryForList("SELECT * FROM game_turn WHERE state=2");
 		
 		return MessageBean.success().add("list", list)
 				.add("turns", turns);
@@ -488,7 +488,7 @@ public class WorkManageController extends BaseController {
 	@ResponseBody
 	public MessageBean rule() throws Exception{
 		
-		List<Map<String, Object>> rules = jdbcTemplate.queryForList("select ckey, val from djt_sys where ckey='rule' OR ckey='rule2' OR ckey='use_rule' OR ckey='mod2'");
+		List<Map<String, Object>> rules = jdbcTemplate.queryForList("select ckey, val from djt_sys ");
 		
 		
 
@@ -508,11 +508,41 @@ public class WorkManageController extends BaseController {
 	 */
 	@RequestMapping(value="setRule",method=RequestMethod.POST)
 	@ResponseBody
-	public MessageBean setRule(String mod,Integer start,Integer end,Integer useRule,Integer mod2) throws Exception{
+	public MessageBean setRule(HttpServletRequest request,String mod,Integer start,Integer end,Integer useRule,Integer mod2) throws Exception{
 		int maxEnd = 51;
 		if(mod==null)throw new RuntimeException("错误的模块类型");
 		
 		switch (mod) {
+		case "9":
+			int hbQh = Integer.valueOf(request.getParameter("hbQh"));
+			if(hbQh<0)	throw new RuntimeException("值范围错误");
+				
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='hbQh'",hbQh);
+			break;
+		case "8":
+			int hbBg = Integer.valueOf(request.getParameter("hbBg"));
+			if(hbBg<0)	throw new RuntimeException("值范围错误");
+				
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='hbBg'",hbBg);
+			break;
+		case "7":
+			int tip_open = Integer.valueOf(request.getParameter("tip_open"));
+			if(!(tip_open==1||tip_open==2))	throw new RuntimeException("值范围错误");
+				
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='tip_open'",tip_open);
+			break;
+		case "6":
+			int gameRowNum = Integer.valueOf(request.getParameter("gameRowNum"));
+			if(gameRowNum<3)	throw new RuntimeException("值范围错误");
+				
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='gameRowNum'",gameRowNum);
+			break;
+		case "5":
+			int gameGroupNum = Integer.valueOf(request.getParameter("gameGroupNum"));
+			if(gameGroupNum<100||gameGroupNum>1000000)	throw new RuntimeException("值范围错误");
+				
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='gameGroupNum'",gameGroupNum);
+			break;
 		case "4":
 			if(mod2==null||mod2<1||mod2>2)	throw new RuntimeException("值范围错误");
 				
