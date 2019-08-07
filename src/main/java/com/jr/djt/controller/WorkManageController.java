@@ -9,9 +9,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jr.djt.beans.Crow;
@@ -403,7 +404,7 @@ public class WorkManageController extends BaseController {
 				"left join game_runing_count c ON a.id=c.hid");*/
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(
 				"select * from djt_history ORDER BY hid");
-		return MessageBean.success().add("hs", list);
+		return MessageBean.success().add("his", list);
 	}
 	
 	/**
@@ -444,11 +445,13 @@ public class WorkManageController extends BaseController {
 	@RequestMapping(value="allTgData",method=RequestMethod.POST)
 	@ResponseBody
 	public MessageBean allTgData(String uid) throws Exception{
-		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from djt_history order by tid");
+		List<Map<String, Object>> his = jdbcTemplate.queryForList("select * from djt_history order by tid");
 		List<Map<String, Object>> turns = jdbcTemplate.queryForList("SELECT * FROM game_turn WHERE state=2");
+		List<Map<String, Object>> bigTurns = jdbcTemplate.queryForList("SELECT a.* FROM game_big_turn a WHERE a.state=2");
 		
-		return MessageBean.success().add("list", list)
-				.add("turns", turns);
+		return MessageBean.success().add("his", his)
+				.add("turns", turns)
+				.add("bigTurns", bigTurns);
 		
 		
 	}
@@ -464,19 +467,22 @@ public class WorkManageController extends BaseController {
 	@ResponseBody
 	public MessageBean delHis(String mod,String tid) throws Exception{
 		if(mod==null)throw new RuntimeException("错误的模块类型");
-		switch (mod) {
-		case "1"://全部删除
-			jdbcTemplate.batchUpdate(
-					"DELETE FROM game_turn WHERE id in (select tid from djt_history)" ,
-					"DELETE FROM djt_history ");
-			break;
-		case "2":
-			jdbcTemplate.batchUpdate(
-					"DELETE FROM game_turn WHERE id ="+tid ,
-					"DELETE FROM djt_history WHERE tid="+tid);
-			break;
-
-		default:throw new RuntimeException("错误的模块类型");
+		
+		if(mod.equals("1")) {
+			if(org.springframework.util.StringUtils.isEmpty(tid))
+				throw new RuntimeException("参数错误");
+				jdbcTemplate.batchUpdate(
+					"delete from djt_history WHERE tid in (select id from game_turn  WHERE big_turn_id="+tid+")"
+					,"delete from game_turn WHERE big_turn_id="+tid
+					 ,"delete from game_big_turn WHERE id="+tid
+					);
+			
+		} 
+		if(mod.equals("2")) {//全部删除
+		jdbcTemplate.batchUpdate(
+					"delete from djt_history "
+					, "delete from game_turn WHERE state=2"
+					,"delete from game_big_turn WHERE state=2");
 		}
 		
 		return MessageBean.success();
@@ -513,6 +519,24 @@ public class WorkManageController extends BaseController {
 		if(mod==null)throw new RuntimeException("错误的模块类型");
 		
 		switch (mod) {
+		
+		case "conf_len":
+			int conf_len = Integer.valueOf(request.getParameter("conf_len"));
+			if(conf_len<2)throw new RuntimeException("值范围错误");
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='conf_len'",conf_len);
+			break;
+		case "tg_mod":
+			int tg_mod = Integer.valueOf(request.getParameter("tg_mod"));
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='tg_mod'",tg_mod);
+			int tg_thre = Integer.valueOf(request.getParameter("tg_thre"));
+			
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='tg_thre'",tg_thre);
+			break;
+		case "turn_num":
+			int turn_num = Integer.valueOf(request.getParameter("turn_num"));
+			if(turn_num<1)	throw new RuntimeException("值范围错误");
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='turn_num'",turn_num);
+			break;
 		case "9":
 			int hbQh = Integer.valueOf(request.getParameter("hbQh"));
 			if(hbQh<0)	throw new RuntimeException("值范围错误");
@@ -583,13 +607,51 @@ public class WorkManageController extends BaseController {
 	private MessageBean removeAll() {
 		
 		
-		jdbcTemplate.batchUpdate("TRUNCATE `game_turn`" ,
+		jdbcTemplate.batchUpdate(
+				"TRUNCATE `game_big_turn`" ,
+				"TRUNCATE `game_turn`" ,
 				"TRUNCATE `djt_history`" ,
 				"TRUNCATE `game_history`" ,
 				"TRUNCATE `game_runing`" ,
 				"TRUNCATE `game_runing_count`");
 		
 		return MessageBean.success();
+
+	}
+	
+	
+	@RequestMapping(value="currentTg",method=RequestMethod.POST)
+	@ResponseBody
+	private MessageBean currentTg() {
+		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		Map<String, Object> bigTurn = jdbcTemplate.queryForMap("select * from game_big_turn where  state=1 limit 1");
+		Integer turnNum = JSONObject.parseObject(bigTurn.get("config_json").toString()).getInteger("turnNum");
+		 for (int i = 0; i < turnNum; i++) {
+			 map.put(i+"", getTurnModel(bigTurn.get("id").toString(),i));
+		}
+		 map.put("bigTurn", bigTurn);
+		
+		return MessageBean.success();
+
+	}
+	
+	
+	private Map<String, Object> getTurnModel(String bigTurnId,Integer turnNo) {
+		Map<String, Object> turn = jdbcTemplate.queryForMap(
+				"select * from game_turn where big_turn_id=? AND turn_no=? limit 1",bigTurnId,turnNo);
+		
+		Map<String, Object> ret = new HashMap<>();
+		
+		//ret.put("lastRow", crowDao.getInputRow(game.getId()));
+		List<Map<String, Object>> maps = jdbcTemplate.queryForList(
+				"select b.id,b.tid,b.hid,b.tg,b.tg_sum,b.rule,b.rule_type,b.ys,b.g,b.g_sum,a.uid from game_history a left join game_runing_count b on a.id=b.hid  where a.state=1 AND b.tid=?",turn.get("id"));
+		ret.put("counts", maps);
+		ret.put("turn", turn);
+		
+		return ret;
 
 	}
 	

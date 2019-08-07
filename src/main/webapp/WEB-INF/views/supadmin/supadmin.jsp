@@ -262,6 +262,9 @@
 							<dd class="backs_item">
 								<a id="back_admin_usetable" href="../v3/his_jg_all.html"  target="backs_admin_iframe">歷史結果匯總表</a>
 							</dd>
+							<dd class="backs_item">
+								<a id="back_admin_usetable" href="../v3/bg_list.html"  target="backs_admin_iframe">100組小板表</a>
+							</dd>
 						</dl></li>
 					</c:if>
 				</ul>

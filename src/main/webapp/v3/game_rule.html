@@ -25,14 +25,14 @@
 			
 			<div id="gameGroupNum" style="text-align: left;padding: 10px 20px;">
 				<span>設置組數：</span>
-				<input type="radio" name="gameGroupNum" value="100000"> 原版（100000）
-				<input type="radio" name="gameGroupNum" value="10000"> 縮小版（10000）
+				<input type="radio" name="gameGroupNum" value="10000"> 原版（10000）
+				<input type="radio" name="gameGroupNum" value="1000"> 縮小版（1000）
 				<input value="保存" type="button"  onclick="save(5)">
 			</div>
 			<div id="gameRowNum" style="text-align: left;padding: 10px 20px;">
 				<span>設置行數：</span>
 				<input type="radio" name="gameRowNum" value="212">210行
-				<input type="radio" name="gameRowNum" value="1202">1200行
+				<input type="radio" name="gameRowNum" value="2002">2000行
 				<input value="保存" type="button"  onclick="save(6)">
 			</div>
 			<div id="tip_open" style="text-align: left;padding: 10px 20px;">
@@ -41,6 +41,25 @@
 				<input type="radio" name="tip_open" value="2">否
 				<input value="保存" type="button"  onclick="save(7)">
 			</div>
+			
+			<div id="turn_num" style="text-align: left;padding: 10px 20px;">
+				<span>設置版數：</span>
+				<input type="number" name="turn_num" value="">
+				<input value="保存" type="button"  onclick="save('turn_num')">
+			</div>
+			<div id="tg_mod" style="text-align: left;padding: 10px 20px;">
+				<span>設置數值：</span>
+				<input type="radio" name="tg_mod" value="1">手動
+				<input type="radio" name="tg_mod" value="2">自動
+				<input type="number" name="tg_thre" value="">開始
+				<input value="保存" type="button"  onclick="save('tg_mod')">
+			</div>
+			<div id="conf_len" style="text-align: left;padding: 10px 20px;">
+				<span>自動模式數值間隔：</span>
+				<input type="number" name="conf_len" value="">
+				<input value="保存" type="button"  onclick="save('conf_len')">
+			</div>
+			
 			<div class="backstage_box">
 				<h2>列隊結果轉換數值公式表1</h2>
 				<!--數據表-->
@@ -441,6 +460,12 @@
 			$("#tip_open input[name=tip_open][value="+map.tip_open+"]").attr('checked', 'true');
 			$("#hbBg").val(map.hbBg);
 			$("#hbQh").val(map.hbQh);
+			
+			$("#turn_num input[name=turn_num]").val(map.turn_num);
+			$("#tg_mod input[name=tg_mod][value="+map.tg_mod+"]").attr('checked', 'true');
+			$("#tg_mod input[name=tg_thre]").val(map.tg_thre);
+			$("#conf_len input[name=conf_len]").val(map.conf_len);
+			
 		},{param:{}})
 		
 		
@@ -472,6 +497,17 @@
 	function save(mod){
 		var par = {};
 		switch (mod) {
+	case 'turn_num':
+			par.turn_num = $("#turn_num input[name=turn_num]").val();
+			break;	
+	case 'tg_mod':
+		par.tg_mod = $("#tg_mod input[name=tg_mod]:checked").val();
+		par.tg_thre = $("#tg_mod input[name=tg_thre]").val();
+		break;
+	case 'conf_len':
+		par.conf_len = $("#conf_len input[name=conf_len]").val();
+		break;
+		
 case 9:
 			var r  = $("#hbQh").val();
 			par.hbQh = r;

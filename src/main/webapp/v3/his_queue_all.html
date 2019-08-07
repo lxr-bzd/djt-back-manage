@@ -204,7 +204,7 @@
 							<th>48</th>
 							<th>49</th>
 							<th>50</th>
-							<th ><a href="javascript:toDel(1,null)">全選刪除</a></th>
+							<th ><a href="javascript:toDel(2,null)">全選刪除</a></th>
 							
 							
 							
@@ -230,9 +230,19 @@
 	<script type="text/javascript">
 	
 	$(function(){
-		$app.request("../allTotalData.do",function(json){
+		$app.request("../allTgData.do",function(json){
 		
-			var list = json.map.hs;
+
+			var list = json.map.his;
+
+//todo
+			var bigTurns = json.map.bigTurns;
+			var turns = json.map.turns;
+//todo
+			var turnMap = {};
+			for (var i = 0; i < turns.length; i++) {
+				turnMap[turns[i].id] = turns[i];
+			}
 			
 			var mod = {};
 			for (var i = 0; i < list.length; i++) {
@@ -245,10 +255,29 @@
 					mod[tid].list[j]+=(isNaN(qs[j])?0:qs[j]);
 				}
 			}
+
+
+
+
+			var newMod = {};
+			for(var i in bigTurns){
+			 newMod[bigTurns[i].id] = {tid:bigTurns[i].id,list:[]};
+			}
+
+			for(var i in mod){
+				
+				var bMod = newMod[turnMap[mod[i].tid].big_turn_id];
+			 //var bMod = newMod['43'];
+			 for (var j = 0; j < mod[i].list.length; j++) {
+					if(isNaN(bMod.list[j]))bMod.list[j] = 0;
+					bMod.list[j]+=mod[i].list[j];
+
+				 }
+
+			}
+
 			
-			
-			
-			rdTb(mod);
+			rdTb(newMod);
 			
 		},{});
 		
@@ -271,7 +300,7 @@
 				yCount[i]+=item.list[i];
 			} 
 			allCount+=xCount;
-			html+='<th ><a href="javascript:toDel(2,'+item.tid+')">刪除</a></th></tr>'
+			html+='<th ><a href="javascript:toDel(1,'+item.tid+')">刪除</a></th></tr>'
 			
 		}
 		
