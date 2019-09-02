@@ -211,7 +211,7 @@ var conf1 = {'L':'L','X':'X','D':'D','S':'S'}
 			var bigvData = {bigTurn:bigTurn,jgData:{},bgData:{}};
 		
 			handelBg(bigvData,bigTurn);
-			for (var i = 0; i < 10; i++) {
+			for (var i = 0; i < bigTurn.bigTurnConfig.turnNum; i++) {
 				add2BigVdata(bigvData,vDatas[i]);
 			}
 			
@@ -291,3 +291,6 @@ var conf1 = {'L':'L','X':'X','D':'D','S':'S'}
 		}
 		
 	}
+	
+	
+	

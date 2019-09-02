@@ -111,7 +111,7 @@
 		
 		var bigDatas = [];
 		for (var i = 0; i < bigTurns.length; i++) {
-			
+			bigTurns[i].bigTurnConfig = eval("("+bigTurns[i].config_json+")");
 			var tData = createBigVdata(bigTurns[i],vDataMap[bigTurns[i].id]);
 			bigDatas.push(tData);
 		}

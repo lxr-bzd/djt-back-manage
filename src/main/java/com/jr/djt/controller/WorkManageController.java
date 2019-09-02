@@ -634,7 +634,7 @@ public class WorkManageController extends BaseController {
 		}
 		 map.put("bigTurn", bigTurn);
 		
-		return MessageBean.success();
+		return MessageBean.success().add("data", map);
 
 	}
 	
