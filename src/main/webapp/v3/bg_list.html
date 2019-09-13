@@ -41,8 +41,11 @@
 						<td>9 </td>
 						<td>10 </td>
 						<td>匯總報告</td>
+						<td>匯總求和</td>
 						<td>合并報告</td>
+						<td>合并求和</td>
 						<td>選擇報告</td>
+						<td>選擇求和</td>
 						<td class="focus_row"></td>
 					</tr>
 					<tbody id="tb_group">
@@ -190,9 +193,9 @@ function initLockHtml(bigTurn){
 		}
 		
 		
-		html+='<td>匯總報告</td>'+
-    	'<td>合并報告</td>'+
-		'<td>選擇報告</td>';
+		html+='<td>匯總報告</td><td>匯總求和</td>'
+			+'<td>合并報告</td><td>合并求和</td>'
+			+'<td>選擇報告</td><td>選擇求和</td>';
 		return html;
 	}
 	
@@ -211,8 +214,12 @@ function initLockHtml(bigTurn){
 									</td>
 							{{/each}}
 							    	<td> <div class="bg-td">{{vData.bgData['hb'][0].name}}<span {{if vData.bgData['hb'][0].val>0}}class="red"{{/if}}>{{if vData.bgData['hb'][0].name}}{{vData.bgData['hb'][0].val}}{{/if}}</span></div></td>
+									<td> <div class="bg-td">{{vData.bgData['qhBg'][0].name}}<span {{if vData.bgData['qhBg'][0].val>0}}class="red"{{/if}}>{{if vData.bgData['qhBg'][0].name}}{{vData.bgData['qhBg'][0].val}}{{/if}}</span></div></td>
 									<td> <div class="bg-td">{{vData.bgData['hbBg'][0].name}}<span {{if vData.bgData['hbBg'][0].val>0}}class="red"{{/if}}>{{if vData.bgData['hbBg'][0].name}}{{vData.bgData['hbBg'][0].val}}{{/if}}</span></div></td>
-							    	<td> <div class="bg-td">{{vData.bgData['xzBg'][0].name}}<span {{if vData.bgData['xzBg'][0].val>0}}class="red"{{/if}}>{{if vData.bgData['xzBg'][0].name}}{{vData.bgData['xzBg'][0].val}}{{/if}}</span></div></td>
+									<td> <div class="bg-td">{{vData.bgData['hbqh'][0].name}}<span {{if vData.bgData['hbqh'][0].val>0}}class="red"{{/if}}>{{if vData.bgData['hbqh'][0].name}}{{vData.bgData['hbqh'][0].val}}{{/if}}</span></div></td>						    	
+									<td> <div class="bg-td">{{vData.bgData['xzBg'][0].name}}<span {{if vData.bgData['xzBg'][0].val>0}}class="red"{{/if}}>{{if vData.bgData['xzBg'][0].name}}{{vData.bgData['xzBg'][0].val}}{{/if}}</span></div></td>
+									<td> <div class="bg-td">{{vData.bgData['xzqh'][0].name}}<span {{if vData.bgData['xzqh'][0].val>0}}class="red"{{/if}}>{{if vData.bgData['xzqh'][0].name}}{{vData.bgData['xzqh'][0].val}}{{/if}}</span></div></td>
+
 							    	<td rowspan="3"> <span class="" >{{j+1}}</span></td>
 							  	</tr>
 							  <tr class="data_col2 ">
@@ -222,19 +229,25 @@ function initLockHtml(bigTurn){
 									{{/if}}</td>
 							{{/each}}
 							    	
-									<td><div class="bg-td">{{vData.bgData['hb'][1].name}} <span {{if vData.bgData['hb'][1].val>0}}class="red"{{/if}}>{{if vData.bgData['hb'][1].name}}{{vData.bgData['hb'][1].val}}{{/if}}</span></div></td>
-									<td><div class="bg-td">{{vData.bgData['hbBg'][1].name}} <span {{if vData.bgData['hbBg'][1].val>0}}class="red"{{/if}}>{{if vData.bgData['hbBg'][1].name}}{{vData.bgData['hbBg'][1].val}}{{/if}}</span></div></td>
-							    	<td><div class="bg-td">{{vData.bgData['xzBg'][1].name}} <span {{if vData.bgData['xzBg'][1].val>0}}class="red"{{/if}}>{{if vData.bgData['xzBg'][1].name}}{{vData.bgData['xzBg'][1].val}}{{/if}}</span></div></td>
-							    </tr>
+									<td> <div class="bg-td">{{vData.bgData['hb'][1].name}}<span {{if vData.bgData['hb'][1].val>0}}class="red"{{/if}}>{{if vData.bgData['hb'][1].name}}{{vData.bgData['hb'][1].val}}{{/if}}</span></div></td>
+									<td> <div class="bg-td">{{vData.bgData['qhBg'][1].name}}<span {{if vData.bgData['qhBg'][1].val>0}}class="red"{{/if}}>{{if vData.bgData['qhBg'][1].name}}{{vData.bgData['qhBg'][1].val}}{{/if}}</span></div></td>
+									<td> <div class="bg-td">{{vData.bgData['hbBg'][1].name}}<span {{if vData.bgData['hbBg'][1].val>0}}class="red"{{/if}}>{{if vData.bgData['hbBg'][1].name}}{{vData.bgData['hbBg'][1].val}}{{/if}}</span></div></td>
+									<td> <div class="bg-td">{{vData.bgData['hbqh'][1].name}}<span {{if vData.bgData['hbqh'][1].val>0}}class="red"{{/if}}>{{if vData.bgData['hbqh'][1].name}}{{vData.bgData['hbqh'][1].val}}{{/if}}</span></div></td>						    	
+									<td> <div class="bg-td">{{vData.bgData['xzBg'][1].name}}<span {{if vData.bgData['xzBg'][1].val>0}}class="red"{{/if}}>{{if vData.bgData['xzBg'][1].name}}{{vData.bgData['xzBg'][1].val}}{{/if}}</span></div></td>
+									<td> <div class="bg-td">{{vData.bgData['xzqh'][1].name}}<span {{if vData.bgData['xzqh'][1].val>0}}class="red"{{/if}}>{{if vData.bgData['xzqh'][1].name}}{{vData.bgData['xzqh'][1].val}}{{/if}}</span></div></td>
+							 </tr>
 							  	 <tr class="data_col2 ">
 							  		{{each vData.turn.user_lock as val i}}
 										<td class=""><div class="bg-td">共 <span >{{if vData.bgData[i+1]}}{{vData.bgData[i+1][2]}}{{/if}}</span></div></td>
 									{{/each}}
 							    	
 							    	<td class=""><div class="bg-td">共 <span >{{vData.bgData['hb'][2]}}</span></div></td>
+									<td class=""><div class="bg-td">共 <span >{{vData.bgData['qhBg'][2]}}</span></div></td>
 									<td class=""><div class="bg-td">共 <span >{{vData.bgData['hbBg'][2]}}</span></div></td>
+							    	<td class=""><div class="bg-td">共 <span >{{vData.bgData['hbqh'][2]}}</span></div></td>
 							    	<td class=""><div class="bg-td">共 <span >{{vData.bgData['xzBg'][2]}}</span></div></td>
-							    </tr>
+							    	<td class=""><div class="bg-td">共 <span >{{vData.bgData['xzqh'][2]}}</span></div></td>
+							    	</tr>
 							  	
 								<!-- j结果部分 -->
 
@@ -246,8 +259,11 @@ function initLockHtml(bigTurn){
 									{{/each}}
 							    	
 							    	<td class="blue2 {{if vData.jgData['hb'].jg>0}}red{{/if}}">{{vData.jgData['hb'].jg}}</td>
+									<td class="blue2 {{if vData.jgData['qhBg'].jg>0}}red{{/if}}">{{vData.jgData['qhBg'].jg}}</td>
 									<td class="blue2 {{if vData.jgData['hbBg'].jg>0}}red{{/if}}">{{vData.jgData['hbBg'].jg}}</td>
+									<td class="blue2 {{if vData.jgData['hbqh'].jg>0}}red{{/if}}">{{vData.jgData['hbqh'].jg}}</td>
 									<td class="blue2 {{if vData.jgData['xzBg'].jg>0}}red{{/if}}">{{vData.jgData['xzBg'].jg}}</td>
+									<td class="blue2 {{if vData.jgData['xzqh'].jg>0}}red{{/if}}">{{vData.jgData['xzqh'].jg}}</td>
 									<td>結果</td>
 							  	 </tr>
 							 	 <tr>
@@ -258,8 +274,11 @@ function initLockHtml(bigTurn){
 									{{/each}}
 							    	
 							    	<td class="blue2 {{if vData.jgData['hb'].qh>0}}red{{/if}}">{{vData.jgData['hb'].qh}}</td>
+									<td class="blue2 {{if vData.jgData['qhBg'].qh>0}}red{{/if}}">{{vData.jgData['qhBg'].qh}}</td>
 									<td class="blue2 {{if vData.jgData['hbBg'].qh>0}}red{{/if}}">{{vData.jgData['hbBg'].qh}}</td>
+									<td class="blue2 {{if vData.jgData['hbqh'].qh>0}}red{{/if}}">{{vData.jgData['hbqh'].qh}}</td>
 									<td class="blue2 {{if vData.jgData['xzBg'].qh>0}}red{{/if}}">{{vData.jgData['xzBg'].qh}}</td>
+									<td class="blue2 {{if vData.jgData['xzqh'].qh>0}}red{{/if}}">{{vData.jgData['xzqh'].qh}}</td>
 									
 									<td>求和</td>
 								</tr>
@@ -270,8 +289,11 @@ function initLockHtml(bigTurn){
 									{{/each}}
 							    	
 							    	<td class="blue2">{{vData.bgData['hb'][3]}}</td>
+									<td class="blue2">{{vData.bgData['qhBg'][3]}}</td>
 									<td class="blue2">{{vData.bgData['hbBg'][3]}}</td>
+									<td class="blue2">{{vData.bgData['hbqh'][3]}}</td>
 									<td class="blue2">{{vData.bgData['xzBg'][3]}}</td>
+							    	<td class="blue2">{{vData.bgData['xzqh'][3]}}</td>
 							    	<td>共計</td>
 								</tr>
 {{/each}}
