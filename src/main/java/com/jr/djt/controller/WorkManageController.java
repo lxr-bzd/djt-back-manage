@@ -563,7 +563,7 @@ public class WorkManageController extends BaseController {
 			break;
 		case "5":
 			int gameGroupNum = Integer.valueOf(request.getParameter("gameGroupNum"));
-			if(gameGroupNum<100||gameGroupNum>1000000)	throw new RuntimeException("值范围错误");
+			if(gameGroupNum<10||gameGroupNum>1000000)	throw new RuntimeException("值范围错误");
 				
 			jdbcTemplate.update("update djt_sys set val=? where ckey ='gameGroupNum'",gameGroupNum);
 			break;

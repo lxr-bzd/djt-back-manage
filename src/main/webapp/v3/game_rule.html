@@ -9,6 +9,10 @@
 	<body>
 		<!--後臺表-->
 		<section class="backstage_wrap">
+		<div >
+				<input type="button" value="清空所有數據" style="float: right;" onclick="removeAll()">
+			</div>
+		
 			<div id="use_rule" style="text-align: left;padding: 10px 20px;">
 				<span>設置轉換公式表：</span>
 				<input type="radio" name="rule_type" value="1"> 表1
@@ -25,8 +29,8 @@
 			
 			<div id="gameGroupNum" style="text-align: left;padding: 10px 20px;">
 				<span>設置組數：</span>
-				<input type="radio" name="gameGroupNum" value="1000"> 原版（1000）
-				<input type="radio" name="gameGroupNum" value="100"> 縮小版（100）
+				<input type="radio" name="gameGroupNum" value="100"> 原版（100）
+				<input type="radio" name="gameGroupNum" value="10"> 縮小版（10）
 				<input value="保存" type="button"  onclick="save(5)">
 			</div>
 			<div id="gameRowNum" style="text-align: left;padding: 10px 20px;">
@@ -427,6 +431,34 @@
 	<script type="text/javascript" src="../js/jquery.base64.js"></script>
 	
 	<script type="text/javascript">
+	
+	/**
+	清空所有游戏数据
+	*/
+	function removeAll(){
+		layer.confirm('確定清空數據？', {
+			  btn: ['是','否'] 
+			}, function(){
+				$.ajax({
+					url:"../removeAll.do",
+					type:"post",
+					async:false,
+					success:function(result){
+						if(result.code==100){
+							layer.msg('成功');
+						}
+						else{
+							
+							alert(result.message)
+						}
+					}
+				});
+			  
+			}, function(){
+			 
+			});
+		
+	}
 	
 	var config = {maxLen : 50};
 	

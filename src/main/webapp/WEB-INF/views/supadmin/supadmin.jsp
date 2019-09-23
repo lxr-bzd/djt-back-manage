@@ -441,33 +441,7 @@
 			}
 			return p;
 		}
-		/**
-		清空所有游戏数据
-		*/
-		function removeAll(){
-			layer.confirm('確定清空數據？', {
-				  btn: ['是','否'] 
-				}, function(){
-					$.ajax({
-						url:"../removeAll.do",
-						type:"post",
-						async:false,
-						success:function(result){
-							if(result.code==100){
-								layer.msg('成功');
-							}
-							else{
-								
-								alert(result.message)
-							}
-						}
-					});
-				  
-				}, function(){
-				 
-				});
-			
-		}
+		
 	</script>
 </body>
 
