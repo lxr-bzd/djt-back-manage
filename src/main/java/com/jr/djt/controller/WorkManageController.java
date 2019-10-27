@@ -519,6 +519,12 @@ public class WorkManageController extends BaseController {
 		if(mod==null)throw new RuntimeException("错误的模块类型");
 		
 		switch (mod) {
+		case "rule3":
+			if(start<1||start>maxEnd||end<1||end>maxEnd||start>=end)
+				throw new RuntimeException("值范围错误");
+			
+			jdbcTemplate.update("update djt_sys set val=? where ckey ='rule3'",start+","+end);
+			break;
 		
 		case "conf_len":
 			int conf_len = Integer.valueOf(request.getParameter("conf_len"));

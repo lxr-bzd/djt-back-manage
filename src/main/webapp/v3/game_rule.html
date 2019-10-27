@@ -29,8 +29,8 @@
 			
 			<div id="gameGroupNum" style="text-align: left;padding: 10px 20px;">
 				<span>設置組數：</span>
-				<input type="radio" name="gameGroupNum" value="100"> 原版（100）
-				<input type="radio" name="gameGroupNum" value="10"> 縮小版（10）
+				<input type="radio" name="gameGroupNum" value="10"> 原版（10）
+				<input type="radio" name="gameGroupNum" value="1"> 縮小版（1）
 				<input value="保存" type="button"  onclick="save(5)">
 			</div>
 			<div id="gameRowNum" style="text-align: left;padding: 10px 20px;">
@@ -321,100 +321,129 @@
 				
 			</div>
 			
-			<!-- 
 			<div class="backstage_box">
-				<h2>合並數值啟始選擇表</h2>
-				數據表
+				<h2>列隊結果轉換數值公式表3</h2>
+				<!--數據表-->
 				<div class="clearfix history_total_table" style="overflow-x:scroll;">
 					
-					第壹組
+					<!--第壹組-->
 					<table border="1">
-					  	數據行--001
+					  	<!--數據行--001-->
 					  	<tbody id="main_group3">
 					  	<tr>
-					  		<th>1</th><td>2</td><td>3</td>
-					  		<td>4</td><td>5</td><td>6</td>
-							<td>7</td><td>8</td><td>9</td>
-							
-							<th>10</th><td>20</td><td>30</td>
-					  		<td>40</td><td>50</td><td>60</td>
-							<td>70</td><td>80</td><td>90</td>
-							
-							<th>100</th><td>200</td><td>300</td>
-					  		<td>400</td><td>500</td><td>600</td>
-							<td>700</td><td>800</td><td>900</td>
-							
-							<th>1000</th><td>2000</td><td>3000</td>
-					  		<td>4000</td><td>5000</td><td>6000</td>
-							<td>7000</td><td>8000</td><td>9000</td>
-							
-							<th>10000</th><td>20000</td><td>30000</td>
-					  		<td>40000</td><td>50000</td><td>60000</td>
-							<td>70000</td><td>80000</td><td>90000</td>
-							
-														
-							<th>100000</th><td>200000</td><td>300000</td>
-					  		<td>400000</td><td>500000</td><td>600000</td>
-							<td>700000</td><td>800000</td><td>900000</td>
-							
-					  	
+					  		<th>計算開關</th>
+					  		<th>1</th>
+					  		<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+							<td>24</td>
+							<td>25</td>
+							<td>26</td>
+							<td>27</td>
+							<td>28</td>
+							<td>29</td>
+							<td>30</td>
+					  	</tr>   
+					  		<tr>
+					  		<th>列隊結果</th>
+					  		<th>1</th>
+					  		<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+							<td>24</td>
+							<td>25</td>
+							<td>26</td>
+							<td>27</td>
+							<td>28</td>
+							<td>29</td>
+							<td>30</td>
+					  	</tr> 
+					  	<tr>
+					  		<th>轉換數值</th>
+					  		<th>1</th>
+					  		<td>2</td>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+							<td>24</td>
+							<td>25</td>
+							<td>26</td>
+							<td>27</td>
+							<td>28</td>
+							<td>29</td>
+							<td>30</td>
+					  	</tr> 
 						
 					</table>
 					
 					
 				</div>
 				<div style="padding: 10px;text-align: left;">
-					<span>數值：</span><input id="hbBg" type="number" >
-					<input value="保存" type="button"  onclick="save(8)">
+					<span>開始值：</span><input id="start3" type="number" >
+					<span>結束值：</span><input id="end3" type="number" >
+					<input value="保存" type="button"  onclick="save('rule3')">
+					<input value="展示效果" type="button" onclick="show(3)">
 				</div>
 				
 				
 			</div>
 			
-			<div class="backstage_box">
-				<h2>合並求和數值啟始選擇表</h2>
-				數據表
-				<div class="clearfix history_total_table" style="overflow-x:scroll;">
-					
-					第壹組
-					<table border="1">
-					  	數據行--001
-					  	<tbody id="main_group3">
-					  	<tr>
-					  		<th>1</th><td>2</td><td>3</td>
-					  		<td>4</td><td>5</td><td>6</td>
-							<td>7</td><td>8</td><td>9</td><td>10</td>
-							
-							<th>11</th><td>12</td><td>13</td>
-					  		<td>14</td><td>15</td><td>16</td>
-							<td>17</td><td>18</td><td>19</td><td>20</td>
-							
-							<th>21</th><td>22</td><td>23</td>
-					  		<td>24</td><td>25</td><td>26</td>
-							<td>27</td><td>28</td><td>29</td><td>20</td>
-							
-							<th>31</th><td>32</td><td>33</td>
-					  		<td>34</td><td>35</td><td>36</td>
-							<td>37</td><td>38</td><td>39</td><td>30</td>
-							
-							<th>41</th><td>42</td><td>43</td>
-					  		<td>44</td><td>45</td><td>46</td>
-							<td>47</td><td>48</td><td>49</td><td>40</td>
-							
-							<th>51</th><td>52</td><td>53</td>
-					  		<td>54</td><td>55</td><td>56</td>
-							<td>57</td><td>58</td><td>59</td><td>50</td>
-							
-					  	
-						
-					</table>
-					
-					
-				</div>
-				<div style="padding: 10px;text-align: left;">
-					<span>數值：</span><input id="hbQh" type="number" >
-					<input value="保存" type="button"  onclick="save(9)">
-				</div> -->
 				
 				
 			
@@ -485,6 +514,12 @@
 			$("#end2").val(e);
 			ref2(s,e);
 			
+			var s = new Number(map.rule3.split(",")[0]);
+			var e = new Number(map.rule3.split(",")[1]);
+			$("#start3").val(s);
+			$("#end3").val(e);
+			ref3(s,e);
+			
 			$("#use_rule input[name=rule_type][value="+map.use_rule+"]").attr('checked', 'true');
 			$("#mod2 input[name=mod2][value="+map.mod2+"]").attr('checked', 'true');
 			$("#gameGroupNum input[name=gameGroupNum][value="+map.gameGroupNum+"]").attr('checked', 'true');
@@ -508,20 +543,17 @@
 		if(mod==1){
 			var s = new Number($("#start").val());
 			var e = new Number($("#end").val());
-		}else {
+			ref1(s,e);
+		}else if(mod==2){
 			var s = new Number($("#start2").val());
 			var e = new Number($("#end2").val());
+			ref2(s,e);
+		}else if(mod==3){
+			var s = new Number($("#start3").val());
+			var e = new Number($("#end3").val());
+			ref3(s,e);
 		}
 		
-		if(isNaN(s)||isNaN(e)||!validate(s,e)){
-			alert("格式錯誤");
-			return;
-		}
-		if(mod==1){
-			ref1(s,e);
-		}else {
-			ref2(s,e);
-		}
 		
 		
 	}
@@ -529,6 +561,16 @@
 	function save(mod){
 		var par = {};
 		switch (mod) {
+		case 'rule3':
+			var s = new Number($("#start3").val());
+			var e = new Number($("#end3").val());
+			if(isNaN(s)||isNaN(e)||!validate(s,e)){
+				alert("格式錯誤");
+				return;
+			}
+			par.start = s;
+			par.end = e;
+			break;
 	case 'turn_num':
 			par.turn_num = $("#turn_num input[name=turn_num]").val();
 			break;	
@@ -624,6 +666,10 @@ case 5:
 	
 	
 	function ref1(start,end){
+		if(isNaN(start)||isNaN(end)||!validate(start,end)){
+			alert("格式錯誤");
+			return;
+		}
 		
 		var html1 = '<tr><th>計算開關</th>';
 		var html2 = '<tr><th>列隊結果</th>';
@@ -651,6 +697,10 @@ case 5:
 	
 	
 	function ref2(start,end){
+		if(isNaN(start)||isNaN(end)||!validate(start,end)){
+			alert("格式錯誤");
+			return;
+		}
 		
 		var html1 = '<tr><th>計算開關</th>';
 		var html2 = '<tr><th>列隊結果</th>';
@@ -671,6 +721,35 @@ case 5:
 		html3 += '</tr>';
 		
 		$("#main_group2").html(html1+html2+html3)
+		
+		
+		
+	}
+function ref3(start,end){
+	if(isNaN(start)||isNaN(end)||!validate(start,end)){
+		alert("格式錯誤");
+		return;
+	}
+		
+	var html1 = '<tr><th>計算開關</th>';
+	var html2 = '<tr><th>列隊結果</th>';
+	var html3 = '<tr><th>轉換數值</th>';
+	for (var i = 0; i < config.maxLen; i++) {
+		if(i+1>=start&&i+1<end){
+			html1 += '<td>鎖定</td>';
+			html2 += '<td>'+(i+1)+'</td>';
+			html3 += '<td>'+Math.pow(2,i+1-start)+'</td>';
+		}else{
+			html1 += '<td>解鎖</td>';
+			html2 += '<td>'+(i+1)+'</td>';
+			html3 += '<td></td>';
+		}
+	}
+	html1 += '</tr>';
+	html2 += '</tr>';
+	html3 += '</tr>';
+	
+	$("#main_group3").html(html1+html2+html3)
 		
 		
 		
