@@ -15,7 +15,7 @@ import com.jr.djt.service.WorkManageService;
 import com.jr.djt.service.impl.StartupListenerService;
 import com.jr.djt.service.impl.WorkManageServiceImpl;
 
-//@Controller
+@Controller
 public class StartupListener extends ContextLoaderListener {
 	private static StartupListenerService sls;
 	
