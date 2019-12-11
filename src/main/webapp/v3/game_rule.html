@@ -195,7 +195,8 @@
 					<!--第壹組-->
 					<table border="1">
 					  	<!--數據行--001-->
-					  	<tbody id="main_group2">
+					  	<tbody id="
+">
 					  	<tr>
 					  		<th>計算開關</th>
 					  		<th>1</th>
@@ -443,8 +444,159 @@
 				
 				
 			</div>
-			
-				
+
+			<div class="backstage_box">
+				<h2>公式表1</h2>
+				<!--數據表-->
+				<div class="clearfix history_total_table" style="overflow-x:scroll;">
+
+					<!--第壹組-->
+					<table border="1">
+						<!--數據行--001-->
+						<tbody id="main_group_jg_1">
+						<tr>
+							<th>計算開關</th>
+							<th>1</th>
+							<td>2</td>
+						</tr>
+						<tr>
+							<th>列隊結果</th>
+							<th>1</th>
+							<td>2</td>
+
+						</tr>
+						<tr>
+							<th>轉換數值</th>
+							<th>1</th>
+							<td>2</td>
+
+						</tr>
+
+					</table>
+
+				</div>
+				<div class="key-widget" data-key="rule_jg_A" data-type="range" t-view="#main_group_jg_1" style="padding: 10px;text-align: left;">
+					<span>開始值：</span><input class="start" type="number" >
+					<span>結束值：</span><input class="end" type="number" >
+					<input value="保存" type="button"  class="save">
+					<input value="展示效果" type="button" onclick="show(3)">
+				</div>
+			</div>
+			<div class="backstage_box">
+				<h2>公式表2</h2>
+				<!--數據表-->
+				<div class="clearfix history_total_table" style="overflow-x:scroll;">
+
+					<!--第壹組-->
+					<table border="1">
+						<!--數據行--001-->
+						<tbody id="main_group_jg_2">
+						<tr>
+							<th>計算開關</th>
+							<th>1</th>
+							<td>2</td>
+						</tr>
+						<tr>
+							<th>列隊結果</th>
+							<th>1</th>
+							<td>2</td>
+
+						</tr>
+						<tr>
+							<th>轉換數值</th>
+							<th>1</th>
+							<td>2</td>
+
+						</tr>
+
+					</table>
+
+				</div>
+				<div class="key-widget" data-key="rule_jg_B" data-type="range" t-view="#main_group_jg_2" style="padding: 10px;text-align: left;">
+					<span>開始值：</span><input class="start" type="number" >
+					<span>結束值：</span><input class="end" type="number" >
+					<input value="保存" type="button"  class="save">
+					<input value="展示效果" type="button" onclick="show(3)">
+				</div>
+			</div>
+
+			<div class="backstage_box">
+				<h2>公式表3</h2>
+				<!--數據表-->
+				<div class="clearfix history_total_table" style="overflow-x:scroll;">
+
+					<!--第壹組-->
+					<table border="1">
+						<!--數據行--001-->
+						<tbody id="main_group_jg_3">
+						<tr>
+							<th>計算開關</th>
+							<th>1</th>
+							<td>2</td>
+						</tr>
+						<tr>
+							<th>列隊結果</th>
+							<th>1</th>
+							<td>2</td>
+
+						</tr>
+						<tr>
+							<th>轉換數值</th>
+							<th>1</th>
+							<td>2</td>
+
+						</tr>
+
+					</table>
+
+				</div>
+				<div class="key-widget" data-key="rule_A" data-type="range" t-view="#main_group_jg_3" style="padding: 10px;text-align: left;">
+					<span>開始值：</span><input class="start" type="number" >
+					<span>結束值：</span><input class="end" type="number" >
+					<input value="保存" type="button"  class="save">
+					<input value="展示效果" type="button" onclick="show(3)">
+				</div>
+			</div>
+
+			<div class="backstage_box">
+				<h2>公式表4</h2>
+				<!--數據表-->
+				<div class="clearfix history_total_table" style="overflow-x:scroll;">
+
+					<!--第壹組-->
+					<table border="1">
+						<!--數據行--001-->
+						<tbody id="main_group_jg_4">
+						<tr>
+							<th>計算開關</th>
+							<th>1</th>
+							<td>2</td>
+						</tr>
+						<tr>
+							<th>列隊結果</th>
+							<th>1</th>
+							<td>2</td>
+
+						</tr>
+						<tr>
+							<th>轉換數值</th>
+							<th>1</th>
+							<td>2</td>
+
+						</tr>
+
+					</table>
+
+				</div>
+				<div class="key-widget" data-key="rule_B" data-type="range" t-view="#main_group_jg_4" style="padding: 10px;text-align: left;">
+					<span>開始值：</span><input class="start" type="number" >
+					<span>結束值：</span><input class="end" type="number" >
+					<input value="保存" type="button"  class="save">
+					<input value="展示效果" type="button" onclick="show(3)">
+				</div>
+
+
+			</div>
 				
 			
 		</section>
@@ -519,6 +671,20 @@
 			$("#start3").val(s);
 			$("#end3").val(e);
 			ref3(s,e);
+
+			$(".key-widget").each(function(i,e){
+				var key = $(e).attr("data-key");
+				var type = $(e).attr("data-type");
+				if(key)setWidgetVal($(e),map[key])
+				if(type='range'){
+					let val = map[key];
+					var start = val.split(",")[0];
+					var end = val.split(",")[1];
+					refRangeView($(e).attr("t-view"),start,end);
+				}
+
+			});
+
 			
 			$("#use_rule input[name=rule_type][value="+map.use_rule+"]").attr('checked', 'true');
 			$("#mod2 input[name=mod2][value="+map.mod2+"]").attr('checked', 'true');
@@ -534,9 +700,88 @@
 			$("#conf_len input[name=conf_len]").val(map.conf_len);
 			
 		},{param:{}})
+
+
+
+		$(".key-widget .save").click(function(e){
+
+			var gep = $(e.target).attr("data-group");
+			var $g = null;
+			if(gep)
+				$g = $(gep);
+			else $g = $(e.target).parent(".key-widget");
+
+			var key = $g.attr("data-key");
+			var val = getWidgetVal( $g);
+
+			saveConfig(key,val);
+
+		});
 		
 		
 	});
+
+
+	function getWidgetVal($e){
+
+		var type = $e.attr("data-type");
+		var key = $e.attr("data-key");
+
+		switch (type) {
+			case "enum":
+				return $e.find("input[name="+key+"]:checked").val();
+				break;
+			case "range":
+				var start = $e.find(".start").val();
+				var end = $e.find(".end").val();
+				return start+","+end;
+				break;
+
+			default:
+				return $e.find(".target").val();
+				break;
+		}
+
+
+	}
+
+	function setWidgetVal($e,val){
+
+		var type = $e.attr("data-type");
+		var key = $e.attr("data-key");
+
+		switch (type) {
+			case "enum":
+				$e.find("input[name="+key+"][value="+val+"]").attr('checked', 'true');
+				break;
+			case "range":
+				var start = val.split(",")[0];
+				var end = val.split(",")[1];
+				$e.find(".start").val(start);
+				$e.find(".end").val(end);
+				break;
+
+			default:$e.find(".target").val(val);
+				break;
+		}
+
+
+	}
+
+
+	function saveConfig(mod,val){
+		var par = {mod:mod,val:val};
+
+		$app.request("../setConfig.do",function(json){
+			if(json.code!=100)alert(json.message);
+			else{
+				layer.msg('保存成功')
+			}
+
+		},{param:par});
+
+
+	}
 	
 	
 	function show(mod){
@@ -725,35 +970,62 @@ case 5:
 		
 		
 	}
-function ref3(start,end){
-	if(isNaN(start)||isNaN(end)||!validate(start,end)){
-		alert("格式錯誤");
-		return;
-	}
-		
-	var html1 = '<tr><th>計算開關</th>';
-	var html2 = '<tr><th>列隊結果</th>';
-	var html3 = '<tr><th>轉換數值</th>';
-	for (var i = 0; i < config.maxLen; i++) {
-		if(i+1>=start&&i+1<end){
-			html1 += '<td>鎖定</td>';
-			html2 += '<td>'+(i+1)+'</td>';
-			html3 += '<td>'+Math.pow(2,i+1-start)+'</td>';
-		}else{
-			html1 += '<td>解鎖</td>';
-			html2 += '<td>'+(i+1)+'</td>';
-			html3 += '<td></td>';
+
+	function ref3(start,end){
+		if(isNaN(start)||isNaN(end)||!validate(start,end)){
+			alert("格式錯誤");
+			return;
 		}
+
+		var html1 = '<tr><th>計算開關</th>';
+		var html2 = '<tr><th>列隊結果</th>';
+		var html3 = '<tr><th>轉換數值</th>';
+		for (var i = 0; i < config.maxLen; i++) {
+			if(i+1>=start&&i+1<end){
+				html1 += '<td>鎖定</td>';
+				html2 += '<td>'+(i+1)+'</td>';
+				html3 += '<td>'+Math.pow(2,i+1-start)+'</td>';
+			}else{
+				html1 += '<td>解鎖</td>';
+				html2 += '<td>'+(i+1)+'</td>';
+				html3 += '<td></td>';
+			}
+		}
+		html1 += '</tr>';
+		html2 += '</tr>';
+		html3 += '</tr>';
+
+		$("#main_group3").html(html1+html2+html3)
+
+
+
 	}
-	html1 += '</tr>';
-	html2 += '</tr>';
-	html3 += '</tr>';
-	
-	$("#main_group3").html(html1+html2+html3)
-		
-		
-		
-	}
+	function refRangeView(group,start,end){
+		if(isNaN(start)||isNaN(end)||!validate(start,end)){
+			alert("格式錯誤");
+			return;
+		}
+
+		var html1 = '<tr><th>計算開關</th>';
+		var html2 = '<tr><th>列隊結果</th>';
+		var html3 = '<tr><th>轉換數值</th>';
+		for (var i = 0; i < config.maxLen; i++) {
+			if(i+1>=start&&i+1<end){
+				html1 += '<td>鎖定</td>';
+				html2 += '<td>'+(i+1)+'</td>';
+				html3 += '<td>'+Math.pow(2,i+1-start)+'</td>';
+			}else{
+				html1 += '<td>解鎖</td>';
+				html2 += '<td>'+(i+1)+'</td>';
+				html3 += '<td></td>';
+			}
+		}
+		html1 += '</tr>';
+		html2 += '</tr>';
+		html3 += '</tr>';
+
+		$(group).html(html1+html2+html3);
+		}
 	
 	
 	</script>

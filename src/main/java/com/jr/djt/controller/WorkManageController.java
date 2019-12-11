@@ -1,14 +1,11 @@
 package com.jr.djt.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.mchange.v1.util.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -501,6 +498,58 @@ public class WorkManageController extends BaseController {
 		return MessageBean.success().add("rules", rules);
 		
 		
+	}
+
+	@RequestMapping("setConfig")
+	@ResponseBody
+	private Object setConfig(String mod,String val) {
+
+		Object valObj = val;
+		switch (mod) {
+			/*case "mod2":*/
+			/*case "tip_open":
+
+				if(!Arrays.co(new String[] {"1","2"}, val)) throw new RuntimeException();
+
+				break;*/
+			case "gameGroupNum":
+				Integer num2 = Integer.valueOf(val);
+				if(!(num2>=1&&num2<5000)) throw new RuntimeException();
+
+				break;
+			case "gameRowNum":
+				Integer num = Integer.valueOf(val);
+				if(!(num>=2&&num<5000)) throw new RuntimeException();
+
+				break;
+			case "turn_num":
+				valObj = Integer.valueOf(val);
+				break;
+			case "tg_thre":
+				valObj = Integer.valueOf(val);
+				break;
+			case "conf_len":
+				valObj = Integer.valueOf(val);
+				break;
+			case "rule":
+			case "rule2":
+			case "rule3":
+			case "rule_jg_A":
+			case "rule_jg_B":
+			case "rule_A":
+			case "rule_B":
+				Integer start = Integer.parseInt(val.split(",")[0]);
+				Integer end = Integer.parseInt(val.split(",")[1]);
+				if(!(start>=1&&end<=100))throw new RuntimeException("值範圍錯誤！！");
+				break;
+
+
+			default:throw new RuntimeException();
+		}
+
+		jdbcTemplate.update("UPDATE djt_sys SET val=? WHERE  ckey=?",valObj,mod);
+
+		return MessageBean.success();
 	}
 	
 	/**
