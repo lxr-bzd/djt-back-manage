@@ -117,6 +117,7 @@ $(function(){
 	$("#up_u_password_btn").click(function(){
 		var user_num = $("#update_password_num").val();
 		var new_password = $("#update_u_password_input").val();
+        var new_setting_pwd = $("#update_setting_pwd").val();
 		var uName = $("#update_u_password_form input[name=name]").val();
 		
 		if(!uName){
@@ -136,7 +137,7 @@ $(function(){
 		
 		
 		
-		var user = {user_num:user_num,name:uName,new_password:new_password};
+		var user = {user_num:user_num,name:uName,new_password:new_password,new_setting_pwd:new_setting_pwd};
 		
 		//通过，提交保存
 		update_user_password(user);

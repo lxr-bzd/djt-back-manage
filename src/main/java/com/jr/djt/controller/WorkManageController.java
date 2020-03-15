@@ -284,7 +284,7 @@ public class WorkManageController extends BaseController {
 	 */
 	@RequestMapping(value="/updateuserpassword",method=RequestMethod.POST)
 	@ResponseBody
-	public MessageBean updateuserpassword(Integer user_num,String new_password,String name) throws Exception{
+	public MessageBean updateuserpassword(Integer user_num,String new_password,String name,String new_setting_pwd) throws Exception{
 		System.out.println(user_num+":"+new_password+"**********************");
 		if(user_num == null ||name==null||name.equals("")){
 			throw new Exception();
@@ -293,8 +293,15 @@ public class WorkManageController extends BaseController {
 			new_password=null;
 		}else
 		new_password = new_password.replace(" ", "");
+
+		if(new_setting_pwd==null||new_setting_pwd.equals("")) {
+			new_setting_pwd=null;
+		}else
+			new_setting_pwd = new_setting_pwd.replace(" ", "");
+
+
 		System.out.println("修改的用户id:"+user_num+",新密码:"+new_password);
-		wms.updateuserpassword(user_num,new_password,name);
+		wms.updateuserpassword(user_num,new_password,new_setting_pwd,name);
 		return MessageBean.success();
 	}
 	
@@ -443,7 +450,7 @@ public class WorkManageController extends BaseController {
 	@ResponseBody
 	public MessageBean allTgData(String uid) throws Exception{
 		List<Map<String, Object>> his = jdbcTemplate.queryForList("select * from djt_history order by tid");
-		List<Map<String, Object>> turns = jdbcTemplate.queryForList("SELECT * FROM game_turn WHERE state=2");
+		List<Map<String, Object>> turns = jdbcTemplate.queryForList("SELECT a.*,b.* FROM game_turn a left join game_turn2 b on a.id=b.turn_id WHERE a.state=2");
 		List<Map<String, Object>> bigTurns = jdbcTemplate.queryForList("SELECT a.* FROM game_big_turn a WHERE a.state=2");
 		
 		return MessageBean.success().add("his", his)
@@ -665,6 +672,7 @@ public class WorkManageController extends BaseController {
 		jdbcTemplate.batchUpdate(
 				"TRUNCATE `game_big_turn`" ,
 				"TRUNCATE `game_turn`" ,
+				"TRUNCATE `game_turn2`" ,
 				"TRUNCATE `djt_history`" ,
 				"TRUNCATE `game_history`" ,
 				"TRUNCATE `game_runing`" ,
@@ -696,7 +704,7 @@ public class WorkManageController extends BaseController {
 	
 	private Map<String, Object> getTurnModel(String bigTurnId,Integer turnNo) {
 		Map<String, Object> turn = jdbcTemplate.queryForMap(
-				"select * from game_turn where big_turn_id=? AND turn_no=? limit 1",bigTurnId,turnNo);
+				"select a.*,b.* from game_turn a left join game_turn2 b on a.id=b.turn_id where a.big_turn_id=? AND a.turn_no=? limit 1",bigTurnId,turnNo);
 		
 		Map<String, Object> ret = new HashMap<>();
 		

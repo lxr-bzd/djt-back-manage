@@ -829,8 +829,8 @@ case 5:
 
     function refRangeView(widget){
 
-        var start = widget.find('.start').val();
-        var end = widget.find('.end').val();
+        var start = new Number(widget.find('.start').val());
+        var end = new Number(widget.find('.end').val());
         var group = widget.attr("t-view");
 
 		if(isNaN(start)||isNaN(end)||!validate(start,end)){

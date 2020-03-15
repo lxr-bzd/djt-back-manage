@@ -130,6 +130,13 @@
 									id="update_u_password_input" placeholder="最多6位"><span class="error" style="display:none"></span>
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">设置密码:</label>
+							<div class="col-sm-10">
+								<input type="text" name="time" class="form-control"
+									   id="update_setting_pwd" placeholder="最多6位"><span class="error" style="display:none"></span>
+							</div>
+						</div>
 						<input type="text" style="display:none" id="update_password_num">
 					</form>
 				</div>

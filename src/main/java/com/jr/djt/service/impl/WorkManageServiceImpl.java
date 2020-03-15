@@ -47,8 +47,8 @@ public class WorkManageServiceImpl implements WorkManageService {
 		return wmm.getboolByUname(uname);
 	}
 	@Override
-	public void updateuserpassword(Integer user_num, String new_password,String name) {
-		wmm.updateuserpassword(user_num,new_password,name);
+	public void updateuserpassword(Integer user_num, String new_password,String new_setting_pwd,String name) {
+		wmm.updateuserpassword(user_num,new_password,new_setting_pwd,name);
 	}
 	@Override
 	public void deleteworkerByIds(String list) {

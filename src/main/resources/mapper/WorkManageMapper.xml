@@ -95,7 +95,8 @@
 	<!-- void updateuserpassword(@Param("user_num")Integer user_num, @Param("new_password")String new_password); -->
 	<update id="updateuserpassword">
 		update djt_user set djt_u_name=#{name}
-		<if test="new_password!=null">,djt_u_password=#{new_password}</if> where djt_u_id=#{user_num}
+		<if test="new_password!=null">,djt_u_password=#{new_password}</if>
+		<if test="new_setting_pwd!=null">,djt_setting_pwd=#{new_setting_pwd}</if> where djt_u_id=#{user_num}
 	</update>
 	<!-- void deleteworkerByIds(String list); -->
 	<delete id="deleteworkerByIds">

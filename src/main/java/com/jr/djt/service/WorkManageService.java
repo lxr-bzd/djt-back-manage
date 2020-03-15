@@ -45,7 +45,7 @@ public interface WorkManageService {
 	 * @param user_num
 	 * @param new_password
 	 */
-	void updateuserpassword(Integer user_num, String new_password,String name);
+	void updateuserpassword(Integer user_num, String new_password,String new_setting_pwd,String name);
 	/**
 	 * 刪除
 	 * @param list
