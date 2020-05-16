@@ -1,0 +1,4 @@
+if("1".equals(locks[0]))bg[1] = bg[1].add(BigDecimal.valueOf(bkzd[1]));
+        if("1".equals(locks[1]))bg[1] = bg[1].add(BigDecimal.valueOf(bkbg[1]));
+        if("1".equals(locks[2]))bg[1] = bg[1].add(bkqh[1]);
+        if("1".equals(locks[3]))bg[1] = bg[1].add(bkhz[1]);

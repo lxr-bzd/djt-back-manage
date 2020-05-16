@@ -117,74 +117,84 @@
 		}
 		
 		console.log(bigDatas);
-		
-		
-		var vDatas = {};
-		for (var i = 0; i < bigDatas.length; i++) {
-			var bigData = bigDatas[i];
-			if(!vDatas[bigData.bigTurn.id])vDatas[bigData.bigTurn.id] = {bigTurnId:bigData.bigTurn.id,list:[],sums:[],'hb':0,'hbBg':0,'xzBg':0};
-			var vData = vDatas[bigData.bigTurn.id];
-			
-			vData['hb'] = isNaN(bigData.bgData['hb'][3])?0:(bigData.bgData['hb'][3]);
-			vData['hbBg'] = isNaN(bigData.bgData['hbBg'][3])?0:(bigData.bgData['hbBg'][3]);
-			vData['xzBg'] = isNaN(bigData.bgData['xzBg'][3])?0:(bigData.bgData['xzBg'][3]);
-			
-			//长度
-			var d = bigData.jgData['hb'].list.length;
-			
-			//深度
-			for (var j = 0; j < d; j++) {
-				//横向10组
-				
-				for (var k = 0; k < 10; k++) {
-					if(isNaN(vData.list[j]))vData.list[j] = 0;
-					vData.list[j]+=bigData.jgData[k+1].list[j];
-					
-				}
-				var sum = (j<=0)?0:vData.sums[j-1];
-				sum += vData.list[j]
-				vData.sums.push(sum);
-				
-			}
-			
-			
-		}
-		
-		
-		//渲染表頭
-		var colHtml = ' <col style="width: 80px;" />';
-		var html = '<th>序號</th>';
-		for (var i in vDatas) {
-			html+='<th colspan="2">'+i+'</th>';
-			colHtml+=' <col style="width: 70px;" /><col style="width: 70px;" />';
-		}
-		colHtml+=' <col style="width: 80px;" />';
-		$('.group_class').html(html+'<th>序號</th>');
-		$('.group_class').parent().parent().find('colgroup').html(colHtml);
-		
-		
-		var dArr = [];
-		for (var i = 0; i < 210; i++) {
-			dArr.push(i);
-		}
-		
-		var counts = {'hb':0,'hbBg':0,'xzBg':0};
-		for (var i in vDatas) {
-			var data = vDatas[i]
-			counts['hb']+=isNaN(data['hb'])?0:new Number(data['hb']);
-			counts['hbBg']+=isNaN(data['hbBg'])?0:new Number(data['hbBg']);
-			counts['xzBg']+=isNaN(data['xzBg'])?0:new Number(data['xzBg']);
-		}
-		
-		$('#main_group').html(template('tb_tl',{vDatas:vDatas,dArr:dArr,counts:counts,colNum:bigDatas.length}))
-		$('#main_group').parent().find('colgroup').html(colHtml);
-		
-		
-		
+
+        var cols = ['hb','zdbg','jgAbg']
+        var gjDatas = {};
+        for (var i = 0; i < bigDatas.length; i++) {
+            var bigData = bigDatas[i];
+            if(!gjDatas[bigData.bigTurn.id])gjDatas[bigData.bigTurn.id] = {bigTurnId:bigData.bigTurn.id,list:[],sums:[],'hb':0,'hbBg':0,'xzBg':0};
+            var vData = gjDatas[bigData.bigTurn.id];
+
+            for (let j = 0; j < cols.length; j++) {
+                vData[cols[j]] = isNaN(bigData.bgData[cols[j]][3])?0:(bigData.bgData[cols[j]][3]);
+            }
+
+            //长度
+            var d = bigData.jgData['hb'].list.length;
+            //深度
+            for (var j = 0; j < d; j++) {
+                //横向10组
+                for (var k = 0; k < 10; k++) {
+                    if(isNaN(vData.list[j]))vData.list[j] = 0;
+                    vData.list[j]+=bigData.jgData[k+1].list[j];
+
+                }
+                var sum = (j<=0)?0:vData.sums[j-1];
+                sum += vData.list[j]
+                vData.sums.push(sum);
+
+            }
+
+
+        }
+
+
+        //渲染表頭
+        var colHtml = ' <col style="width: 80px;" />';
+        var html = '<th>序號</th>';
+        for (var i in gjDatas) {
+            html+='<th colspan="2">'+i+'</th>';
+            colHtml+=' <col style="width: 70px;" /><col style="width: 70px;" />';
+        }
+        colHtml+=' <col style="width: 80px;" />';
+        $('.group_class').html(html+'<th>序號</th>');
+        $('.group_class').parent().parent().find('colgroup').html(colHtml);
+
+        //行数
+        var dArr = [];
+        for (var i = 0; i < 210; i++) {
+            dArr.push(i);
+        }
+
+        //供計匯總
+        var counts = {};
+        for (let i = 0; i < cols.length; i++) {
+            counts[cols[i]] = 0;
+        }
+
+        for (var i in gjDatas) {
+            var data = gjDatas[i]
+            for (let j = 0; j < cols.length; j++) {
+                let k = cols[j];
+                counts[k]+=isNaN(data[k])?0:new Number(data[k]);
+            }
+
+        }
+
+        var countItems = [{name:'結果',key:'hb',gjName:'結果供計匯總'}
+            ,{name:'求和终端',key:'zdbg',gjName:'求和终端供計匯總'}]
+
+        var tlData = {vDatas:gjDatas,dArr:dArr,counts:counts,colNum:bigDatas.length,countItems:countItems};
+        console.log(tlData)
+        $('#main_group').html(template('tb_tl',tlData))
+        $('#main_group').parent().find('colgroup').html(colHtml);
+
+
+
 		
 		return;
 		
-		
+		/*
 
 		var list= data.his;
 		var turns = data.turns;
@@ -353,7 +363,7 @@
 		$('#main_group').parent().find('colgroup').html(colHtml);
 		
 		$('.table-head').css('width',(colNum*140+160)+'px')
-		$('.table-body').css('width',(colNum*140+160)+'px')
+		$('.table-body').css('width',(colNum*140+160)+'px')*/
 		
 	}
 	
@@ -434,27 +444,16 @@
 		</tr>
 	{{/each}}
 
-	<tr><td>結果</td>
-		{{each vDatas as val}}
-			<td colspan="2" {{if val['hb']>0 }}class="red"{{/if}}>{{val['hb']}}</td>
-		{{/each}}
-	<td>結果</td></tr>
-<tr><td>結果供計匯總</td><td colspan="{{colNum*2}}" {{if counts['hb'] >0 }}class="red"{{/if}}>{{counts['hb']}}</td><td>結果供計匯總</td></tr>
-	
-	<tr><td>合并供計</td>
-		{{each vDatas as val}}
-			<td colspan="2" {{if val['hbBg']>0 }}class="red"{{/if}}>{{val['hbBg']}}</td>
-		{{/each}}
-	<td>合并供計</td></tr>
-<tr><td>合并供計匯總</td><td colspan="{{colNum*2}}" {{if counts['hbBg']>0 }}class="red"{{/if}}>{{counts['hbBg']}}</td><td>合并供計匯總</td></tr>
-	
-	<tr><td>選擇供計</td>
-		{{each vDatas as val}}
-			<td colspan="2" {{if val['xzBg']>0 }}class="red"{{/if}}>{{val['xzBg']}}</td>
-		{{/each}}
-	<td>選擇供計</td></tr>
-<tr><td>選擇供計匯總</td><td colspan="{{colNum*2}}" {{if counts['xzBg']>0 }}class="red"{{/if}}>{{counts['xzBg']}}</td><td>選擇供計匯總</td></tr>
-			
+	{{each countItems as item}}
+		<tr><td>{{item.name}}</td>
+			{{each vDatas as val}}
+			<td colspan="2" {{if val[item.key]>0 }}class="red"{{/if}}>{{val[item.key]}}</td>
+			{{/each}}
+			<td>{{item.name}}</td>
+		</tr>
+	<tr><td>{{item.gjName}}</td><td colspan="{{colNum*2}}" {{if counts[item.key] >0 }}class="red"{{/if}}>{{counts[item.key]}}</td><td>{{item.gjName}}</td></tr>
+	{{/each}}
+
 
 <tr><td><a href="javascript:toDel(1,null)">全選刪除</a></td>
 	{{each vDatas as val}}
@@ -465,6 +464,36 @@
 <tr><td colspan="{{colNum*2+2}}"><a href="javascript:tableExport()">全表導出</a></td></tr>
 
 	</script>
-	
-	
+
+
+
+<script type="text/html">
+
+
+	<tr><td>結果</td>
+		{{each vDatas as val}}
+		<td colspan="2" {{if val['hb']>0 }}class="red"{{/if}}>{{val['hb']}}</td>
+		{{/each}}
+		<td>結果</td>
+	</tr>
+	<tr><td>結果供計匯總</td><td colspan="{{colNum*2}}" {{if counts['hb'] >0 }}class="red"{{/if}}>{{counts['hb']}}</td><td>結果供計匯總</td></tr>
+
+	<tr><td>合并供計</td>
+		{{each vDatas as val}}
+		<td colspan="2" {{if val['hbBg']>0 }}class="red"{{/if}}>{{val['hbBg']}}</td>
+		{{/each}}
+		<td>合并供計</td></tr>
+	<tr><td>合并供計匯總</td><td colspan="{{colNum*2}}" {{if counts['hbBg']>0 }}class="red"{{/if}}>{{counts['hbBg']}}</td><td>合并供計匯總</td></tr>
+
+	<tr><td>選擇供計</td>
+		{{each vDatas as val}}
+		<td colspan="2" {{if val['xzBg']>0 }}class="red"{{/if}}>{{val['xzBg']}}</td>
+		{{/each}}
+		<td>選擇供計</td></tr>
+	<tr><td>選擇供計匯總</td><td colspan="{{colNum*2}}" {{if counts['xzBg']>0 }}class="red"{{/if}}>{{counts['xzBg']}}</td><td>選擇供計匯總</td></tr>
+
+
+
+</script>
+
 </html>

@@ -625,7 +625,7 @@ public class WorkManageController extends BaseController {
 			break;
 		case "5":
 			int gameGroupNum = Integer.valueOf(request.getParameter("gameGroupNum"));
-			if(gameGroupNum<10||gameGroupNum>1000000)	throw new RuntimeException("值范围错误");
+			if(gameGroupNum<1||gameGroupNum>1000000)	throw new RuntimeException("值范围错误");
 				
 			jdbcTemplate.update("update djt_sys set val=? where ckey ='gameGroupNum'",gameGroupNum);
 			break;
@@ -676,6 +676,7 @@ public class WorkManageController extends BaseController {
 				"TRUNCATE `djt_history`" ,
 				"TRUNCATE `game_history`" ,
 				"TRUNCATE `game_runing`" ,
+				"TRUNCATE `game_turn_group`" ,
 				"TRUNCATE `game_runing_count`");
 		
 		return MessageBean.success();
@@ -695,8 +696,10 @@ public class WorkManageController extends BaseController {
 		 for (int i = 0; i < turnNum; i++) {
 			 map.put(i+"", getTurnModel(bigTurn.get("id").toString(),i));
 		}
-		 map.put("bigTurn", bigTurn);
-		
+		List turnGroups = jdbcTemplate.queryForList("select * from game_turn_group where  big_turn_id =? ORDER BY `order`",bigTurn.get("id"));
+
+		map.put("bigTurn", bigTurn);
+		map.put("turnGroups", turnGroups);
 		return MessageBean.success().add("data", map);
 
 	}

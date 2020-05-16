@@ -3,7 +3,6 @@ package com.jr.djt.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
