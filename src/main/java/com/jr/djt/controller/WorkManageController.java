@@ -696,10 +696,10 @@ public class WorkManageController extends BaseController {
 		 for (int i = 0; i < turnNum; i++) {
 			 map.put(i+"", getTurnModel(bigTurn.get("id").toString(),i));
 		}
-		List turnGroups = jdbcTemplate.queryForList("select * from game_turn_group where  big_turn_id =? ORDER BY `order`",bigTurn.get("id"));
+		//List turnGroups = jdbcTemplate.queryForList("select * from game_turn_group where  big_turn_id =? ORDER BY `order`",bigTurn.get("id"));
 
 		map.put("bigTurn", bigTurn);
-		map.put("turnGroups", turnGroups);
+		//map.put("turnGroups", turnGroups);
 		return MessageBean.success().add("data", map);
 
 	}

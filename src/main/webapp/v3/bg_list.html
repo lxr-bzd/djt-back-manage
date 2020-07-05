@@ -50,8 +50,12 @@
 						<td>選擇求和</td>
 						<td>結果報告</td>-->
 						<td>小板報告</td>
-						<td>小板匯總</td><td>板塊報告</td>
-						<td>板塊匯總</td>
+						<td>小板報告B</td>
+						<td>小板報告C</td>
+						<td>小板匯總</td>
+						<td>板塊報告</td>
+						<td>板塊報告B</td>
+						<td>板塊報告C</td><!--<td>板塊匯總</td>-->
 						<td class="focus_row"></td>
 					</tr>
 					<tbody id="tb_group">
@@ -175,7 +179,7 @@
 			vDatas.push(vData);
 		}
 
-		var turnGroupPosition = {};
+/*		var turnGroupPosition = {};
         for (var i = 0; i < data.turnGroups.length; i++) {
             var item = data.turnGroups[i];
             var group = item.data
@@ -187,19 +191,17 @@
             item.vData = vData;
             item.xbbg = getBgA(item.xbbg);
             turnGroupPosition[new Number(item.position[1])-1] = item;
-        }
+        }*/
 
         console.log(vDatas)
 		var cols = ['hb',/*'qhBg','hbBg','hbqh','xzBg','xzqh','jgbg',*/];
-        var cols2 = ['xbbg','bkbg','bkzd','bkhz']
+        var cols2 = ['xbbg','xbbgB','xbbgC','bkbg','bkzd','bkzdB','bkzdC'/*,'bkhz'*/]
             $("#tb_group").html(template("tb_tl",{vDatas:vDatas
-			,turnGroupPosition:turnGroupPosition
+			/*,turnGroupPosition:turnGroupPosition*/
 			,turnGroups:data.turnGroups
 				,hu:[1,1]
 				,cols:cols
                 ,cols2:cols2}))
-		
-
 		
 	}
 	
@@ -306,40 +308,6 @@
 
 							    	<td>共計</td>
 						</tr>
-
-	{{if turnGroupPosition[j]}}
-
-		<tr class="data_col2 ">
-			<td rowspan="2" class="pink"> <span class="" > 小板匯總 </span></td>
-			{{each turnGroupPosition[j].vData as val i}}
-				<td class="pink">{{if turnGroupPosition[j].vData[i]}}
-					<div class="bg-td">{{turnGroupPosition[j].vData[i][0].name}} <span {{if turnGroupPosition[j].vData[i][0].val>0}}class="red"{{/if}}>{{if turnGroupPosition[j].vData[i][0].name}}{{turnGroupPosition[j].vData[i][0].val}}{{/if}}</span></div>
-					{{/if}}
-				</td>
-			{{/each}}
-
-			<td class="pink">{{if turnGroupPosition[j].xbbg}}
-				<div class="bg-td">{{turnGroupPosition[j].xbbg[0].name}} <span {{if turnGroupPosition[j].xbbg[0].val>0}}class="red"{{/if}}>{{if turnGroupPosition[j].xbbg[0].name}}{{turnGroupPosition[j].xbbg[0].val}}{{/if}}</span></div>
-				{{/if}}
-			</td>
-			<td rowspan="2" class="pink"> <span class="" >小板匯總</span></td>
-
-		</tr>
-		<tr class="data_col2 ">
-			{{each turnGroupPosition[j].vData as val i}}
-			<td class="pink">{{if turnGroupPosition[j].vData[i]}}
-				<div class="bg-td">{{turnGroupPosition[j].vData[i][1].name}} <span {{if turnGroupPosition[j].vData[i][1].val>0}}class="red"{{/if}}>{{if turnGroupPosition[j].vData[i][1].name}}{{turnGroupPosition[j].vData[i][1].val}}{{/if}}</span></div>
-				{{/if}}
-			</td>
-			{{/each}}
-
-			<td class="pink">{{if turnGroupPosition[j].xbbg}}
-				<div class="bg-td">{{turnGroupPosition[j].xbbg[1].name}} <span {{if turnGroupPosition[j].xbbg[1].val>0}}class="red"{{/if}}>{{if turnGroupPosition[j].xbbg[1].name}}{{turnGroupPosition[j].xbbg[1].val}}{{/if}}</span></div>
-				{{/if}}
-			</td>
-		</tr>
-
-	{{/if}}
 
 
 
